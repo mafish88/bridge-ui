@@ -2,14 +2,14 @@
 
 import { useEffect, useLayoutEffect, useState } from "react";
 import useCMetamask from "./useCMetamask";
-import useMainnet from "./useMainnet";
+import { useBridgeNetwork } from "@/context/bridge-network";
 
 export const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export function useConnection() {
+  const { selectedFromNetwork } = useBridgeNetwork();
   const [isConnected, setIsConnected] = useState(false);
-  const { chainId: mainnetChainId } = useMainnet();
 
   const { status, connect, account, chainId, ethereum, switchChain, addChain } =
     useCMetamask();
@@ -20,7 +20,7 @@ export function useConnection() {
       )}`
     : account!;
 
-  const isOnWrongChain = chainId !== mainnetChainId;
+  const isOnWrongChain = chainId !== selectedFromNetwork.chainId;
 
   useIsomorphicLayoutEffect(() => {
     setIsConnected(status === "connected");

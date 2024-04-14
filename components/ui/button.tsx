@@ -8,8 +8,15 @@ export type ButtonColorVariant =
   | "danger"
   | "neutral"
   | "base";
-export type ButtonSizeVariant = "sm" | "md" | "lg";
-export type ButtonRadiusVariant = "none" | "sm" | "md" | "lg" | "xl" | "2xl" | "full";
+export type ButtonSizeVariant = "xs" | "sm" | "lg";
+export type ButtonRadiusVariant =
+  | "none"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "full";
 
 export interface ButtonProps {
   children: React.ReactNode;
@@ -23,12 +30,6 @@ export interface ButtonProps {
   outline?: boolean;
   icon?: React.ReactNode;
 }
-
-const sizeClasses = {
-  sm: "px-1 w-auto min-w-[100px]",
-  md: "px-3 w-auto min-w-[200px]",
-  lg: "px-5 w-auto sm:min-w-[300px]",
-};
 
 const colorClasses = {
   primary: "btn-primary",
@@ -51,7 +52,7 @@ const textColorClasses = {
 const Button: React.FC<ButtonProps> = ({
   children,
   onClick,
-  size = "md",
+  size,
   radius = "md",
   color,
   className = "",
@@ -60,20 +61,18 @@ const Button: React.FC<ButtonProps> = ({
   outline = false,
   icon,
 }) => {
-  const sizeClass = sizeClasses[size];
 
   return (
     <button
       onClick={onClick}
       disabled={disabled}
       className={clsx(
-        `btn rounded-${radius} font-semibold ${
-          outline ? "btn-outline" : ""
-        }`,
+        `btn rounded-${radius} font-semibold ${outline ? "btn-outline" : ""}`,
         color && `${colorClasses[color]} ${textColorClasses[color]}`,
-        outline && 'btn-outline',
+        outline && "btn-outline",
         className,
-        sizeClass,
+        size && `btn-${size}`,
+        disabled && "btn-disabled"
       )}
       type={type}
     >

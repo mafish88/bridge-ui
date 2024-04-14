@@ -3,6 +3,7 @@
 import * as React from "react";
 import { MetaMaskProvider } from "metamask-react";
 import { ThemeSwitchProvider } from "@/context/theme-switch";
+import { BridgeNetworkProvider } from "@/context/bridge-network";
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -11,7 +12,9 @@ export interface ProvidersProps {
 export function Providers({ children }: ProvidersProps) {
   return (
     <MetaMaskProvider>
-      <ThemeSwitchProvider>{children}</ThemeSwitchProvider>
+      <BridgeNetworkProvider>
+        <ThemeSwitchProvider>{children}</ThemeSwitchProvider>
+      </BridgeNetworkProvider>
     </MetaMaskProvider>
   );
 }

@@ -1,3 +1,5 @@
+import { BridgeCard } from "../components/bridge/bridge-card";
+
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
@@ -5,7 +7,10 @@ export default function Home() {
         <div className="w-full min-h-screen">
           <div className="flex flex-col w-full justify-center items-center">
             <div className="flex flex-col gap-20 w-full lg:w-[550px]">
-              Welcome to bridge
+              <h1 className="text-5xl font-bold">
+                Bridge between Ethereum and Taraxa!
+              </h1>
+              <BridgeCard />
             </div>
           </div>
         </div>

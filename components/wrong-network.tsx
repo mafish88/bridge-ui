@@ -3,13 +3,16 @@ import useMainnet from "@/hooks/useMainnet";
 import { networks } from "@/types/networks";
 import React from "react";
 import Button from "./ui/button";
+import { useBridgeNetwork } from "@/context/bridge-network";
 
 const WrongNetwork = () => {
   const mainnet = useMainnet();
+  const { selectedFromNetwork } = useBridgeNetwork();
+
   const { switchChain, addChain } = useConnection();
 
   const switchNetwork = async () => {
-    const hexChainId = `0x${mainnet.chainId.toString(16)}`;
+    const hexChainId = `0x${selectedFromNetwork.chainId.toString(16)}`;
     const { chainName, rpcUrl, blockExplorerUrl, iconUrl, nativeCurrency } =
       networks[mainnet.chainId]!;
 
@@ -36,7 +39,7 @@ const WrongNetwork = () => {
 
   return (
     <Button color="warning" size="lg" onClick={() => switchNetwork()}>
-      Switch to Taraxa Mainnet
+      Switch to {selectedFromNetwork.chainName}
     </Button>
   );
 };
