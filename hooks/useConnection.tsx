@@ -8,7 +8,7 @@ export const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export function useConnection() {
-  const { selectedFromNetwork } = useBridgeNetwork();
+  const { fromNetwork } = useBridgeNetwork();
   const [isConnected, setIsConnected] = useState(false);
 
   const { status, connect, account, chainId, ethereum, switchChain, addChain } =
@@ -20,7 +20,7 @@ export function useConnection() {
       )}`
     : account!;
 
-  const isOnWrongChain = chainId !== selectedFromNetwork.chainId;
+  const isOnWrongChain = chainId !== fromNetwork.chainId;
 
   useIsomorphicLayoutEffect(() => {
     setIsConnected(status === "connected");

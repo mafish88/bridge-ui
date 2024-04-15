@@ -1,13 +1,11 @@
 "use client";
 
 import { MetamaskIcon } from "./ui/icons";
-import Button, { ButtonColorVariant } from "./ui/button";
+import Button, { ButtonColorVariant, ButtonSizeVariant } from "./ui/button";
 import { useConnection } from "@/hooks/useConnection";
 import WrongNetwork from "./wrong-network";
-import { shortenAddress } from "@/utils/shorten-address";
-import { Identicon } from "./ui/metamask-identicon";
-import { formatNumberWithAbbreviation } from "@/utils/format-number-abbreviation";
 import { useBalance } from "../hooks/useBalance";
+import { useBridgeNetwork } from "../context/bridge-network";
 
 export type WalletActionBtn = {
   action: () => void;
@@ -15,6 +13,9 @@ export type WalletActionBtn = {
   disabled?: boolean;
   btnColor?: ButtonColorVariant;
   isLoading?: boolean;
+  size?: ButtonSizeVariant;
+  className?: string;
+  style?: React.CSSProperties;
 };
 
 export type WalletProps = {
@@ -28,6 +29,7 @@ export const Wallet = ({
 }: WalletProps) => {
   const { status, connect, account, isOnWrongChain } = useConnection();
   const { balance, refetch: refetchBalance } = useBalance();
+  const { fromNetwork } = useBridgeNetwork();
 
   if (status === "notConnected") {
     return (
@@ -45,7 +47,6 @@ export const Wallet = ({
       </Button>
     );
   }
-
   if (status === "connecting") {
     return (
       <Button size="lg" disabled>
@@ -63,44 +64,18 @@ export const Wallet = ({
       <Button
         onClick={actionBtn.action}
         color={actionBtn.btnColor || "secondary"}
-        size="lg"
+        size={actionBtn.size}
         disabled={!!actionBtn.disabled}
+        style={actionBtn.style}
+        className={actionBtn.className}
       >
         {actionBtn.btnName}
         {!!actionBtn.isLoading && (
-          <span className="loading loading-dots loading-lg"></span>
+          <span
+            className={`loading loading-dots loading-lg ${actionBtn.className}`}
+          ></span>
         )}
       </Button>
-    );
-  }
-
-  if (
-    showWalletConnected &&
-    status === "connected" &&
-    account &&
-    !actionBtn &&
-    !isOnWrongChain
-  ) {
-    return (
-      <div className="hidden lg:flex items-center gap-3 bg-primary rounded-xl px-0.5 py-0.5">
-        {balance > 0 && (
-          <div className="flex items-center ml-2 text-white">
-            <span>{formatNumberWithAbbreviation(balance)} Tara</span>
-          </div>
-        )}
-        <Button
-          size="md"
-          radius="xl"
-          onClick={() => {
-            refetchBalance();
-          }}
-        >
-          <div className="flex items-center justify-center gap-6 mt-1">
-            <Identicon address={account} diameter={32} />
-            <p className="mb-1">{shortenAddress(account)}</p>
-          </div>
-        </Button>
-      </div>
     );
   }
 };

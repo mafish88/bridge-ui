@@ -1,14 +1,12 @@
 "use client";
 
 import { useBridgeNetwork } from "@/context/bridge-network";
-import { useState } from "react";
 import { Coin } from "@/types/bridge-networks";
 import { useIsMounted } from "@/hooks/useIsMounted";
 import Select from "react-select";
 import { getSingleSelectStyles } from "@/types/custom-select-styles";
 import { CustomOption, CustomSingleValue } from "../ui/custom-select";
 import { useThemeSwitch } from "@/context/theme-switch";
-import { Wallet } from "../wallet";
 import { Form, Formik, FormikHelpers } from "formik";
 import { number, object, Schema } from "yup";
 import Button from "../ui/button";
@@ -16,7 +14,8 @@ import { useConnection } from "@/hooks/useConnection";
 import { useBalance } from "@/hooks/useBalance";
 
 export type SelectCoinsProps = {
-  setStep: () => void;
+  onBack: () => void;
+  onContinue: () => void;
 };
 
 type StakeForm = { value: number | "" };
@@ -31,14 +30,12 @@ const validationSchema: Schema<StakeForm> = object()
   })
   .defined();
 
-export const SelectCoins = ({ setStep }: SelectCoinsProps) => {
-  const { selectedFromNetwork } = useBridgeNetwork();
-  const [coin, setCoin] = useState<Coin>();
+export const SelectCoins = ({ onContinue, onBack }: SelectCoinsProps) => {
+  const { fromNetwork, coin, setCoin, amount, setAmount } = useBridgeNetwork();
   const { theme } = useThemeSwitch();
   const isMounted = useIsMounted();
-  const [inputValue, setInputValue] = useState<number>(0);
   const customSelectStyles = getSingleSelectStyles(theme);
-  const { account, shortAddress } = useConnection();
+  const { account } = useConnection();
   const { balance: taraBalance } = useBalance();
 
   const handleCoinChange = (selectedOption: any) => {
@@ -54,20 +51,21 @@ export const SelectCoins = ({ setStep }: SelectCoinsProps) => {
       const onReset = () => {
         formikHelpers.resetForm();
       };
-      setStep();
+      onContinue();
+      onReset();
     }
   };
 
   return (
     isMounted && (
       <div className="flex flex-col gap-3">
-        <h2 className="ftext-lg">Select coin</h2>
+        <h2 className="text-lg">Select coin</h2>
         <Select
           id="select-coin"
           styles={customSelectStyles}
           value={coin}
           onChange={handleCoinChange}
-          options={selectedFromNetwork.coins}
+          options={fromNetwork.coins}
           getOptionLabel={(option) => option.chainName}
           getOptionValue={(option) => option.symbol.toString()}
           components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
@@ -78,14 +76,7 @@ export const SelectCoins = ({ setStep }: SelectCoinsProps) => {
             initialValues={initialValues}
             onSubmit={(values, formikHelpers) => submit(values, formikHelpers)}
           >
-            {({
-              submitForm,
-              values,
-              errors,
-              handleChange,
-              setFieldValue,
-              resetForm,
-            }) => (
+            {({ values, errors, handleChange, setFieldValue, resetForm }) => (
               <Form noValidate={true}>
                 <div className="flex gap-4 flex-col">
                   <div className="flex flex-col gap-4 items-start w-full">
@@ -100,7 +91,7 @@ export const SelectCoins = ({ setStep }: SelectCoinsProps) => {
                         onChange={(e) => {
                           resetForm();
                           handleChange(e);
-                          setInputValue(Number(e.target.value));
+                          setAmount(Number(e.target.value));
                         }}
                       />
                       <Button
@@ -110,7 +101,7 @@ export const SelectCoins = ({ setStep }: SelectCoinsProps) => {
                         disabled={!account}
                         onClick={() => {
                           setFieldValue("value", taraBalance?.toFixed());
-                          setInputValue(Number(taraBalance?.toFixed()));
+                          setAmount(Number(taraBalance?.toFixed()));
                         }}
                       >
                         Max
@@ -122,37 +113,23 @@ export const SelectCoins = ({ setStep }: SelectCoinsProps) => {
                       </p>
                     )}
                   </div>
-                  <div className="text-sm">
-                    <p>Notice:</p>
-                    <p>
-                      Once you confirm, the transfer will start. Transfers from
-                      Ethereum to Taraxa take about 30 minutes.
-                    </p>
+                  <div className="w-full flex flex-col sm:flex-row justify-between gap-4">
+                    <Button className="flex-1" onClick={onBack}>
+                      Back
+                    </Button>
+                    <Button
+                      className="flex-1"
+                      type="submit"
+                      color="primary"
+                      disabled={!coin || !amount}
+                    >
+                      Continue
+                    </Button>
                   </div>
-                  <Wallet
-                    actionBtn={{
-                      disabled: !coin || !inputValue,
-                      action: submitForm,
-                      btnColor: "primary",
-                      btnName: "Confirm",
-                    }}
-                  />
                 </div>
               </Form>
             )}
           </Formik>
-          {shortAddress && (
-            <div className="flex flex-col sm:flex-row justify-between gap-4 items-start">
-              <p className="text-sm">Wallet address</p>
-              <p className="text-sm font-medium">{shortAddress}</p>
-            </div>
-          )}
-          <div className="flex flex-col sm:flex-row justify-between gap-4 items-start">
-            <p className="text-sm">Current balance</p>
-            <p className="text-sm font-medium">
-              {taraBalance} {selectedFromNetwork.chainName}
-            </p>
-          </div>
         </div>
       </div>
     )

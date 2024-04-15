@@ -29,6 +29,7 @@ export interface ButtonProps {
   disabled?: boolean;
   outline?: boolean;
   icon?: React.ReactNode;
+  style?: React.CSSProperties;
 }
 
 const colorClasses = {
@@ -60,10 +61,11 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   outline = false,
   icon,
+  style,
 }) => {
-
   return (
     <button
+      style={style}
       onClick={onClick}
       disabled={disabled}
       className={clsx(

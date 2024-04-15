@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { DarkMode } from "./dark-mode";
 import { TaraxaIcon } from "./ui/icons";
+import { WalletAddress } from "./wallet-address";
 
 export const Navbar = () => {
   return (
@@ -18,6 +19,7 @@ export const Navbar = () => {
             </Link>
           </div>
           <div className="flex gap-4">
+            <WalletAddress />
             <DarkMode />
           </div>
         </div>

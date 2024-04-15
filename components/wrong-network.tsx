@@ -7,12 +7,12 @@ import { useBridgeNetwork } from "@/context/bridge-network";
 
 const WrongNetwork = () => {
   const mainnet = useMainnet();
-  const { selectedFromNetwork } = useBridgeNetwork();
+  const { fromNetwork } = useBridgeNetwork();
 
   const { switchChain, addChain } = useConnection();
 
   const switchNetwork = async () => {
-    const hexChainId = `0x${selectedFromNetwork.chainId.toString(16)}`;
+    const hexChainId = `0x${fromNetwork.chainId.toString(16)}`;
     const { chainName, rpcUrl, blockExplorerUrl, iconUrl, nativeCurrency } =
       networks[mainnet.chainId]!;
 
@@ -38,8 +38,8 @@ const WrongNetwork = () => {
   };
 
   return (
-    <Button color="warning" size="lg" onClick={() => switchNetwork()}>
-      Switch to {selectedFromNetwork.chainName}
+    <Button color="warning" onClick={() => switchNetwork()}>
+      Switch to {fromNetwork.chainName}
     </Button>
   );
 };

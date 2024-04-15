@@ -16,7 +16,7 @@ export interface BridgeNetwork extends Network {
 
 export const bridgeNetworks: BridgeNetwork[] = [
   {
-    ...networks[841], // Taraxa Mainnet
+    ...networks[200], // Taraxa Mainnet (PR NET)
     isImageTall: false,
     coins: [
       {
