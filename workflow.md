@@ -44,14 +44,16 @@ Max:
 
 Max button will fill the input with the maximum number of tokens in the balance
 
-If the amount is valid (has enough tokens in wallet), the "Confirm" button will be enabled.
+If the amount is valid (has enough tokens in wallet), the "Continue" button will be enabled.
 
 ### Step 3 - Transfer tokens
+
+Show a summary of token + amount + wallet address? + networks (from - to)
 
 `Notice:
 Once you confirm, the transfer will start. Transfers from Ethereum to Taraxa take about 30 minutes.`
 
-If it's a native token (ETH, TARA), we initiate a transfer to the Bridge Locking Contract
+If it's a native token (ETH, TARA), we initiate a transfer to the Bridge Locking Contract 
 
 If it's an ERC20 token, we call the token contract approve method with the Bridge Locking Contract address and the amount.
 After the user sends this tx and the tx is confirmed, we call the Bridge Locking contract.

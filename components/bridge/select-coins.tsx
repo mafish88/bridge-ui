@@ -86,7 +86,7 @@ export const SelectCoins = ({ onContinue, onBack }: SelectCoinsProps) => {
                         name="value"
                         placeholder="Amount"
                         className="input input-bordered w-full"
-                        value={values.value}
+                        value={values.value || amount}
                         disabled={!account}
                         onChange={(e) => {
                           resetForm();
