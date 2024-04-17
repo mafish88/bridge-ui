@@ -10,7 +10,10 @@ export const DarkMode = () => {
       <input
         type="checkbox"
         checked={theme === "dark"}
-        onChange={toggleTheme}
+        onChange={() => {
+          const newTheme = theme === "dark" ? "light" : "dark";
+          toggleTheme(newTheme);
+        }}
       />
 
       {/* Sun icon - shown when the checkbox is not checked (light mode) */}

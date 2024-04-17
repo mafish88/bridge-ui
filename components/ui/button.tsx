@@ -61,11 +61,9 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   outline = false,
   icon,
-  style,
 }) => {
   return (
     <button
-      style={style}
       onClick={onClick}
       disabled={disabled}
       className={clsx(

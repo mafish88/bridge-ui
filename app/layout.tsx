@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="dark">
+    <html lang="en">
       <body className={inter.className}>
         <Providers>
           <div className="relative flex flex-col">

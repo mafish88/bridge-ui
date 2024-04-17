@@ -1,4 +1,4 @@
-import { BridgeCard } from "../components/bridge/bridge-card";
+import { BridgeContainer } from "@/components/bridge/bridge-container";
 
 export default function Home() {
   return (
@@ -10,7 +10,7 @@ export default function Home() {
               <h1 className="text-5xl font-bold">
                 Bridge between Ethereum and Taraxa!
               </h1>
-              <BridgeCard />
+              <BridgeContainer />
             </div>
           </div>
         </div>

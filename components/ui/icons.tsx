@@ -498,6 +498,23 @@ export const ChevronDownIcon = ({
   </svg>
 );
 
+export const ChevronForwardIcon = ({
+  size = 24,
+  width,
+  height,
+  ...props
+}: IconSvgProps) => (
+  <svg viewBox="0 0 24 24" width={size || width} {...props} fill="none">
+    <path
+      d="M16 7L21 12M21 12L16 17M21 12H3"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 export const SwapVerticalIcon = ({
   size = 24,
   width,

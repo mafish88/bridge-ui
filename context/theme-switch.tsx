@@ -11,28 +11,48 @@ import React, {
 type Theme = "light" | "dark";
 type ThemeSwitchContextType = {
   theme: Theme;
-  toggleTheme: () => void;
+  toggleTheme: (newTheme: Theme) => void;
 };
 
-const ThemeSwitchContext = createContext<ThemeSwitchContextType | undefined>(
-  undefined
-);
+const initialState: ThemeSwitchContextType = {
+  theme: "light",
+  toggleTheme: () => {},
+};
+
+const ThemeSwitchContext = createContext<ThemeSwitchContextType>(initialState);
 
 export const ThemeSwitchProvider = ({ children }: { children: ReactNode }) => {
   const [theme, setTheme] = useState<Theme>("light");
+  const [isMounted, setIsMounted] = useState(false);
 
-  const toggleTheme = () => {
-    setTheme((currentTheme) =>
-      currentTheme === "light" ? "dark" : "light"
-    );
+  const toggleTheme = (newTheme: Theme) => {
+    setTheme(newTheme);
+    localStorage.setItem("bridge-theme", newTheme);
   };
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("theme", JSON.stringify(theme));
-    }
-    document.querySelector("html")?.setAttribute("data-theme", theme);
-  }, [theme]);
+    setIsMounted(true);
+    const localTheme =
+      (localStorage.getItem("bridge-theme") as Theme) || "light";
+    setTheme(localTheme);
+    // if (typeof window !== "undefined") {
+    //   const localTheme = localStorage.getItem("theme");
+    //   if (localTheme) {
+    //     setTheme(JSON.parse(localTheme) as Theme);
+    //   }
+    // }
+  }, []);
+
+  if (!isMounted) {
+    return;
+  }
+
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     localStorage.setItem("theme", JSON.stringify(theme));
+  //   }
+  //   document.querySelector("html")?.setAttribute("data-theme", theme);
+  // }, [theme]);
 
   return (
     <ThemeSwitchContext.Provider value={{ theme, toggleTheme }}>

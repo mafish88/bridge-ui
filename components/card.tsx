@@ -21,10 +21,14 @@ export const Card = ({
   return (
     <div className="relative w-full">
       {showTopCard && topCardContent && (
-        <div className={clsx(
-          'relative z-0 p-10 transform translate-y-12 rounded-t-2xl w-full bg-gradient-to-r pb-20 text-white',
-          theme === "dark" ? "from-gray-800 to-slate-700" : "from-gray-600 to-slate-500",
-        )}>
+        <div
+          className={clsx(
+            "relative z-0 p-10 transform translate-y-12 rounded-t-2xl w-full bg-gradient-to-r pb-20 text-white",
+            theme === "dark"
+              ? "from-gray-800 to-slate-700"
+              : "from-gray-600 to-slate-500"
+          )}
+        >
           {topCardContent}
         </div>
       )}

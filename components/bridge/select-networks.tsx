@@ -68,7 +68,7 @@ export const SelectNetworks = ({ onContinue }: SelectNetworksProps) => {
           components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
         />
         <div className="flex justify-start">
-          <Button onClick={swapFromAndTo} size="xs" outline>
+          <Button onClick={swapFromAndTo} size="xs">
             <SwapVerticalIcon />
           </Button>
         </div>

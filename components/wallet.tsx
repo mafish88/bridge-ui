@@ -15,21 +15,14 @@ export type WalletActionBtn = {
   isLoading?: boolean;
   size?: ButtonSizeVariant;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 export type WalletProps = {
-  showWalletConnected?: boolean;
   actionBtn?: WalletActionBtn;
 };
 
-export const Wallet = ({
-  showWalletConnected = false,
-  actionBtn,
-}: WalletProps) => {
+export const Wallet = ({ actionBtn }: WalletProps) => {
   const { status, connect, account, isOnWrongChain } = useConnection();
-  const { balance, refetch: refetchBalance } = useBalance();
-  const { fromNetwork } = useBridgeNetwork();
 
   if (status === "notConnected") {
     return (
@@ -66,7 +59,6 @@ export const Wallet = ({
         color={actionBtn.btnColor || "secondary"}
         size={actionBtn.size}
         disabled={!!actionBtn.disabled}
-        style={actionBtn.style}
         className={actionBtn.className}
       >
         {actionBtn.btnName}

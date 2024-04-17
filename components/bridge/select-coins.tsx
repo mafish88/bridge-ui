@@ -19,7 +19,7 @@ export type SelectCoinsProps = {
 };
 
 type StakeForm = { value: number | "" };
-const initialValues: StakeForm = { value: "" };
+
 const validationSchema: Schema<StakeForm> = object()
   .shape({
     value: number()
@@ -55,6 +55,8 @@ export const SelectCoins = ({ onContinue, onBack }: SelectCoinsProps) => {
       onReset();
     }
   };
+
+  const initialValues: StakeForm = { value: amount || "" };
 
   return (
     isMounted && (
