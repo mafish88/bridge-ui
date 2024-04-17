@@ -60,4 +60,45 @@ After the user sends this tx and the tx is confirmed, we call the Bridge Locking
 
 
 ## 2. Has bridging requests
-TBD
+
+### Step 1 - Select network
+
+We have a separate tab for Claiming tokens.
+
+We show an interface with a selector for the network destination network.
+
+Options: "Ethereum Mainnet", "Taraxa Mainnet"
+
+After the user selects the network, he can click a "Show Claims" button.
+
+This checks if he's connected to the selected network.
+If he's connected, move to step 2
+
+### Step 2 - Select token
+
+We show a list of all tokens he can claim + amount.
+Each row will have a "Claim" button.
+
+When the user clicks "Claim", we got to step 3
+
+### Step 3 - Claim
+
+We show a summary of the selected network, selected token, token amount.
+We also need a back button that takes us to the previous step (select token).
+
+The MM transaction to the claim contract is triggered automatically.
+After the user confirms the transaction, we just stay on the current page.
+
+## EXTRA
+
+When we ask the user to switch networks or to confirm transactions in MM, we show a fullscreen modal window with the following messages:
+
+### Switch networks
+
+Title: {NETWORK} Network switch required
+Message: Please switch to {NETWORK} from inside your wallet settings.
+
+### Confirm transaction
+
+Title: Wallet action required
+Message: Please check your connected wallet for pending transactions.
