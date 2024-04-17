@@ -67,15 +67,22 @@ export const useGetClaims = () => {
   const { account } = useConnection();
   const { fromNetwork } = useBridgeNetwork();
   const [claims, setClaims] = useState<Claim[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     if (account && fromNetwork) {
+      setIsLoading(true);
+      const timeoutId = setTimeout(() => {
+        setClaims(
+          mockedClaims.map((claim) => ({ ...claim, recipient: account }))
+        );
+        setIsLoading(false);
+      }, 2000); // Simulate a 2 second API call delay
       // fetch claims
-      setClaims(
-        mockedClaims.map((claim) => ({ ...claim, recipient: account }))
-      );
+      // Cleanup the timeout when the component unmounts
+      return () => clearTimeout(timeoutId);
     }
   }, [account, fromNetwork]);
 
-  return { claims };
+  return { claims, isLoading };
 };
