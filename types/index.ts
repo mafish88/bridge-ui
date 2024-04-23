@@ -11,3 +11,10 @@ export const laraAddress: string =
 export const stTaraAddress: string =
   `${process.env.NEXT_PUBLIC_ST_TARA_ADDRESS}` ||
   "0xD312eDC59c8AAB3FC9e44773EAD796a445aED09E";
+
+export enum AlertType {
+  INFO = "info",
+  SUCCESS = "success",
+  WARNING = "warning",
+  ERROR = "error",
+}

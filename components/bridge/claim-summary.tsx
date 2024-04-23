@@ -1,7 +1,7 @@
-import { useBridgeNetwork } from "@/context/bridge-network";
 import Button from "../ui/button";
 import { Wallet } from "../wallet";
 import { Claim } from "@/hooks/useGetClaims";
+import { ModalsActionsEnum, useModalsDispatch } from "@/context/modal";
 
 export type ClaimSummaryProps = {
   claim: Claim;
@@ -9,7 +9,26 @@ export type ClaimSummaryProps = {
 };
 
 export const ClaimSummary = ({ claim, onBack }: ClaimSummaryProps) => {
-  const onConfirm = () => {};
+  const dispatchModals = useModalsDispatch();
+
+  const onConfirm = () => {
+    // dispatchModals({
+    //   type: ModalsActionsEnum.SHOW_METAMASK_INFO,
+    //   payload: {
+    //     open: true,
+    //     title: "Subscribed successfully",
+    //     text: "Thank you for subscribing",
+    //   },
+    // });
+    // dispatchModals({
+    //   type: ModalsActionsEnum.SHOW_LOADING,
+    //   payload: {
+    //     open: true,
+    //     title: "Claiming",
+    //     text: ["Claiming your rewards..."],
+    //   },
+    // });
+  };
 
   return (
     <div className="flex flex-col gap-6">
