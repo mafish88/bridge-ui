@@ -6,12 +6,21 @@ export interface Coin {
   decimals: number;
   iconUrl: string;
   isNative: boolean;
-  contract?: string;
+  taraxaContract?: string; // Address on Taraxa
+  ethereumContract?: string; // Address on Ethereum
+  baseNetwork: number; // chainId for the base network
+  actionType: Action; // Enum for action type
   isImageTall?: boolean;
 }
 export interface BridgeNetwork extends Network {
   coins: Coin[];
   isImageTall?: boolean;
+}
+
+enum Action {
+  MINT = "mint",
+  LOCK = "lock",
+  TRANSFER = "transfer",
 }
 
 export const bridgeNetworks: BridgeNetwork[] = [
@@ -25,6 +34,10 @@ export const bridgeNetworks: BridgeNetwork[] = [
         decimals: 18,
         iconUrl: "https://community.taraxa.io/logo192.png",
         isNative: true,
+        baseNetwork: 200, // Using chainId directly
+        actionType: Action.TRANSFER,
+        ethereumContract: "0x...", // Example address on Ethereum
+        taraxaContract: "0x...", // Example address on Taraxa
         isImageTall: false,
       },
       {
@@ -33,6 +46,10 @@ export const bridgeNetworks: BridgeNetwork[] = [
         decimals: 18,
         iconUrl: "/ethereum-eth-logo-diamond-purple.svg",
         isNative: false,
+        baseNetwork: 200, // Using chainId directly
+        actionType: Action.TRANSFER,
+        ethereumContract: "0x...", // Example address on Ethereum
+        taraxaContract: "0x...", // Example address on Taraxa
         isImageTall: true,
       },
       {
@@ -41,6 +58,10 @@ export const bridgeNetworks: BridgeNetwork[] = [
         decimals: 6,
         iconUrl: "/tether-usdt-logo.svg",
         isNative: false,
+        baseNetwork: 200, // Using chainId directly
+        actionType: Action.TRANSFER,
+        ethereumContract: "0x...", // Example address on Ethereum
+        taraxaContract: "0x...", // Example address on Taraxa
         isImageTall: false,
       },
     ],
@@ -67,6 +88,10 @@ export const bridgeNetworks: BridgeNetwork[] = [
         decimals: 18,
         iconUrl: "/ethereum-eth-logo-diamond-purple.svg",
         isNative: true,
+        baseNetwork: 1, // Using chainId directly
+        actionType: Action.TRANSFER,
+        ethereumContract: "0x...", // Example address on Ethereum
+        taraxaContract: "0x...", // Example address on Taraxa
         isImageTall: true,
       },
       {
@@ -75,7 +100,10 @@ export const bridgeNetworks: BridgeNetwork[] = [
         decimals: 18,
         iconUrl: "https://community.taraxa.io/logo192.png",
         isNative: false,
-        contract: "",
+        baseNetwork: 1, // Using chainId directly
+        actionType: Action.TRANSFER,
+        ethereumContract: "0x...", // Example address on Ethereum
+        taraxaContract: "0x...", // Example address on Taraxa
         isImageTall: false,
       },
       {
@@ -84,7 +112,10 @@ export const bridgeNetworks: BridgeNetwork[] = [
         decimals: 6,
         iconUrl: "/tether-usdt-logo.svg",
         isNative: false,
-        contract: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+        baseNetwork: 1, // Using chainId directly
+        actionType: Action.TRANSFER,
+        ethereumContract: "0x...", // Example address on Ethereum
+        taraxaContract: "0x...", // Example address on Taraxa
         isImageTall: false,
       },
     ],
