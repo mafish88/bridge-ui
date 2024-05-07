@@ -9,7 +9,7 @@ export const useBurnErc20 = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [state, setState] = useState({ status: "", error: "" });
 
-  const claim = useCallback(
+  const burn = useCallback(
     async (amount: number, onSuccess: () => void) => {
       if (!erc20MintingConnectorContract || !account || !amount) {
         setState({ status: "Fail", error: "Contract not available" });
@@ -47,5 +47,5 @@ export const useBurnErc20 = () => {
     setState({ status: "", error: "" });
   }, [account]);
 
-  return { claim, isLoading, state, resetState };
+  return { burn, isLoading, state, resetState };
 };
