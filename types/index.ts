@@ -18,3 +18,5 @@ export enum AlertType {
   WARNING = "warning",
   ERROR = "error",
 }
+
+export type AddressType = `0x${string}`;

@@ -1,4 +1,29 @@
-import { Network, networks } from "./networks";
+import { Network, networks } from "./networks"; // Assuming these types are defined in `networks.ts`
+
+export interface BridgeService {
+  name: string;
+  description: string;
+  deployAddress: string;
+}
+
+// Define the BridgeNetwork interface extending Network
+export interface BridgeNetwork extends Network {
+  coins: Coin[];
+  bridgeServices: BridgeService[];
+  isImageTall?: boolean;
+}
+
+interface ContractFunction {
+  description: string;
+  abi: string[];
+}
+
+interface TokenContractDetails {
+  deployAddress: string;
+  functions: {
+    [key: string]: ContractFunction;
+  };
+}
 
 export interface Coin {
   name: string;
@@ -6,21 +31,8 @@ export interface Coin {
   decimals: number;
   iconUrl: string;
   isNative: boolean;
-  taraxaContract?: string; // Address on Taraxa
-  ethereumContract?: string; // Address on Ethereum
-  baseNetwork: number; // chainId for the base network
-  actionType: Action; // Enum for action type
+  contracts: { [network: number]: TokenContractDetails }; // Network number mapping to TokenContractDetails
   isImageTall?: boolean;
-}
-export interface BridgeNetwork extends Network {
-  coins: Coin[];
-  isImageTall?: boolean;
-}
-
-enum Action {
-  MINT = "mint",
-  LOCK = "lock",
-  TRANSFER = "transfer",
 }
 
 export const bridgeNetworks: BridgeNetwork[] = [
@@ -34,35 +46,49 @@ export const bridgeNetworks: BridgeNetwork[] = [
         decimals: 18,
         iconUrl: "https://community.taraxa.io/logo192.png",
         isNative: true,
-        baseNetwork: 200, // Using chainId directly
-        actionType: Action.TRANSFER,
-        ethereumContract: "0x...", // Example address on Ethereum
-        taraxaContract: "0x...", // Example address on Taraxa
+        contracts: {
+          200: {
+            // Taraxa network
+            deployAddress: "0x9E2762b1ef4F7Cc00BE66e024D5Db5E8dfB0BD6C",
+            functions: {
+              lock: {
+                description: "Lock in Tara",
+                abi: [
+                  "function lock(address to, uint256 value) external returns (bool)",
+                ],
+              },
+              claim: {
+                description: "Claim Tara",
+                abi: ["function claim(uint256 amount) external returns (bool)"],
+              },
+            },
+          },
+          1: {
+            // Ethereum network
+            deployAddress: "0xD4fa020c9318d5fc1F57b1551C9f507a967dEa61",
+            functions: {
+              mint: {
+                description: "Mint WTARA on Ethereum",
+                abi: [
+                  "function mint(address beneficiary, uint256 value) external returns (bool)",
+                ],
+              },
+            },
+          },
+        },
         isImageTall: false,
       },
+    ],
+    bridgeServices: [
       {
-        name: "Wrapped Ether",
-        symbol: "WETH",
-        decimals: 18,
-        iconUrl: "/ethereum-eth-logo-diamond-purple.svg",
-        isNative: false,
-        baseNetwork: 200, // Using chainId directly
-        actionType: Action.TRANSFER,
-        ethereumContract: "0x...", // Example address on Ethereum
-        taraxaContract: "0x...", // Example address on Taraxa
-        isImageTall: true,
+        name: "ETH Light Client",
+        description: "Light client for monitoring Ethereum state",
+        deployAddress: "0x686244563F8785C383da55df9872b23be3f9acf8",
       },
       {
-        name: "Wrapped USDT",
-        symbol: "USDT",
-        decimals: 6,
-        iconUrl: "/tether-usdt-logo.svg",
-        isNative: false,
-        baseNetwork: 200, // Using chainId directly
-        actionType: Action.TRANSFER,
-        ethereumContract: "0x...", // Example address on Ethereum
-        taraxaContract: "0x...", // Example address on Taraxa
-        isImageTall: false,
+        name: "Taraxa Bridge",
+        description: "Handles bridge operations on Taraxa",
+        deployAddress: "0x07fdD5b6fe9BD40d5ECDb90A6b039B4A24b929DA",
       },
     ],
   },
@@ -83,40 +109,44 @@ export const bridgeNetworks: BridgeNetwork[] = [
     isImageTall: true,
     coins: [
       {
-        name: "Ether",
-        symbol: "ETH",
-        decimals: 18,
-        iconUrl: "/ethereum-eth-logo-diamond-purple.svg",
-        isNative: true,
-        baseNetwork: 1, // Using chainId directly
-        actionType: Action.TRANSFER,
-        ethereumContract: "0x...", // Example address on Ethereum
-        taraxaContract: "0x...", // Example address on Taraxa
-        isImageTall: true,
-      },
-      {
-        name: "Wrapped TARA",
+        name: "WTARA",
         symbol: "WTARA",
         decimals: 18,
         iconUrl: "https://community.taraxa.io/logo192.png",
         isNative: false,
-        baseNetwork: 1, // Using chainId directly
-        actionType: Action.TRANSFER,
-        ethereumContract: "0x...", // Example address on Ethereum
-        taraxaContract: "0x...", // Example address on Taraxa
+        contracts: {
+          1: {
+            deployAddress: "0x3E02bDF20b8aFb2fF8EA73ef5419679722955074",
+            functions: {
+              burn: {
+                description: "Burn WTARA on Ethereum",
+                abi: [
+                  "function burn(address from, uint256 value) external returns (bool)",
+                ],
+              },
+            },
+          },
+          200: {
+            deployAddress: "0x07fdD5b6fe9BD40d5ECDb90A6b039B4A24b929DA",
+            functions: {
+              claim: {
+                description: "Claim TARA on Taraxa",
+                abi: [
+                  "function claim(address to, uint256 value) external returns (bool)",
+                ],
+              },
+            },
+          },
+        },
         isImageTall: false,
       },
+      // Add other coins and contracts as needed
+    ],
+    bridgeServices: [
       {
-        name: "USDT",
-        symbol: "USDT",
-        decimals: 6,
-        iconUrl: "/tether-usdt-logo.svg",
-        isNative: false,
-        baseNetwork: 1, // Using chainId directly
-        actionType: Action.TRANSFER,
-        ethereumContract: "0x...", // Example address on Ethereum
-        taraxaContract: "0x...", // Example address on Taraxa
-        isImageTall: false,
+        name: "ETHBridge",
+        description: "Handles bridge operations on Ethereum",
+        deployAddress: "0x5D126cB4E9f78145881762e2f62e5ce1C35B787f",
       },
     ],
   },
