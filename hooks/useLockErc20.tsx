@@ -13,7 +13,7 @@ export const useLockErc20 = () => {
   const approve = useTokenApprove();
 
   const lock = useCallback(
-    async (amount: number, tokenAddress: string, onSuccess: () => void) => {
+    async (amount: number, onSuccess: () => void, tokenAddress: string) => {
       if (!taraConnectorContract || !account) {
         setState({ status: "Fail", error: "Contract not available" });
         return;
@@ -21,7 +21,7 @@ export const useLockErc20 = () => {
 
       try {
         setIsLoading(true);
-        await approve(account, tokenAddress as AddressType);
+        await approve(account, amount);
         const tx = await taraConnectorContract.lock(
           utils.parseEther(`${amount}`),
           {

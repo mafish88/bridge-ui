@@ -2,11 +2,8 @@
 
 import clsx from "clsx";
 import React from "react";
+import { BridgeClaimTypeToggle } from "../context/bridge-network";
 
-export enum BridgeClaimTypeToggle {
-  BRIDGE = "Bridge",
-  CLAIM = "Claim",
-}
 interface BridgeClaimToggleProps {
   defaultValue: BridgeClaimTypeToggle;
   onChange: (value: BridgeClaimTypeToggle) => void;

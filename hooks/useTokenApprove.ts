@@ -1,9 +1,9 @@
 import { ethers } from "ethers";
-import { useContract } from "./useContract";
 import { useCallback } from "react";
+import { useTokenContract } from "./useTokenContract";
 
 export const useTokenApprove = () => {
-  const { taraConnectorContract } = useContract();
+  const { erc20TokenContract } = useTokenContract();
 
   const approve = useCallback(
     async (
@@ -12,7 +12,7 @@ export const useTokenApprove = () => {
     ): Promise<ethers.providers.TransactionReceipt | Error> => {
       try {
         const tx: ethers.providers.TransactionResponse =
-          await taraConnectorContract!.approve(spender, amount);
+          await erc20TokenContract!.approve(spender, amount);
         const receipt: ethers.providers.TransactionReceipt = await tx.wait();
         return receipt;
       } catch (error) {
@@ -22,7 +22,7 @@ export const useTokenApprove = () => {
           : new Error("Unknown error during approve");
       }
     },
-    [taraConnectorContract]
+    [erc20TokenContract]
   );
 
   return approve;

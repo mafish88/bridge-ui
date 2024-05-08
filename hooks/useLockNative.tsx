@@ -18,12 +18,9 @@ export const useLockNative = () => {
 
       try {
         setIsLoading(true);
-        const tx = await taraConnectorContract.lock(
-          utils.parseEther(`${amount}`),
-          {
-            value: utils.parseEther(`${amount}`),
-          }
-        );
+        const tx = await taraConnectorContract.lock({
+          value: utils.parseEther(`${amount}`),
+        });
         await tx.wait();
         setIsLoading(false);
         setState({ status: "Lock successful", error: "" });

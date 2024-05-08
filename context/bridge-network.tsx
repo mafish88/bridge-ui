@@ -3,6 +3,11 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import { BridgeNetwork, Coin, bridgeNetworks } from "@/types/bridge-networks";
 
+export enum BridgeClaimTypeToggle {
+  BRIDGE = "Bridge",
+  CLAIM = "Claim",
+}
+
 type BridgeNetworkContextType = {
   bridgeNetworks: BridgeNetwork[];
   fromNetwork: BridgeNetwork;
@@ -13,6 +18,8 @@ type BridgeNetworkContextType = {
   setToNetwork: (network: BridgeNetwork) => void;
   setCoin: (coin: Coin) => void;
   setAmount: (amount: number) => void;
+  toggleValue: BridgeClaimTypeToggle;
+  setToggleValue: (value: BridgeClaimTypeToggle) => void;
 };
 
 const BridgeNetworkContext = createContext<BridgeNetworkContextType>({
@@ -25,6 +32,8 @@ const BridgeNetworkContext = createContext<BridgeNetworkContextType>({
   setToNetwork: (network: BridgeNetwork) => {},
   setCoin: (coin: Coin) => {},
   setAmount: (amount: number) => {},
+  toggleValue: BridgeClaimTypeToggle.BRIDGE,
+  setToggleValue: (value: BridgeClaimTypeToggle) => {},
 });
 
 export const BridgeNetworkProvider = ({
@@ -36,6 +45,7 @@ export const BridgeNetworkProvider = ({
     bridgeNetworks[1]
   );
   const [toNetwork, setToNetwork] = useState<BridgeNetwork>(bridgeNetworks[0]);
+  const [toggleValue, setToggleValue] = useState(BridgeClaimTypeToggle.BRIDGE);
   const [coin, setCoin] = useState<Coin | null>(null);
   const [amount, setAmount] = useState<number>(0);
 
@@ -51,6 +61,8 @@ export const BridgeNetworkProvider = ({
         setCoin,
         amount,
         setAmount,
+        toggleValue,
+        setToggleValue,
       }}
     >
       {children}

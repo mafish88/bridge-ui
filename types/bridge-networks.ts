@@ -7,7 +7,7 @@ export interface Coin {
   iconUrl: string;
   isNative: boolean;
   baseNetwork: number; // chainId for the base network
-  deployAddresses: DeployedAddress[];
+  deployAddress?: string;
   isImageTall?: boolean;
 }
 export interface BridgeNetwork extends Network {
@@ -15,20 +15,12 @@ export interface BridgeNetwork extends Network {
   isImageTall?: boolean;
 }
 
-interface DeployedAddress {
-  action: Action;
-  address: string;
-}
-
-enum Action {
-  MINT = "mint",
-  LOCK = "lock",
-  CLAIN = "claim",
-}
+export const TARA_CHAIN_ID = 200; // Change this to 841 for mainnet
+export const ETH_CHAIN_ID = 17000; // Change this to 1 for mainnet
 
 export const bridgeNetworks: BridgeNetwork[] = [
   {
-    ...networks[200], // Taraxa Mainnet (PR NET)
+    ...networks[TARA_CHAIN_ID], // Taraxa Mainnet (PR NET)
     isImageTall: false,
     coins: [
       {
@@ -39,16 +31,6 @@ export const bridgeNetworks: BridgeNetwork[] = [
         isNative: true,
         baseNetwork: 200, // Using chainId directly
         isImageTall: false,
-        deployAddresses: [
-          {
-            action: Action.MINT,
-            address: "0xD4fa020c9318d5fc1F57b1551C9f507a967dEa61",
-          },
-          {
-            action: Action.LOCK,
-            address: "0x9E2762b1ef4F7Cc00BE66e024D5Db5E8dfB0BD6C",
-          },
-        ],
       },
       {
         name: "Wrapped Ether",
@@ -58,27 +40,12 @@ export const bridgeNetworks: BridgeNetwork[] = [
         isNative: false,
         baseNetwork: 200, // Using chainId directly
         isImageTall: true,
-        deployAddresses: [
-          {
-            action: Action.MINT,
-            address: "0x9E2762b1ef4F7Cc00BE66e024D5Db5E8dfB0BD6C",
-          },
-        ],
-      },
-      {
-        name: "Wrapped USDT",
-        symbol: "USDT",
-        decimals: 6,
-        iconUrl: "/tether-usdt-logo.svg",
-        isNative: false,
-        baseNetwork: 200, // Using chainId directly
-        isImageTall: false,
-        deployAddresses: [],
+        deployAddress: "0x",
       },
     ],
   },
   {
-    ...networks[17000], // ETH Holesky (PR NET)
+    ...networks[ETH_CHAIN_ID], // ETH Holesky (PR NET)
     isImageTall: true,
     coins: [
       {
@@ -89,12 +56,6 @@ export const bridgeNetworks: BridgeNetwork[] = [
         isNative: true,
         baseNetwork: 1, // Using chainId directly
         isImageTall: true,
-        deployAddresses: [
-          {
-            action: Action.MINT,
-            address: "0xD4fa020c9318d5fc1F57b1551C9f507a967dEa61",
-          },
-        ],
       },
       {
         name: "Wrapped TARA",
@@ -104,17 +65,7 @@ export const bridgeNetworks: BridgeNetwork[] = [
         isNative: false,
         baseNetwork: 1, // Using chainId directly
         isImageTall: false,
-        deployAddresses: [],
-      },
-      {
-        name: "USDT",
-        symbol: "USDT",
-        decimals: 6,
-        iconUrl: "/tether-usdt-logo.svg",
-        isNative: false,
-        baseNetwork: 1, // Using chainId directly
-        isImageTall: false,
-        deployAddresses: [],
+        deployAddress: "0x3E02bDF20b8aFb2fF8EA73ef5419679722955074",
       },
     ],
   },

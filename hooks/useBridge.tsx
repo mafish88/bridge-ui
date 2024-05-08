@@ -1,7 +1,5 @@
 import { useBridgeNetwork } from "../context/bridge-network";
 import { useBurnErc20 } from "./useBurnErc20";
-import { useClaimErc20 } from "./useClaimErc20";
-import { useClaimNative } from "./useClaimNative";
 import { useLockErc20 } from "./useLockErc20";
 import { useLockNative } from "./useLockNative";
 
@@ -9,15 +7,25 @@ export const useBridge = () => {
   const { fromNetwork, toNetwork, coin } = useBridgeNetwork();
   const { lock: lockNative } = useLockNative();
   const { lock: lockErc20 } = useLockErc20();
-  const { claim: claimNative } = useClaimNative();
-  const { claim: claimErc20 } = useClaimErc20();
-  const { burn: burnErc20 } = useBurnErc20();
 
-  if (!fromNetwork || !toNetwork || !coin) {
-    return;
-  }
+  //   const lock = coin.isNative ? lockNative : lockErc20;
+  const lock = lockNative;
 
-  const lock = coin.isNative ? lockNative : lockErc20;
+  const onBridgeSuccess = () => {
+    console.log("Bridged successfully");
+  };
+
+  const onBridge = async (amount: number) => {
+    if (!fromNetwork || !toNetwork || !coin) {
+      return;
+    }
+
+    await lock(amount, onBridgeSuccess);
+  };
+
+  return {
+    onBridge,
+  };
 
   /**
    * @todo Implement the bridge function

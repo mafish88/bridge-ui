@@ -1,6 +1,7 @@
 import { useBridgeNetwork } from "@/context/bridge-network";
 import Button from "../ui/button";
 import { Wallet } from "../wallet";
+import { useBridge } from "../../hooks/useBridge";
 
 export type SummaryProps = {
   onBack: () => void;
@@ -8,8 +9,11 @@ export type SummaryProps = {
 
 export const Summary = ({ onBack }: SummaryProps) => {
   const { coin, amount } = useBridgeNetwork();
+  const { onBridge } = useBridge();
 
-  const onConfirm = () => {};
+  const onConfirm = async () => {
+    await onBridge(amount);
+  };
 
   return (
     <div className="flex flex-col gap-6">
