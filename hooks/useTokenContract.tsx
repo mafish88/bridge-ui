@@ -15,6 +15,7 @@ export function useTokenContract() {
     if (!provider || !signer || !coin || !coin.deployAddress) {
       return instance;
     }
+
     const contract = new ethers.Contract(
       coin.deployAddress,
       erc20Abi,

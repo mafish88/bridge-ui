@@ -9,7 +9,7 @@ export type SummaryProps = {
 
 export const Summary = ({ onBack }: SummaryProps) => {
   const { coin, amount } = useBridgeNetwork();
-  const { onBridge } = useBridge();
+  const { onBridge, isLoading } = useBridge();
 
   const onConfirm = async () => {
     await onBridge(amount);
@@ -25,16 +25,17 @@ export const Summary = ({ onBack }: SummaryProps) => {
         </p>
       </div>
       <div className="w-full flex flex-col sm:flex-row justify-between gap-4">
-        <Button className="flex-1" onClick={onBack}>
+        <Button fullWidth onClick={onBack}>
           Back
         </Button>
         <Wallet
           actionBtn={{
-            disabled: !coin || !amount,
+            disabled: !coin || !amount || isLoading,
             action: onConfirm,
             btnColor: "primary",
             btnName: "Confirm",
             className: "flex-1",
+            isLoading: isLoading,
           }}
         />
       </div>

@@ -4,8 +4,6 @@ import { MetamaskIcon } from "./ui/icons";
 import Button, { ButtonColorVariant, ButtonSizeVariant } from "./ui/button";
 import { useConnection } from "@/hooks/useConnection";
 import WrongNetwork from "./wrong-network";
-import { useBalance } from "../hooks/useBalance";
-import { useBridgeNetwork } from "../context/bridge-network";
 
 export type WalletActionBtn = {
   action: () => void;
@@ -22,7 +20,7 @@ export type WalletProps = {
 };
 
 export const Wallet = ({ actionBtn }: WalletProps) => {
-  const { status, connect, account, isOnWrongChain } = useConnection();
+  const { status, connect, isOnWrongChain } = useConnection();
 
   if (status === "notConnected") {
     return (
@@ -59,7 +57,6 @@ export const Wallet = ({ actionBtn }: WalletProps) => {
         color={actionBtn.btnColor || "secondary"}
         size={actionBtn.size}
         disabled={!!actionBtn.disabled}
-        className={actionBtn.className}
       >
         {actionBtn.btnName}
         {!!actionBtn.isLoading && (

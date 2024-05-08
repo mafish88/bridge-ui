@@ -125,7 +125,7 @@ const useProvideWalletPopup = () => {
             <p className="successText" style={{ wordBreak: "break-all" }}>
               {message || "An error occurred"}
             </p>
-            <Button type="button" className="w-full" onClick={handleClose}>
+            <Button type="button" fullWidth onClick={handleClose}>
               Close
             </Button>
           </div>
@@ -156,7 +156,7 @@ const useProvideWalletPopup = () => {
             <Button
               type="button"
               color="secondary"
-              className="w-full"
+              fullWidth
               onClick={handleClose}
             >
               Close

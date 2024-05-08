@@ -20,10 +20,8 @@ export function Providers({ children }: ProvidersProps) {
         <ThemeSwitchProvider>
           <ClientThemeWrapper>
             <ModalsProvider>
-              <>
-                <WalletPopupProvider>{children}</WalletPopupProvider>
-                <ModalsCenter />
-              </>
+              <WalletPopupProvider>{children}</WalletPopupProvider>
+              <ModalsCenter />
             </ModalsProvider>
           </ClientThemeWrapper>
         </ThemeSwitchProvider>

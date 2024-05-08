@@ -40,7 +40,7 @@ export const ClaimSummary = ({ claim, onBack }: ClaimSummaryProps) => {
         </p>
       </div>
       <div className="w-full flex flex-col sm:flex-row justify-between gap-4">
-        <Button className="flex-1" onClick={onBack}>
+        <Button fullWidth onClick={onBack}>
           Back
         </Button>
         <Wallet

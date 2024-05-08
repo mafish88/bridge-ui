@@ -3,7 +3,6 @@ import { useCallback, useEffect, useState } from "react";
 import { useContract } from "./useContract";
 import { useConnection } from "./useConnection";
 import { useTokenApprove } from "./useTokenApprove";
-import { AddressType } from "../types";
 
 export const useLockErc20 = () => {
   const { account } = useConnection();
@@ -13,7 +12,7 @@ export const useLockErc20 = () => {
   const approve = useTokenApprove();
 
   const lock = useCallback(
-    async (amount: number, onSuccess: () => void, tokenAddress: string) => {
+    async (amount: number, onSuccess: () => void) => {
       if (!taraConnectorContract || !account) {
         setState({ status: "Fail", error: "Contract not available" });
         return;
@@ -22,12 +21,9 @@ export const useLockErc20 = () => {
       try {
         setIsLoading(true);
         await approve(account, amount);
-        const tx = await taraConnectorContract.lock(
-          utils.parseEther(`${amount}`),
-          {
-            value: utils.parseEther(`${amount}`),
-          }
-        );
+        const tx = await taraConnectorContract.lock({
+          value: utils.parseEther(`${amount}`),
+        });
         await tx.wait();
         setIsLoading(false);
         setState({ status: "Lock successful", error: "" });

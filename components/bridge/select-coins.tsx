@@ -116,11 +116,11 @@ export const SelectCoins = ({ onContinue, onBack }: SelectCoinsProps) => {
                     )}
                   </div>
                   <div className="w-full flex flex-col sm:flex-row justify-between gap-4">
-                    <Button className="flex-1" onClick={onBack}>
+                    <Button fullWidth onClick={onBack}>
                       Back
                     </Button>
                     <Button
-                      className="flex-1"
+                      fullWidth
                       type="submit"
                       color="primary"
                       disabled={!coin || !amount}

@@ -78,7 +78,7 @@ const Modal: React.FC<ModalProps> = ({
                   </Button>
                 ))}
               {showCancel && (
-                <Button type="button" className="btn" onClick={closeModal}>
+                <Button type="button" onClick={closeModal}>
                   {cancelButtonText || "Close"}
                 </Button>
               )}
