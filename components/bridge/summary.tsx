@@ -34,7 +34,7 @@ export const Summary = ({ onBack }: SummaryProps) => {
             action: onConfirm,
             btnColor: "primary",
             btnName: "Confirm",
-            className: "flex-1",
+            fullWidth: true,
             isLoading: isLoading,
           }}
         />

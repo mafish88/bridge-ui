@@ -2,14 +2,11 @@ import {
   BridgeClaimTypeToggle,
   useBridgeNetwork,
 } from "../context/bridge-network";
-import { ModalsActionsEnum, useModalsDispatch } from "../context/modal";
-import { AlertType } from "../types";
 import { useLockErc20 } from "./useLockErc20";
 import { useLockNative } from "./useLockNative";
 
 export const useBridge = () => {
   const { fromNetwork, toNetwork, coin, setToggleValue } = useBridgeNetwork();
-  const dispatchModals = useModalsDispatch();
   const { lock: lockNative, isLoading: isLoadingNative } = useLockNative();
   const { lock: lockErc20, isLoading: isLoadingErc20 } = useLockErc20();
 
@@ -17,17 +14,6 @@ export const useBridge = () => {
   const isLoading = coin?.isNative ? isLoadingNative : isLoadingErc20;
 
   const onBridgeSuccess = () => {
-    dispatchModals({
-      type: ModalsActionsEnum.SHOW_ALERT,
-      payload: {
-        open: true,
-        type: AlertType.SUCCESS,
-        message: [
-          "Transfers from Ethereum to Taraxa take about 30 minutes. Please check the claim tab after 30 minutes.",
-        ],
-        title: "Bridged performed successfully",
-      },
-    });
     setToggleValue(BridgeClaimTypeToggle.CLAIM);
   };
 

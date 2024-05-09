@@ -12,7 +12,7 @@ export type WalletActionBtn = {
   btnColor?: ButtonColorVariant;
   isLoading?: boolean;
   size?: ButtonSizeVariant;
-  className?: string;
+  fullWidth?: boolean;
 };
 
 export type WalletProps = {
@@ -53,6 +53,7 @@ export const Wallet = ({ actionBtn }: WalletProps) => {
   if (actionBtn) {
     return (
       <Button
+        fullWidth={actionBtn.fullWidth}
         onClick={actionBtn.action}
         color={actionBtn.btnColor || "secondary"}
         size={actionBtn.size}
@@ -60,9 +61,7 @@ export const Wallet = ({ actionBtn }: WalletProps) => {
       >
         {actionBtn.btnName}
         {!!actionBtn.isLoading && (
-          <span
-            className={`loading loading-dots loading-lg ${actionBtn.className}`}
-          ></span>
+          <span className={`loading loading-dots loading-lg`}></span>
         )}
       </Button>
     );

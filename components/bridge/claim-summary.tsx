@@ -49,7 +49,7 @@ export const ClaimSummary = ({ claim, onBack }: ClaimSummaryProps) => {
             action: onConfirm,
             btnColor: "primary",
             btnName: "Confirm",
-            className: "flex-1",
+            fullWidth: true,
           }}
         />
       </div>

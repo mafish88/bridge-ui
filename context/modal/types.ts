@@ -1,3 +1,4 @@
+import { ButtonColorVariant } from "../../components/ui/button";
 import { AlertType } from "../../types";
 import { ModalsActionsEnum } from "./reducer";
 
@@ -14,6 +15,7 @@ export type TMetamaskInfo = {
   text: string;
   message?: string;
   content: JSX.Element | null;
+  actionButtonColor?: ButtonColorVariant;
 };
 
 export type TAlert = {

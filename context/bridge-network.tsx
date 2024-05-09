@@ -42,9 +42,9 @@ export const BridgeNetworkProvider = ({
   children: ReactNode;
 }) => {
   const [fromNetwork, setFromNetwork] = useState<BridgeNetwork>(
-    bridgeNetworks[1]
+    bridgeNetworks[0]
   );
-  const [toNetwork, setToNetwork] = useState<BridgeNetwork>(bridgeNetworks[0]);
+  const [toNetwork, setToNetwork] = useState<BridgeNetwork>(bridgeNetworks[1]);
   const [toggleValue, setToggleValue] = useState(BridgeClaimTypeToggle.BRIDGE);
   const [coin, setCoin] = useState<Coin | null>(null);
   const [amount, setAmount] = useState<number>(0);
