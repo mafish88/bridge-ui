@@ -10,7 +10,10 @@ import { CustomOption, CustomSingleValue } from "../ui/custom-select";
 import { BridgeNetwork } from "@/types/bridge-networks";
 import dynamic from "next/dynamic";
 
-const Select = dynamic(() => import("react-select"), { ssr: false });
+const Select = dynamic(() => import("react-select"), {
+  ssr: false,
+  loading: () => <div className="skeleton h-[40px] w-full"></div>,
+});
 
 export type SelectNetworksProps = {
   onContinue: () => void;

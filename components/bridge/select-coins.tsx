@@ -12,7 +12,10 @@ import { useConnection } from "@/hooks/useConnection";
 import { useBalance } from "@/hooks/useBalance";
 import dynamic from "next/dynamic";
 
-const Select = dynamic(() => import("react-select"), { ssr: false });
+const Select = dynamic(() => import("react-select"), {
+  ssr: false,
+  loading: () => <div className="skeleton h-[40px] w-full"></div>,
+});
 
 export type SelectCoinsProps = {
   onBack: () => void;
