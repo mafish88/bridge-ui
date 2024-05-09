@@ -28,7 +28,6 @@ export const useLockNative = () => {
     setIsLoading(true);
     asyncCallback(
       async () => {
-        console.log("HERE IT IS, lets lock some tokens");
         return await onLock(amount);
       },
       () => {

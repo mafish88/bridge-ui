@@ -4,17 +4,14 @@ import { useThemeSwitch } from "@/context/theme-switch";
 
 export const DarkMode = () => {
   const { theme, toggleTheme } = useThemeSwitch();
+  const onToggle = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    toggleTheme(newTheme);
+  };
 
   return (
     <label className="swap swap-rotate">
-      <input
-        type="checkbox"
-        checked={theme === "dark"}
-        onChange={() => {
-          const newTheme = theme === "dark" ? "light" : "dark";
-          toggleTheme(newTheme);
-        }}
-      />
+      <input type="checkbox" checked={theme === "dark"} onChange={onToggle} />
 
       {/* Sun icon - shown when the checkbox is not checked (light mode) */}
       <svg
