@@ -19,15 +19,14 @@ type AsyncCallbackType = (
 ) => Promise<ethers.providers.TransactionResponse>;
 
 type Context = {
-  state: WalletPopupState;
   asyncCallback: (
     callback: AsyncCallbackType,
-    onSuccess?: () => void
+    onSuccess?: () => void,
+    onError?: () => void
   ) => Promise<void>;
 };
 
 const initialState: Context = {
-  state: WalletPopupState.DEFAULT,
   asyncCallback: async (callback) => {
     try {
       await callback();
@@ -41,9 +40,6 @@ const initialState: Context = {
 const WalletPopupContext = createContext<Context>(initialState);
 
 const useProvideWalletPopup = () => {
-  const [state, setState] = useState<WalletPopupState>(
-    WalletPopupState.DEFAULT
-  );
   const dispatchModals = useModalsDispatch();
   const { chainId } = useConnection();
 
@@ -68,7 +64,7 @@ const useProvideWalletPopup = () => {
     dispatchModals({
       type: ModalsActionsEnum.SHOW_METAMASK_INFO,
       payload: {
-        open: state !== WalletPopupState.DEFAULT,
+        open: true,
         title: modalTitle,
         text: "",
         message: "",
@@ -83,6 +79,7 @@ const useProvideWalletPopup = () => {
     title?: string,
     message?: string
   ) => {
+    console.log("new State:", newState, "title:", title, "message:", message);
     const modalTitle = getModalTitle(newState, title);
     const modalContent = getModalContent(newState, title, message);
     const actionButtonColor: ButtonColorVariant | undefined =
@@ -91,7 +88,6 @@ const useProvideWalletPopup = () => {
         : newState === WalletPopupState.SUCCESS
         ? "primary"
         : undefined;
-    setState(newState);
     dispatchModal(modalTitle, modalContent, actionButtonColor);
   };
 
@@ -187,7 +183,8 @@ const useProvideWalletPopup = () => {
 
   const asyncCallback = async (
     callback: AsyncCallbackType,
-    onSuccess?: () => void
+    onSuccess?: () => void,
+    onError?: () => void
   ) => {
     changeState(WalletPopupState.ACTION);
     try {
@@ -199,11 +196,11 @@ const useProvideWalletPopup = () => {
     } catch (error: any) {
       console.error("Error:", error);
       changeState(WalletPopupState.ERROR, "Error", `${error.message}`);
+      if (onError) onError();
     }
   };
 
   return {
-    state,
     handleClose,
     asyncCallback,
   };
