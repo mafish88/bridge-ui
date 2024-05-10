@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import React, { useState, useContext, createContext } from "react";
+import React, { useContext, createContext } from "react";
 import { useConnection } from "../hooks/useConnection";
 import { networks } from "../types/networks";
 import { ModalsActionsEnum, useModalsDispatch } from "./modal";
@@ -195,7 +195,11 @@ const useProvideWalletPopup = () => {
       if (onSuccess) onSuccess();
     } catch (error: any) {
       console.error("Error:", error);
-      changeState(WalletPopupState.ERROR, "Error", `${error.message}`);
+      const errorMessage = error.reason
+        ? error.reason.split(":").pop()?.trim()
+        : error.message;
+      console.error("Error:", errorMessage);
+      changeState(WalletPopupState.ERROR, "Error", `${errorMessage}`);
       if (onError) onError();
     }
   };

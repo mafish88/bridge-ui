@@ -1,49 +1,50 @@
-import { utils } from "ethers";
+import { ethers, utils } from "ethers";
 import { useCallback, useEffect, useState } from "react";
 import { useContract } from "./useContract";
 import { useConnection } from "./useConnection";
 import { useTokenApprove } from "./useTokenApprove";
+import { useWalletPopup } from "../context/wallet-popup";
 
 export const useLockErc20 = () => {
   const { account } = useConnection();
   const { taraConnectorContract } = useContract();
   const [isLoading, setIsLoading] = useState(false);
   const [state, setState] = useState({ status: "", error: "" });
-  const approve = useTokenApprove();
+  const { approve } = useTokenApprove();
+  const { asyncCallback } = useWalletPopup();
 
-  const lock = useCallback(
-    async (amount: number, onSuccess: () => void) => {
-      if (!taraConnectorContract || !account) {
-        setState({ status: "Fail", error: "Contract not available" });
-        return;
-      }
-
-      try {
-        setIsLoading(true);
-        await approve(account, amount);
-        const tx = await taraConnectorContract.lock({
-          value: utils.parseEther(`${amount}`),
-        });
-        await tx.wait();
-        setIsLoading(false);
-        setState({ status: "Lock successful", error: "" });
-        onSuccess();
-      } catch (error: any) {
-        console.error(error);
-        setIsLoading(false);
-        const errorMessage = error.reason
-          ? error.reason.split(":").pop()?.trim()
-          : error.message;
-
-        setState({
-          status: "Fail",
-          error: errorMessage,
-        });
-      }
+  const onLock = useCallback(
+    async (amount: number): Promise<ethers.providers.TransactionResponse> => {
+      return await taraConnectorContract!.lock({
+        value: utils.parseEther(`${amount}`),
+      });
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [taraConnectorContract, account]
+    [taraConnectorContract]
   );
+
+  const lock = async (amount: number, onSuccess: () => void) => {
+    if (!taraConnectorContract || !account) {
+      setState({ status: "Fail", error: "Contract not available" });
+      return;
+    }
+    setIsLoading(true);
+    approve(account, amount, async () => {
+      asyncCallback(
+        async () => {
+          return await onLock(amount);
+        },
+        () => {
+          setIsLoading(false);
+          setState({ status: "Lock successful", error: "" });
+          onSuccess();
+        },
+        () => {
+          setIsLoading(false);
+          setState({ status: "Fail", error: "Transaction failed" });
+        }
+      );
+    });
+  };
 
   const resetState = () => {
     setState({ status: "", error: "" });
