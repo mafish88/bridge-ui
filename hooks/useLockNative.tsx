@@ -20,7 +20,7 @@ export const useLockNative = () => {
     [taraConnectorContract]
   );
 
-  const lock = (amount: number, onSuccess: () => void) => {
+  const lock = async (amount: number, onSuccess: () => void) => {
     if (!taraConnectorContract || !account) {
       setState({ status: "Fail", error: "Contract not available" });
       return;

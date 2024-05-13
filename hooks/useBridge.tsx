@@ -18,10 +18,6 @@ export const useBridge = () => {
   };
 
   const onBridge = async (amount: number) => {
-    if (!fromNetwork || !toNetwork || !coin) {
-      return;
-    }
-
     await lock(amount, onBridgeSuccess);
   };
 

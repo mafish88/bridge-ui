@@ -13,7 +13,7 @@ export const useClaim = () => {
     console.log("Claimed successfully");
   };
 
-  const onClaim = async (amount: number, address: string) => {
+  const onClaim = async (address: string) => {
     await claim(address, onClaimSuccess);
   };
 
