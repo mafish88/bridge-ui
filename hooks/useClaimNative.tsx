@@ -12,25 +12,25 @@ export const useClaimNative = () => {
   const { asyncCallback } = useWalletPopup();
 
   const onClaim = useCallback(
-    async (address: string) => {
-      const feeToClain = await taraConnectorContract!.feeToClaim(address);
+    async (account: string) => {
+      const feeToClain = await taraConnectorContract!.feeToClaim(account);
       const valueInEther = ethers.utils.formatEther(feeToClain.toString());
-      return await taraConnectorContract!.claim(address, {
+      return await taraConnectorContract!.claim({
         value: ethers.utils.parseEther(valueInEther),
       });
     },
     [taraConnectorContract]
   );
 
-  const claim = async (address: string, onSuccess: () => void) => {
-    if (!taraConnectorContract || !account || !address) {
+  const claim = async (onSuccess: () => void) => {
+    if (!taraConnectorContract || !account) {
       setState({ status: "Fail", error: "Contract not available" });
       return;
     }
     setIsLoading(true);
     asyncCallback(
       async () => {
-        return await onClaim(address);
+        return await onClaim(account);
       },
       () => {
         setIsLoading(false);

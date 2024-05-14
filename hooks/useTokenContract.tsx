@@ -7,7 +7,7 @@ import { useBridgeNetwork } from "../context/bridge-network";
 export function useTokenContract() {
   const { provider, signer } = useChain();
   const { coin } = useBridgeNetwork();
-  const erc20Abi = ABIs[3].abi;
+  const erc20Abi = ABIs.ERC20.abi;
 
   const erc20TokenContract = useMemo(() => {
     let instance: ethers.Contract | undefined;

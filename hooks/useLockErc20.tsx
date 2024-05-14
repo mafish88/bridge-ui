@@ -7,7 +7,7 @@ import { useWalletPopup } from "../context/wallet-popup";
 
 export const useLockErc20 = () => {
   const { account } = useConnection();
-  const { taraConnectorContract } = useContract();
+  const { erc20LockingConnectorContract } = useContract();
   const [isLoading, setIsLoading] = useState(false);
   const [state, setState] = useState({ status: "", error: "" });
   const { approve } = useTokenApprove();
@@ -15,15 +15,15 @@ export const useLockErc20 = () => {
 
   const onLock = useCallback(
     async (amount: number): Promise<ethers.providers.TransactionResponse> => {
-      return await taraConnectorContract!.lock({
+      return await erc20LockingConnectorContract!.lock({
         value: utils.parseEther(`${amount}`),
       });
     },
-    [taraConnectorContract]
+    [erc20LockingConnectorContract]
   );
 
   const lock = async (amount: number, onSuccess: () => void) => {
-    if (!taraConnectorContract || !account) {
+    if (!erc20LockingConnectorContract || !account) {
       setState({ status: "Fail", error: "Contract not available" });
       return;
     }

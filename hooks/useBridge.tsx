@@ -2,16 +2,26 @@ import {
   BridgeClaimTypeToggle,
   useBridgeNetwork,
 } from "../context/bridge-network";
+import { useBurnErc20 } from "./useBurnErc20";
 import { useLockErc20 } from "./useLockErc20";
 import { useLockNative } from "./useLockNative";
 
 export const useBridge = () => {
-  const { fromNetwork, toNetwork, coin, setToggleValue } = useBridgeNetwork();
+  const { coin, setToggleValue } = useBridgeNetwork();
   const { lock: lockNative, isLoading: isLoadingNative } = useLockNative();
   const { lock: lockErc20, isLoading: isLoadingErc20 } = useLockErc20();
+  const { burn, isLoading: isLoadingBurnErc20 } = useBurnErc20();
 
-  const lock = coin?.isNative ? lockNative : lockErc20;
-  const isLoading = coin?.isNative ? isLoadingNative : isLoadingErc20;
+  const lock = coin?.isNative
+    ? lockNative
+    : coin?.connectorType === "Minting"
+    ? burn
+    : lockErc20;
+  const isLoading = coin?.isNative
+    ? isLoadingNative
+    : coin?.connectorType === "Minting"
+    ? isLoadingBurnErc20
+    : isLoadingErc20;
 
   const onBridgeSuccess = () => {
     setToggleValue(BridgeClaimTypeToggle.CLAIM);
@@ -29,6 +39,19 @@ export const useBridge = () => {
   /**
    * @todo Implement the bridge function
    * Use cases:
+   * 
+   * 1 Transfer Tara from Taraxa to ETH
+   * Lock Native
+   * Wait for epoch (TBD)
+   * Claim ERC20 (wrapped native asset)
+   * 
+   * 2 Transfer ETH from ETH to Taraxa - exactly as above
+   * 
+   * 3 Transfer ERC20 (WTARA) from Taraxa to Eth
+   * We need to check based on the ERC20 token if it needs burn (mint) or just lock based on the connector it has (Erc20minting connector and Erc20 Locking connector)
+   * For the moment we only do burn and mint
+   * It brings WTARA to TARA
+   * ERC20MintingConnector.burn
 
     1. Transfer Tara from Taraxa to ETH
     Tara Connector deployed on Taraxa

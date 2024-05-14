@@ -3,8 +3,8 @@ interface contractABI {
   abi: string;
 }
 
-export const ABIs: contractABI[] = [
-  {
+export const ABIs: { [key: string]: contractABI } = {
+  ERC20MintingConnector: {
     name: "ERC20MintingConnector",
     abi: JSON.stringify([
       {
@@ -105,7 +105,89 @@ export const ABIs: contractABI[] = [
       },
     ]),
   },
-  {
+  ERC20LockingConnector: {
+    name: "ERC20LockingConnector",
+    abi: JSON.stringify([
+      {
+        type: "function",
+        name: "lock",
+        inputs: [],
+        outputs: [],
+        stateMutability: "payable",
+      },
+      {
+        type: "function",
+        name: "claim",
+        inputs: [],
+        outputs: [],
+        stateMutability: "payable",
+      },
+      {
+        type: "event",
+        name: "ClaimAccrued",
+        inputs: [
+          {
+            name: "account",
+            type: "address",
+            indexed: true,
+            internalType: "address",
+          },
+          {
+            name: "value",
+            type: "uint256",
+            indexed: false,
+            internalType: "uint256",
+          },
+        ],
+        anonymous: false,
+      },
+      {
+        type: "event",
+        name: "Claimed",
+        inputs: [
+          {
+            name: "account",
+            type: "address",
+            indexed: true,
+            internalType: "address",
+          },
+          {
+            name: "value",
+            type: "uint256",
+            indexed: false,
+            internalType: "uint256",
+          },
+        ],
+        anonymous: false,
+      },
+      {
+        type: "event",
+        name: "Funded",
+        inputs: [
+          {
+            name: "sender",
+            type: "address",
+            indexed: true,
+            internalType: "address",
+          },
+          {
+            name: "connectorBase",
+            type: "address",
+            indexed: true,
+            internalType: "address",
+          },
+          {
+            name: "amount",
+            type: "uint256",
+            indexed: false,
+            internalType: "uint256",
+          },
+        ],
+        anonymous: false,
+      },
+    ]),
+  },
+  TaraConnector: {
     name: "TaraConnector",
     abi: JSON.stringify([
       {
@@ -188,7 +270,7 @@ export const ABIs: contractABI[] = [
       },
     ]),
   },
-  {
+  ETHBridge: {
     name: "ETHBridge",
     abi: JSON.stringify([
       {
@@ -200,7 +282,7 @@ export const ABIs: contractABI[] = [
       },
     ]),
   },
-  {
+  ERC20: {
     name: "ERC20",
     abi: JSON.stringify([
       {
@@ -310,4 +392,16 @@ export const ABIs: contractABI[] = [
       },
     ]),
   },
-];
+  ClaimingConnector: {
+    name: "ClaimingConnector",
+    abi: JSON.stringify([
+      {
+        type: "function",
+        name: "claim",
+        inputs: [],
+        outputs: [],
+        stateMutability: "payable",
+      },
+    ]),
+  },
+};
