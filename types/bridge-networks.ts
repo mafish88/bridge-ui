@@ -1,3 +1,4 @@
+import { ETH_CHAIN_ID, TARA_CHAIN_ID } from "./addresses";
 import { Network, networks } from "./networks";
 
 export interface Coin {
@@ -17,12 +18,9 @@ export interface BridgeNetwork extends Network {
   isImageTall?: boolean;
 }
 
-export const TARA_CHAIN_ID = 200; // Change this to 841 for mainnet
-export const ETH_CHAIN_ID = 17000; // Change this to 1 for mainnet
-
 export const bridgeNetworks: BridgeNetwork[] = [
   {
-    ...networks[TARA_CHAIN_ID], // Taraxa Mainnet (PR NET)
+    ...networks[TARA_CHAIN_ID],
     isImageTall: false,
     coins: [
       {
@@ -31,7 +29,7 @@ export const bridgeNetworks: BridgeNetwork[] = [
         decimals: 18,
         iconUrl: "https://community.taraxa.io/logo192.png",
         isNative: true,
-        baseNetwork: TARA_CHAIN_ID, // Using chainId directly
+        baseNetwork: TARA_CHAIN_ID,
         isImageTall: false,
         connectorType: "Native",
       },
@@ -41,7 +39,7 @@ export const bridgeNetworks: BridgeNetwork[] = [
         decimals: 18,
         iconUrl: "/ethereum-eth-logo-diamond-purple.svg",
         isNative: false,
-        baseNetwork: TARA_CHAIN_ID, // Using chainId directly
+        baseNetwork: TARA_CHAIN_ID,
         isImageTall: true,
         deployAddress: "0x",
         connectorAddress: "0x",
@@ -50,7 +48,7 @@ export const bridgeNetworks: BridgeNetwork[] = [
     ],
   },
   {
-    ...networks[ETH_CHAIN_ID], // ETH Holesky (PR NET)
+    ...networks[ETH_CHAIN_ID],
     isImageTall: true,
     coins: [
       {
@@ -59,7 +57,7 @@ export const bridgeNetworks: BridgeNetwork[] = [
         decimals: 18,
         iconUrl: "/ethereum-eth-logo-diamond-purple.svg",
         isNative: true,
-        baseNetwork: ETH_CHAIN_ID, // Using chainId directly
+        baseNetwork: ETH_CHAIN_ID,
         isImageTall: true,
         connectorType: "Native",
       },
@@ -69,7 +67,7 @@ export const bridgeNetworks: BridgeNetwork[] = [
         decimals: 18,
         iconUrl: "https://community.taraxa.io/logo192.png",
         isNative: false,
-        baseNetwork: ETH_CHAIN_ID, // Using chainId directly
+        baseNetwork: ETH_CHAIN_ID,
         isImageTall: false,
         deployAddress: "0x3E02bDF20b8aFb2fF8EA73ef5419679722955074",
         connectorAddress: "0x",

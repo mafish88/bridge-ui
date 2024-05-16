@@ -270,8 +270,8 @@ export const ABIs: { [key: string]: contractABI } = {
       },
     ]),
   },
-  ETHBridge: {
-    name: "ETHBridge",
+  Bridge: {
+    name: "Bridge",
     abi: JSON.stringify([
       {
         type: "function",
