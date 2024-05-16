@@ -275,6 +275,14 @@ export const ABIs: { [key: string]: contractABI } = {
     abi: JSON.stringify([
       {
         type: "function",
+        name: "finalizationInterval",
+        inputs: [],
+        outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+        stateMutability: "view",
+      },
+      ,
+      {
+        type: "function",
         name: "lastFinalizedBlock",
         inputs: [],
         outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
