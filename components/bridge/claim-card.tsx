@@ -9,19 +9,27 @@ import { ClaimTokens } from "./claim-tokens";
 import { Claim } from "@/hooks/useGetClaims";
 import { ClaimSummary } from "./claim-summary";
 import { Countdown } from "./countdown-epoch";
+import { useLastFinalizedBlock } from "../../hooks/useLastFinalizedBlock";
+import { useNetworkProviders } from "../../hooks/useNetworkProviders";
 
 export const ClaimCard = () => {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const { fromNetwork } = useBridgeNetwork();
   const [claim, setClaim] = useState<Claim | null>(null);
+  const blockInfo = useLastFinalizedBlock();
+  console.log("🚀 ~ ClaimCard ~ blockInfo:", blockInfo);
+  const { taraMainnetProvider, ethMainnetProvider } = useNetworkProviders();
+
   const showTopCard = true;
   const countdownMinutes = 5;
 
   const topCard: JSX.Element = (
     <div className="flex flex-col gap-10">
-      <div>
-        <Countdown minutes={countdownMinutes} />
-      </div>
+      {blockInfo.timeLeft && (
+        <div>
+          <Countdown seconds={parseInt(blockInfo.timeLeft, 10)} />
+        </div>
+      )}
       {step > 1 && (
         <div className="flex flex-col sm:flex-row justify-between items-center">
           <SelectedNetwork

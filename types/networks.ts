@@ -74,7 +74,7 @@ export const networks: Networks = {
   200: {
     chainId: 200,
     chainName: "Taraxa PRnet",
-    rpcUrl: "https://rpc-pr-2618.prnet.taraxa.io/",
+    rpcUrl: "https://rpc-pr-2618.prnet.taraxa.io",
     iconUrl: "https://community.taraxa.io/logo192.png",
     blockExplorerUrl: "https://devnet.explorer.taraxa.io/",
     nativeCurrency: {
@@ -104,9 +104,9 @@ export const networks: Networks = {
   17000: {
     chainId: 17000, // Ethereum PR Net Holesky chainId
     chainName: "Holesky",
-    rpcUrl: "https://mainnet.infura.io/v3/",
+    rpcUrl: "https://ethereum-holesky-rpc.publicnode.com",
     iconUrl: "/ethereum-eth-logo-diamond-purple.svg",
-    blockExplorerUrl: "https://etherscan.io/",
+    blockExplorerUrl: "https://holesky.beaconcha.in",
     nativeCurrency: {
       name: "Ether",
       symbol: "ETH",

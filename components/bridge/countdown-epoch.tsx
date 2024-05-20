@@ -1,26 +1,35 @@
+"use client";
+
 import { useEffect, useState } from "react";
 
 interface CountdownProps {
-  minutes: number;
+  seconds: number;
 }
 
-export const Countdown = ({ minutes }: CountdownProps) => {
-  const [seconds, setSeconds] = useState(minutes * 60);
+export const Countdown = ({ seconds: initialSeconds }: CountdownProps) => {
+  const [seconds, setSeconds] = useState(initialSeconds);
 
   useEffect(() => {
-    if (seconds > 0) {
-      setTimeout(() => setSeconds(seconds - 1), 1000);
-    }
+    setSeconds(initialSeconds);
+  }, [initialSeconds]);
+
+  useEffect(() => {
+    const timer =
+      seconds > 0 ? setTimeout(() => setSeconds(seconds - 1), 1000) : null;
+    return () => clearTimeout(timer ? Number(timer) : 0); // Ensuring clearTimeout receives a number
   }, [seconds]);
 
-  const displayMinutes = Math.floor(seconds / 60);
+  const days = Math.floor(seconds / 86400);
+  const hours = Math.floor((seconds % 86400) / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
   const displaySeconds = seconds % 60;
 
   return (
     <div className="flex gap-4 justify-between text-white p-4">
       <div>Time until finalized epoch</div>
-      {displayMinutes}:{displaySeconds < 10 ? "0" : ""}
-      {displaySeconds}
+      {days > 0 && <div>{days} days</div>}
+      {hours}:{minutes < 10 ? "0" + minutes : minutes}:
+      {displaySeconds < 10 ? "0" + displaySeconds : displaySeconds}
     </div>
   );
 };
