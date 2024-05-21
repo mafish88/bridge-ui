@@ -1,49 +1,17 @@
 import { useMemo } from "react";
 import { ethers } from "ethers";
-import {
-  erc20TaraMintingConnectorAddress,
-  erc20EthMintingConnectorAddress,
-  erc20TaraLockingConnectorAddress,
-  erc20EthLockingConnectorAddress,
-  taraConnectorAddress,
-  ethConnectorAddress,
-  TARA_CHAIN_ID,
-  ETH_CHAIN_ID,
-} from "@/types/addresses";
 import { ABIs } from "@/types/abis";
 import useChain from "./useChain";
-import { useBridgeNetwork } from "../context/bridge-network";
+import { useConnectorAddress } from "./useConnectorAddress";
 
 export function useContract() {
   const { provider, signer } = useChain();
-  const { fromNetwork } = useBridgeNetwork();
   const erc20MintingConnectorAbi = ABIs.ERC20MintingConnector.abi;
   const erc20LockingConnectorAbi = ABIs.ERC20LockingConnector.abi;
   const taraConnectorAbi = ABIs.TaraConnector.abi;
-
-  const nativeConnectorAddress = useMemo(
-    () => ({
-      [TARA_CHAIN_ID]: taraConnectorAddress,
-      [ETH_CHAIN_ID]: ethConnectorAddress,
-    }),
-    []
-  );
-
-  const erc20MintingConnectorAddress = useMemo(
-    () => ({
-      [TARA_CHAIN_ID]: erc20TaraMintingConnectorAddress,
-      [ETH_CHAIN_ID]: erc20EthMintingConnectorAddress,
-    }),
-    []
-  );
-
-  const erc20LockingConnectorAddress = useMemo(
-    () => ({
-      [TARA_CHAIN_ID]: erc20TaraLockingConnectorAddress,
-      [ETH_CHAIN_ID]: erc20EthLockingConnectorAddress,
-    }),
-    []
-  );
+  const nativeConnectorAddress = useConnectorAddress("native");
+  const erc20MintingConnectorAddress = useConnectorAddress("erc20Minting");
+  const erc20LockingConnectorAddress = useConnectorAddress("erc20Locking");
 
   const taraConnectorContract = useMemo(() => {
     let instance: ethers.Contract | undefined;
@@ -52,18 +20,12 @@ export function useContract() {
       return instance;
     }
     const contract = new ethers.Contract(
-      nativeConnectorAddress[fromNetwork.chainId],
+      nativeConnectorAddress,
       taraConnectorAbi,
       provider
     );
     return contract.connect(signer);
-  }, [
-    provider,
-    signer,
-    nativeConnectorAddress,
-    fromNetwork.chainId,
-    taraConnectorAbi,
-  ]);
+  }, [provider, signer, nativeConnectorAddress, taraConnectorAbi]);
 
   const erc20MintingConnectorContract = useMemo(() => {
     let instance: ethers.Contract | undefined;
@@ -72,7 +34,7 @@ export function useContract() {
       return instance;
     }
     const contract = new ethers.Contract(
-      erc20MintingConnectorAddress[fromNetwork.chainId],
+      erc20MintingConnectorAddress,
       erc20MintingConnectorAbi,
       provider
     );
@@ -80,7 +42,6 @@ export function useContract() {
   }, [
     erc20MintingConnectorAbi,
     erc20MintingConnectorAddress,
-    fromNetwork.chainId,
     provider,
     signer,
   ]);
@@ -92,7 +53,7 @@ export function useContract() {
       return instance;
     }
     const contract = new ethers.Contract(
-      erc20LockingConnectorAddress[fromNetwork.chainId],
+      erc20LockingConnectorAddress,
       erc20LockingConnectorAbi,
       provider
     );
@@ -100,7 +61,6 @@ export function useContract() {
   }, [
     erc20LockingConnectorAbi,
     erc20LockingConnectorAddress,
-    fromNetwork.chainId,
     provider,
     signer,
   ]);

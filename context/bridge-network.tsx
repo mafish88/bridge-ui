@@ -1,7 +1,8 @@
 "use client";
 
 import React, { createContext, useContext, useState, ReactNode } from "react";
-import { BridgeNetwork, Coin, bridgeNetworks } from "@/types/bridge-networks";
+import { BridgeNetwork, bridgeNetworks } from "@/types/bridge-networks";
+import { Coin } from "@/config/coinConfigs";
 
 export enum BridgeClaimTypeToggle {
   BRIDGE = "Bridge",

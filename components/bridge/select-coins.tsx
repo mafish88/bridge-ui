@@ -1,7 +1,6 @@
 "use client";
 
 import { useBridgeNetwork } from "@/context/bridge-network";
-import { Coin } from "@/types/bridge-networks";
 import { getSingleSelectStyles } from "@/types/custom-select-styles";
 import { CustomOption, CustomSingleValue } from "../ui/custom-select";
 import { useThemeSwitch } from "@/context/theme-switch";
@@ -11,6 +10,9 @@ import Button from "../ui/button";
 import { useConnection } from "@/hooks/useConnection";
 import { useBalance } from "@/hooks/useBalance";
 import dynamic from "next/dynamic";
+import { useCoins } from "@/hooks/useCoins";
+import { Coin } from "@/config/coinConfigs";
+import { useEffect } from "react";
 
 const Select = dynamic(() => import("react-select"), {
   ssr: false,
@@ -36,6 +38,7 @@ const validationSchema: Schema<StakeForm> = object()
 
 export const SelectCoins = ({ onContinue, onBack }: SelectCoinsProps) => {
   const { fromNetwork, coin, setCoin, amount, setAmount } = useBridgeNetwork();
+  const coins = useCoins();
   const { theme } = useThemeSwitch();
   const customSelectStyles = getSingleSelectStyles(theme);
   const { account } = useConnection();
@@ -45,6 +48,13 @@ export const SelectCoins = ({ onContinue, onBack }: SelectCoinsProps) => {
     const selectedCoin = selectedOption as Coin;
     setCoin(selectedCoin);
   };
+
+  useEffect(() => {
+    if (coins.length > 0) {
+      setCoin(coins[0]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [coins, fromNetwork]);
 
   const submit = async (
     form: StakeForm,
@@ -69,7 +79,7 @@ export const SelectCoins = ({ onContinue, onBack }: SelectCoinsProps) => {
         styles={customSelectStyles}
         value={coin}
         onChange={handleCoinChange}
-        options={fromNetwork.coins}
+        options={coins}
         getOptionLabel={(option: any) => option.chainName}
         getOptionValue={(option: any) => option.symbol.toString()}
         components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
