@@ -16,8 +16,7 @@ export const ClaimCard = () => {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const { fromNetwork } = useBridgeNetwork();
   const [claim, setClaim] = useState<Claim | null>(null);
-  const blockInfo = useLastFinalizedBlock();
-  console.log("🚀 ~ ClaimCard ~ blockInfo:", blockInfo);
+  const { blockInfo, isLoading } = useLastFinalizedBlock();
   const { taraMainnetProvider, ethMainnetProvider } = useNetworkProviders();
 
   const showTopCard = true;
@@ -27,7 +26,10 @@ export const ClaimCard = () => {
     <div className="flex flex-col gap-10">
       {blockInfo.timeLeft && (
         <div>
-          <Countdown seconds={parseInt(blockInfo.timeLeft, 10)} />
+          <Countdown
+            seconds={parseInt(blockInfo.timeLeft, 10)}
+            isLoading={isLoading}
+          />
         </div>
       )}
       {step > 1 && (

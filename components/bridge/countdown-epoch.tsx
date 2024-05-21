@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 
 interface CountdownProps {
   seconds: number;
+  isLoading: boolean;
 }
 
-export const Countdown = ({ seconds: initialSeconds }: CountdownProps) => {
+export const Countdown = ({
+  seconds: initialSeconds,
+  isLoading,
+}: CountdownProps) => {
   const [seconds, setSeconds] = useState(initialSeconds);
-
-  useEffect(() => {
-    setSeconds(initialSeconds);
-  }, [initialSeconds]);
 
   useEffect(() => {
     const timer =
@@ -26,10 +26,18 @@ export const Countdown = ({ seconds: initialSeconds }: CountdownProps) => {
 
   return (
     <div className="flex gap-4 justify-between text-white p-4">
-      <div>Time until finalized epoch</div>
-      {days > 0 && <div>{days} days</div>}
-      {hours}:{minutes < 10 ? "0" + minutes : minutes}:
-      {displaySeconds < 10 ? "0" + displaySeconds : displaySeconds}
+      {isLoading ? (
+        <div className="flex items-center justify-center h-64">
+          <span className="loading loading-bars loading-lg"></span>
+        </div>
+      ) : (
+        <div>
+          <div>Time until finalized epoch</div>
+          {days > 0 && <div>{days} days</div>}
+          {hours}:{minutes < 10 ? "0" + minutes : minutes}:
+          {displaySeconds < 10 ? "0" + displaySeconds : displaySeconds}
+        </div>
+      )}
     </div>
   );
 };

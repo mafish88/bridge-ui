@@ -41,14 +41,15 @@ export const useLastFinalizedBlock = () => {
     status: "",
     error: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
   const { taraMainnetProvider, ethMainnetProvider } = useNetworkProviders();
-  const { fromNetwork } = useBridgeNetwork();
+  const { toNetwork } = useBridgeNetwork();
   const providers = {
     [TARA_CHAIN_ID]: taraMainnetProvider,
     [ETH_CHAIN_ID]: ethMainnetProvider,
   };
-  const provider = providers[fromNetwork.chainId];
-  const config = networkConfig[fromNetwork.chainId];
+  const provider = providers[toNetwork.chainId];
+  const config = networkConfig[toNetwork.chainId];
 
   const getBridgeContract = useCallback(async () => {
     if (!provider || !ethers.utils.isAddress(config.contractAddress)) {
@@ -73,8 +74,8 @@ export const useLastFinalizedBlock = () => {
   useEffect(() => {
     const fetchLastFinalizedBlock = async () => {
       try {
+        setIsLoading(true);
         const contract = await getBridgeContract();
-        console.log("🚀 ~ fetchLastFinalizedBlock ~ contract:", contract);
         if (!contract || !provider) {
           setBlockInfo((prev) => ({
             ...prev,
@@ -85,25 +86,11 @@ export const useLastFinalizedBlock = () => {
         }
 
         const currentBlockNumber = await provider.getBlockNumber();
-        console.log(
-          "🚀 ~ fetchLastFinalizedBlock ~ currentBlockNumber:",
-          currentBlockNumber
-        );
         const lastFinalizedBlock = await contract.lastFinalizedBlock();
-        console.log(
-          "🚀 ~ fetchLastFinalizedBlock ~ lastFinalizedBlock:",
-          lastFinalizedBlock
-        );
         const finalizationInterval = await contract.finalizationInterval();
-        console.log(
-          "🚀 ~ fetchLastFinalizedBlock ~ finalizationInterval:",
-          finalizationInterval
-        );
 
-        // Convert currentBlockNumber to BigNumber if necessary
         const currentBlockBN = ethers.BigNumber.from(currentBlockNumber);
 
-        // Perform calculations using BigNumber methods
         const blocksSinceFinalization = currentBlockBN.sub(lastFinalizedBlock);
         const totalBlocks = blocksSinceFinalization.add(finalizationInterval);
         const secondsPerBlock = ethers.BigNumber.from(config.seconds);
@@ -117,6 +104,7 @@ export const useLastFinalizedBlock = () => {
           status: "Fetching finalized block successful",
           error: "",
         });
+        setIsLoading(false);
       } catch (e) {
         setBlockInfo((prev) => ({
           ...prev,
@@ -125,9 +113,10 @@ export const useLastFinalizedBlock = () => {
         }));
         console.error(e);
       }
+      setIsLoading(false);
     };
     void fetchLastFinalizedBlock();
   }, [config.seconds, getBridgeContract, provider]);
 
-  return blockInfo;
+  return { blockInfo, isLoading };
 };

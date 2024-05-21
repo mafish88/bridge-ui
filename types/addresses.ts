@@ -1,11 +1,17 @@
-export const erc20MintingConnectorAddress: string =
-  process.env.NEXT_PUBLIC_ERC20_MINTING_CONNECTOR_ADDRESS || "";
+export const erc20TaraMintingConnectorAddress: string =
+  process.env.NEXT_PUBLIC_TARA_ERC20_MINTING_CONNECTOR_ADDRESS || "";
+export const erc20EthMintingConnectorAddress: string =
+  process.env.NEXT_PUBLIC_ETH_ERC20_MINTING_CONNECTOR_ADDRESS || "";
 
-export const erc20LockingConnectorAddress: string =
-  process.env.NEXT_PUBLIC_ERC20_LOCKING_CONNECTOR_ADDRESS || "";
+export const erc20TaraLockingConnectorAddress: string =
+  process.env.NEXT_PUBLIC_TARA_ERC20_LOCKING_CONNECTOR_ADDRESS || "";
+export const erc20EthLockingConnectorAddress: string =
+  process.env.NEXT_PUBLIC_ETH_ERC20_LOCKING_CONNECTOR_ADDRESS || "";
 
 export const taraConnectorAddress: string =
   process.env.NEXT_PUBLIC_TARA_CONNECTOR_ADDRESS || "";
+export const ethConnectorAddress: string =
+  process.env.NEXT_PUBLIC_ETH_CONNECTOR_ADDRESS || "";
 
 export const wrappedTaraxaTokenAddress: string =
   process.env.NEXT_PUBLIC_WTARA_TOKEN_ADDRESS || "";
