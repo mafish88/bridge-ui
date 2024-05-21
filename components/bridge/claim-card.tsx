@@ -17,10 +17,8 @@ export const ClaimCard = () => {
   const { fromNetwork } = useBridgeNetwork();
   const [claim, setClaim] = useState<Claim | null>(null);
   const { blockInfo, isLoading } = useLastFinalizedBlock();
-  const { taraMainnetProvider, ethMainnetProvider } = useNetworkProviders();
 
   const showTopCard = true;
-  const countdownMinutes = 5;
 
   const topCard: JSX.Element = (
     <div className="flex flex-col gap-10">
