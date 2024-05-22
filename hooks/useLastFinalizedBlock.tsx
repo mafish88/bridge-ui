@@ -94,7 +94,6 @@ export const useLastFinalizedBlock = () => {
         const currentBlockNumber = await provider.getBlockNumber();
         const lastFinalizedBlock = await contract.lastFinalizedBlock();
         const finalizationInterval = await contract.finalizationInterval();
-
         const currentBlockBN = ethers.BigNumber.from(currentBlockNumber);
 
         const blocksSinceFinalization = currentBlockBN.sub(lastFinalizedBlock);

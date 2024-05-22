@@ -22,7 +22,7 @@ export const BridgeClaimToggle: React.FC<BridgeToggleProps> = ({
 
   return (
     <div className="join">
-      {Object.values(BridgeClaimToggle).map((value) => (
+      {Object.values(BridgeClaimTypeToggle).map((value) => (
         <input
           key={value}
           className={clsx(
