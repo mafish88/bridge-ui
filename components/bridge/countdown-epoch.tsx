@@ -14,9 +14,8 @@ export const Countdown = ({
   const [seconds, setSeconds] = useState(initialSeconds);
 
   useEffect(() => {
-    const timer =
-      seconds > 0 ? setTimeout(() => setSeconds(seconds - 1), 1000) : null;
-    return () => clearTimeout(timer ? Number(timer) : 0); // Ensuring clearTimeout receives a number
+    const timer = setTimeout(() => setSeconds((s) => s - 1), 1000);
+    return () => clearTimeout(timer);
   }, [seconds]);
 
   const days = Math.floor(seconds / 86400);

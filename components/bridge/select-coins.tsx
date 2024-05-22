@@ -37,7 +37,7 @@ const validationSchema: Schema<StakeForm> = object()
   .defined();
 
 export const SelectCoins = ({ onContinue, onBack }: SelectCoinsProps) => {
-  const { fromNetwork, coin, setCoin, amount, setAmount } = useBridgeNetwork();
+  const { coin, setCoin, amount, setAmount } = useBridgeNetwork();
   const coins = useCoins();
   const { theme } = useThemeSwitch();
   const customSelectStyles = getSingleSelectStyles(theme);
@@ -48,13 +48,6 @@ export const SelectCoins = ({ onContinue, onBack }: SelectCoinsProps) => {
     const selectedCoin = selectedOption as Coin;
     setCoin(selectedCoin);
   };
-
-  useEffect(() => {
-    if (coins.length > 0) {
-      setCoin(coins[0]);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [coins, fromNetwork]);
 
   const submit = async (
     form: StakeForm,
@@ -80,8 +73,6 @@ export const SelectCoins = ({ onContinue, onBack }: SelectCoinsProps) => {
         value={coin}
         onChange={handleCoinChange}
         options={coins}
-        getOptionLabel={(option: any) => option.chainName}
-        getOptionValue={(option: any) => option.symbol.toString()}
         components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
       />
       <div className="flex flex-col gap-5">

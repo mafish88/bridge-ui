@@ -3,6 +3,10 @@ import { useMemo } from "react";
 import { TARA_CHAIN_ID, ETH_CHAIN_ID } from "@/types/addresses";
 import { networks } from "../types/networks";
 
+export type NetworkProvider = {
+  [chainId: number]: ethers.providers.JsonRpcProvider | null;
+};
+
 export const useNetworkProviders = () => {
   const taraMainnetProvider = useMemo(() => {
     try {
@@ -29,8 +33,14 @@ export const useNetworkProviders = () => {
     }
   }, []);
 
+  const networkProviders: NetworkProvider = {
+    [TARA_CHAIN_ID]: taraMainnetProvider,
+    [ETH_CHAIN_ID]: ethMainnetProvider,
+  };
+
   return {
     taraMainnetProvider,
     ethMainnetProvider,
+    networkProviders,
   };
 };

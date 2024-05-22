@@ -9,7 +9,9 @@ export const useBurnErc20 = () => {
   const { account } = useConnection();
   const { erc20MintingConnectorContract } = useContract();
   const [isLoading, setIsLoading] = useState(false);
-  const [state, setState] = useState({ status: "", error: "" });
+  const [status, setStatus] = useState<string>("");
+  const [error, setError] = useState<string>("");
+
   const { approve } = useTokenApprove();
   const { asyncCallback } = useWalletPopup();
 
@@ -25,7 +27,8 @@ export const useBurnErc20 = () => {
 
   const burn = async (amount: number, onSuccess: () => void) => {
     if (!erc20MintingConnectorContract || !account || !amount) {
-      setState({ status: "Fail", error: "Contract not available" });
+      setStatus("Fail");
+      setError("Contract not available");
       return;
     }
     setIsLoading(true);
@@ -36,24 +39,27 @@ export const useBurnErc20 = () => {
         },
         () => {
           setIsLoading(false);
-          setState({ status: "Burn successful", error: "" });
+          setStatus("Success");
+          setError("");
           onSuccess();
         },
         () => {
           setIsLoading(false);
-          setState({ status: "Fail", error: "Transaction failed" });
+          setStatus("Fail");
+          setError("Transaction failed");
         }
       );
     });
   };
 
   const resetState = () => {
-    setState({ status: "", error: "" });
+    setStatus("");
+    setError("");
   };
 
   useEffect(() => {
-    setState({ status: "", error: "" });
+    resetState();
   }, [account]);
 
-  return { burn, isLoading, state, resetState };
+  return { burn, isLoading, status, error, resetState };
 };

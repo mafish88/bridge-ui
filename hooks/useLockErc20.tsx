@@ -9,22 +9,23 @@ export const useLockErc20 = () => {
   const { account } = useConnection();
   const { erc20LockingConnectorContract } = useContract();
   const [isLoading, setIsLoading] = useState(false);
-  const [state, setState] = useState({ status: "", error: "" });
+  const [status, setStatus] = useState<string>("");
+  const [error, setError] = useState<string>("");
+
   const { approve } = useTokenApprove();
   const { asyncCallback } = useWalletPopup();
 
   const onLock = useCallback(
     async (amount: number): Promise<ethers.providers.TransactionResponse> => {
-      return await erc20LockingConnectorContract!.lock({
-        value: utils.parseEther(`${amount}`),
-      });
+      return await erc20LockingConnectorContract!.lock(amount);
     },
     [erc20LockingConnectorContract]
   );
 
   const lock = async (amount: number, onSuccess: () => void) => {
     if (!erc20LockingConnectorContract || !account) {
-      setState({ status: "Fail", error: "Contract not available" });
+      setStatus("Fail");
+      setError("Contract not available");
       return;
     }
     setIsLoading(true);
@@ -35,24 +36,27 @@ export const useLockErc20 = () => {
         },
         () => {
           setIsLoading(false);
-          setState({ status: "Lock successful", error: "" });
+          setStatus("Lock successful");
+          setError("");
           onSuccess();
         },
         () => {
           setIsLoading(false);
-          setState({ status: "Fail", error: "Transaction failed" });
+          setStatus("Fail");
+          setError("Transaction failed");
         }
       );
     });
   };
 
   const resetState = () => {
-    setState({ status: "", error: "" });
+    setStatus("");
+    setError("");
   };
 
   useEffect(() => {
-    setState({ status: "", error: "" });
+    resetState();
   }, [account]);
 
-  return { lock, isLoading, state, resetState };
+  return { lock, isLoading, status, error, resetState };
 };

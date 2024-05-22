@@ -8,7 +8,9 @@ export const useLockNative = () => {
   const { account } = useConnection();
   const { taraConnectorContract } = useContract();
   const [isLoading, setIsLoading] = useState(false);
-  const [state, setState] = useState({ status: "", error: "" });
+  const [status, setStatus] = useState<string>("");
+  const [error, setError] = useState<string>("");
+
   const { asyncCallback } = useWalletPopup();
 
   const onLock = useCallback(
@@ -22,7 +24,8 @@ export const useLockNative = () => {
 
   const lock = async (amount: number, onSuccess: () => void) => {
     if (!taraConnectorContract || !account) {
-      setState({ status: "Fail", error: "Contract not available" });
+      setStatus("Fail");
+      setError("Contract not available");
       return;
     }
     setIsLoading(true);
@@ -32,23 +35,26 @@ export const useLockNative = () => {
       },
       () => {
         setIsLoading(false);
-        setState({ status: "Lock successful", error: "" });
+        setStatus("Lock successful");
+        setError("");
         onSuccess();
       },
       () => {
         setIsLoading(false);
-        setState({ status: "Fail", error: "Transaction failed" });
+        setStatus("Fail");
+        setError("Transaction failed");
       }
     );
   };
 
   const resetState = () => {
-    setState({ status: "", error: "" });
+    setStatus("");
+    setError("");
   };
 
   useEffect(() => {
-    setState({ status: "", error: "" });
+    resetState();
   }, [account]);
 
-  return { lock, isLoading, state, resetState };
+  return { lock, isLoading, status, error, resetState };
 };

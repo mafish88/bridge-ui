@@ -6,7 +6,8 @@ import { useWalletPopup } from "../context/wallet-popup";
 export const useTokenApprove = () => {
   const { erc20TokenContract } = useTokenContract();
   const { asyncCallback } = useWalletPopup();
-  const [state, setState] = useState({ status: "", error: "" });
+  const [status, setStatus] = useState<string>("");
+  const [error, setError] = useState<string>("");
 
   const onApprove = useCallback(
     async (
@@ -28,14 +29,16 @@ export const useTokenApprove = () => {
         return await onApprove(spender, amount);
       },
       () => {
-        setState({ status: "Approve successful", error: "" });
+        setStatus("Approve successful");
+        setError("");
         onSuccess();
       },
       () => {
-        setState({ status: "Fail", error: "Transaction failed" });
+        setStatus("Fail");
+        setError("Transaction failed");
       }
     );
   };
 
-  return { state, approve };
+  return { status, error, approve };
 };

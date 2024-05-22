@@ -1,6 +1,6 @@
 "use client";
 
-import { BridgeClaimToggle } from "../bridge-claim-toggle";
+import { BridgeClaimToggle } from "../bridge-toggle";
 import { bridgeFaq } from "@/types/faqs";
 import { Faq } from "../faq";
 import { BridgeCard } from "./bridge-card";

@@ -1,6 +1,12 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 import { BridgeNetwork, bridgeNetworks } from "@/types/bridge-networks";
 import { Coin } from "@/config/coinConfigs";
 
@@ -49,6 +55,10 @@ export const BridgeNetworkProvider = ({
   const [toggleValue, setToggleValue] = useState(BridgeClaimTypeToggle.BRIDGE);
   const [coin, setCoin] = useState<Coin | null>(null);
   const [amount, setAmount] = useState<number>(0);
+
+  useEffect(() => {
+    setCoin(null);
+  }, [fromNetwork]);
 
   return (
     <BridgeNetworkContext.Provider

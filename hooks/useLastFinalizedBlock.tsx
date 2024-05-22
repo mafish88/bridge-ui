@@ -18,8 +18,17 @@ export interface BlockInfo {
   status: string;
   error: string;
 }
+type AddressDetails = {
+  chainId: number;
+  contractAddress: string;
+  seconds: number;
+};
 
-const networkConfig = {
+type ChainAddress = {
+  [chainId: number]: AddressDetails;
+};
+
+const chainAddresses: ChainAddress = {
   [TARA_CHAIN_ID]: {
     chainId: TARA_CHAIN_ID,
     contractAddress: taraBridge,
@@ -42,14 +51,11 @@ export const useLastFinalizedBlock = () => {
     error: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-  const { taraMainnetProvider, ethMainnetProvider } = useNetworkProviders();
+  const { networkProviders } = useNetworkProviders();
   const { toNetwork } = useBridgeNetwork();
-  const providers = {
-    [TARA_CHAIN_ID]: taraMainnetProvider,
-    [ETH_CHAIN_ID]: ethMainnetProvider,
-  };
-  const provider = providers[toNetwork.chainId];
-  const config = networkConfig[toNetwork.chainId];
+
+  const provider = networkProviders[toNetwork.chainId];
+  const config = chainAddresses[toNetwork.chainId];
 
   const getBridgeContract = useCallback(async () => {
     if (!provider || !ethers.utils.isAddress(config.contractAddress)) {

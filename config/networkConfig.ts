@@ -9,7 +9,22 @@ import {
   erc20EthLockingConnectorAddress,
 } from "@/types/addresses";
 
-export const networkConfigs = {
+type ConnectorAddresses = {
+  native: string;
+  erc20Minting: string;
+  erc20Locking: string;
+};
+
+type NetworkConfig = {
+  chainId: number;
+  connectorAddresses: ConnectorAddresses;
+};
+
+type NetworkConfigs = {
+  [chainId: string]: NetworkConfig;
+};
+
+export const networkConfigs: NetworkConfigs = {
   [TARA_CHAIN_ID]: {
     chainId: TARA_CHAIN_ID,
     connectorAddresses: {
@@ -27,6 +42,3 @@ export const networkConfigs = {
     },
   },
 };
-
-export type NetworkConfig =
-  (typeof networkConfigs)[keyof typeof networkConfigs];

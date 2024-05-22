@@ -10,7 +10,7 @@ export const formatNumberWithAbbreviation = (number: number) => {
   } else if (absNumber >= 1e3) {
     return formatWithPrecision(number, 1e3, "K");
   } else {
-    return number.toString();
+    return number.toFixed(2);
   }
 };
 
