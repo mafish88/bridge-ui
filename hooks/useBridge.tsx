@@ -1,7 +1,4 @@
-import {
-  BridgeClaimTypeToggle,
-  useBridgeNetwork,
-} from "../context/bridge-network";
+import { BridgeToggleType, useBridgeNetwork } from "../context/bridge-network";
 import { useBurnErc20 } from "./useBurnErc20";
 import { useLockErc20 } from "./useLockErc20";
 import { useLockNative } from "./useLockNative";
@@ -24,7 +21,7 @@ export const useBridge = () => {
     : isLoadingErc20;
 
   const onBridgeSuccess = () => {
-    setToggleValue(BridgeClaimTypeToggle.CLAIM);
+    setToggleValue(BridgeToggleType.CLAIM);
   };
 
   const onBridge = async (amount: number) => {

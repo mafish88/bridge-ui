@@ -6,7 +6,7 @@ import { Faq } from "../faq";
 import { BridgeCard } from "./bridge-card";
 import { ClaimCard } from "./claim-card";
 import {
-  BridgeClaimTypeToggle,
+  BridgeToggleType,
   useBridgeNetwork,
 } from "../../context/bridge-network";
 
@@ -22,8 +22,8 @@ export const BridgeContainer = () => {
         />
       </div>
       <div className="flex flex-col gap-20 w-full lg:w-[550px]">
-        {toggleValue === BridgeClaimTypeToggle.BRIDGE && <BridgeCard />}
-        {toggleValue === BridgeClaimTypeToggle.CLAIM && <ClaimCard />}
+        {toggleValue === BridgeToggleType.BRIDGE && <BridgeCard />}
+        {toggleValue === BridgeToggleType.CLAIM && <ClaimCard />}
         <Faq items={bridgeFaq} />
       </div>
     </div>

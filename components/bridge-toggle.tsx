@@ -2,11 +2,11 @@
 
 import clsx from "clsx";
 import React from "react";
-import { BridgeClaimTypeToggle } from "../context/bridge-network";
+import { BridgeToggleType } from "../context/bridge-network";
 
 interface BridgeToggleProps {
-  defaultValue: BridgeClaimTypeToggle;
-  onChange: (value: BridgeClaimTypeToggle) => void;
+  defaultValue: BridgeToggleType;
+  onChange: (value: BridgeToggleType) => void;
   name: string;
 }
 
@@ -16,13 +16,13 @@ export const BridgeClaimToggle: React.FC<BridgeToggleProps> = ({
   name,
 }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value as BridgeClaimTypeToggle;
+    const value = event.target.value as BridgeToggleType;
     onChange(value);
   };
 
   return (
     <div className="join">
-      {Object.values(BridgeClaimTypeToggle).map((value) => (
+      {Object.values(BridgeToggleType).map((value) => (
         <input
           key={value}
           className={clsx(
