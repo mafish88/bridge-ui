@@ -16,7 +16,7 @@ export const Countdown = ({
   useEffect(() => {
     const timer = setTimeout(() => setSeconds((s) => s - 1), 1000);
     return () => clearTimeout(timer);
-  }, [seconds]);
+  }, []);
 
   const days = Math.floor(seconds / 86400);
   const hours = Math.floor((seconds % 86400) / 3600);
