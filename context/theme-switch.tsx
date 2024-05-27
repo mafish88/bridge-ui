@@ -1,10 +1,6 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from "react";
+"use client";
+
+import React, { createContext, useContext, useState, ReactNode } from "react";
 
 type Theme = "light" | "dark";
 type ThemeSwitchContextType = {
@@ -12,22 +8,34 @@ type ThemeSwitchContextType = {
   toggleTheme: () => void;
 };
 
-const storedTheme =
-  (localStorage.getItem("bridge-theme") as Theme) ||
-  (window.matchMedia &&
-  window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light");
-
 const initialState: ThemeSwitchContextType = {
-  theme: storedTheme,
+  theme: "light",
   toggleTheme: () => {},
 };
 
 const ThemeSwitchContext = createContext<ThemeSwitchContextType>(initialState);
 
-export const ThemeSwitchProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>(storedTheme);
+export default function ThemeSwitchProvider({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  let defaultTheme: Theme = "light";
+
+  if (typeof window !== "undefined") {
+    if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    ) {
+      defaultTheme = "dark";
+    }
+    let storedTheme = localStorage.getItem("bridge-theme");
+    if (storedTheme) {
+      defaultTheme = storedTheme as Theme;
+    }
+  }
+
+  const [theme, setTheme] = useState<Theme>(defaultTheme);
 
   const toggleTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
@@ -39,10 +47,10 @@ export const ThemeSwitchProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <ThemeSwitchContext.Provider value={{ theme, toggleTheme }}>
-      {children}
+      <div data-theme={theme}>{children}</div>
     </ThemeSwitchContext.Provider>
   );
-};
+}
 
 export const useThemeSwitch = () => {
   const context = useContext(ThemeSwitchContext);

@@ -10,7 +10,7 @@ interface BridgeToggleProps {
   name: string;
 }
 
-export const BridgeClaimToggle: React.FC<BridgeToggleProps> = ({
+export const BridgeToggle: React.FC<BridgeToggleProps> = ({
   defaultValue,
   onChange,
   name,
@@ -41,4 +41,4 @@ export const BridgeClaimToggle: React.FC<BridgeToggleProps> = ({
   );
 };
 
-export default BridgeClaimToggle;
+export default BridgeToggle;

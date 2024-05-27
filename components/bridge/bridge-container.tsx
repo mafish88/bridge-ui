@@ -1,6 +1,6 @@
 "use client";
 
-import { BridgeClaimToggle } from "../bridge-toggle";
+import { BridgeToggle } from "../bridge-toggle";
 import { bridgeFaq } from "@/types/faqs";
 import { Faq } from "../faq";
 import { BridgeCard } from "./bridge-card";
@@ -15,7 +15,7 @@ export const BridgeContainer = () => {
   return (
     <div className="flex flex-col gap-10">
       <div className="w-full flex items-center justify-center">
-        <BridgeClaimToggle
+        <BridgeToggle
           defaultValue={toggleValue}
           onChange={setToggleValue}
           name="bridge-claim-toggle"
