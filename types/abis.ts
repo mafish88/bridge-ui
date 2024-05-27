@@ -287,6 +287,13 @@ export const ABIs: { [key: string]: contractABI } = {
         outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
         stateMutability: "view",
       },
+      {
+        type: "function",
+        name: "appliedEpoch",
+        inputs: [],
+        outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+        stateMutability: "view",
+      },
     ]),
   },
   ERC20: {
