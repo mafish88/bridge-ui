@@ -8,7 +8,7 @@ import {
 
 export const MetamaskInfo = () => {
   const {
-    metamaskInfo: { open, title, text, message, content },
+    metamaskInfo: { open, title, text, message, content, actionButtonColor },
   } = useModalsStore();
   const dispatchModals = useModalsDispatch();
 
@@ -26,9 +26,10 @@ export const MetamaskInfo = () => {
 
   const modalActions: ModalAction[] = [
     {
-      name: "OK",
+      name: "Close",
       onClick: closeModal,
-      color: "primary",
+      color: actionButtonColor || "primary",
+      size: "lg",
     },
   ];
 
@@ -38,7 +39,7 @@ export const MetamaskInfo = () => {
       titleIcon={<MetamaskIcon className="text-default-500" />}
       isOpen={open}
       closeModal={closeModal}
-      modalActions={modalActions}
+      modalActions={actionButtonColor ? modalActions : undefined}
     >
       <div className="flex flex-col gap-6">
         <h1 className="text-2xl font-bold">{text}</h1>

@@ -2,30 +2,27 @@
 
 import clsx from "clsx";
 import React from "react";
+import { BridgeToggleType } from "../context/bridge-network";
 
-export enum BridgeClaimTypeToggle {
-  BRIDGE = "Bridge",
-  CLAIM = "Claim",
-}
-interface BridgeClaimToggleProps {
-  defaultValue: BridgeClaimTypeToggle;
-  onChange: (value: BridgeClaimTypeToggle) => void;
+interface BridgeToggleProps {
+  defaultValue: BridgeToggleType;
+  onChange: (value: BridgeToggleType) => void;
   name: string;
 }
 
-export const BridgeClaimToggle: React.FC<BridgeClaimToggleProps> = ({
+export const BridgeToggle: React.FC<BridgeToggleProps> = ({
   defaultValue,
   onChange,
   name,
 }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value as BridgeClaimTypeToggle;
+    const value = event.target.value as BridgeToggleType;
     onChange(value);
   };
 
   return (
     <div className="join">
-      {Object.values(BridgeClaimTypeToggle).map((value) => (
+      {Object.values(BridgeToggleType).map((value) => (
         <input
           key={value}
           className={clsx(
@@ -44,4 +41,4 @@ export const BridgeClaimToggle: React.FC<BridgeClaimToggleProps> = ({
   );
 };
 
-export default BridgeClaimTypeToggle;
+export default BridgeToggle;

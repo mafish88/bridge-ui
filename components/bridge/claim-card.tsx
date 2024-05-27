@@ -8,27 +8,42 @@ import { useBridgeNetwork } from "@/context/bridge-network";
 import { ClaimTokens } from "./claim-tokens";
 import { Claim } from "@/hooks/useGetClaims";
 import { ClaimSummary } from "./claim-summary";
+import { Countdown } from "./countdown-epoch";
+import { useLastFinalizedBlock } from "../../hooks/useLastFinalizedBlock";
+import { useNetworkProviders } from "../../hooks/useNetworkProviders";
 
 export const ClaimCard = () => {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const { fromNetwork } = useBridgeNetwork();
   const [claim, setClaim] = useState<Claim | null>(null);
-  const showTopCard = step > 1;
+  const { blockInfo, isLoading } = useLastFinalizedBlock();
+
+  const showTopCard = true;
 
   const topCard: JSX.Element = (
     <div className="flex flex-col gap-10">
-      <div className="flex flex-col sm:flex-row justify-between items-center">
-        <SelectedNetwork
-          title="Selected network"
-          name={fromNetwork.chainName}
-          image={{
-            src: fromNetwork.iconUrl,
-            alt: fromNetwork.chainName,
-            height: 30,
-            width: fromNetwork.isImageTall ? 20 : 30,
-          }}
-        />
-      </div>
+      {blockInfo.timeLeft && (
+        <div>
+          <Countdown
+            seconds={parseInt(blockInfo.timeLeft, 10)}
+            isLoading={isLoading}
+          />
+        </div>
+      )}
+      {step > 1 && (
+        <div className="flex flex-col sm:flex-row justify-between items-center">
+          <SelectedNetwork
+            title="Selected network"
+            name={fromNetwork.chainName}
+            image={{
+              src: fromNetwork.iconUrl,
+              alt: fromNetwork.chainName,
+              height: 30,
+              width: fromNetwork.isImageTall ? 20 : 30,
+            }}
+          />
+        </div>
+      )}
       {step > 2 && (
         <div className="flex flex-col gap-4 justify-center items-center">
           {claim && (

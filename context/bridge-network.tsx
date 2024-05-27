@@ -1,7 +1,19 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
-import { BridgeNetwork, Coin, bridgeNetworks } from "@/types/bridge-networks";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
+import { BridgeNetwork, bridgeNetworks } from "@/types/bridge-networks";
+import { Coin } from "@/config/coinConfigs";
+
+export enum BridgeToggleType {
+  BRIDGE = "Bridge",
+  CLAIM = "Claim",
+}
 
 type BridgeNetworkContextType = {
   bridgeNetworks: BridgeNetwork[];
@@ -13,6 +25,8 @@ type BridgeNetworkContextType = {
   setToNetwork: (network: BridgeNetwork) => void;
   setCoin: (coin: Coin) => void;
   setAmount: (amount: number) => void;
+  toggleValue: BridgeToggleType;
+  setToggleValue: (value: BridgeToggleType) => void;
 };
 
 const BridgeNetworkContext = createContext<BridgeNetworkContextType>({
@@ -25,6 +39,8 @@ const BridgeNetworkContext = createContext<BridgeNetworkContextType>({
   setToNetwork: (network: BridgeNetwork) => {},
   setCoin: (coin: Coin) => {},
   setAmount: (amount: number) => {},
+  toggleValue: BridgeToggleType.BRIDGE,
+  setToggleValue: (value: BridgeToggleType) => {},
 });
 
 export const BridgeNetworkProvider = ({
@@ -33,11 +49,16 @@ export const BridgeNetworkProvider = ({
   children: ReactNode;
 }) => {
   const [fromNetwork, setFromNetwork] = useState<BridgeNetwork>(
-    bridgeNetworks[1]
+    bridgeNetworks[0]
   );
-  const [toNetwork, setToNetwork] = useState<BridgeNetwork>(bridgeNetworks[0]);
+  const [toNetwork, setToNetwork] = useState<BridgeNetwork>(bridgeNetworks[1]);
+  const [toggleValue, setToggleValue] = useState(BridgeToggleType.BRIDGE);
   const [coin, setCoin] = useState<Coin | null>(null);
   const [amount, setAmount] = useState<number>(0);
+
+  useEffect(() => {
+    setCoin(null);
+  }, [fromNetwork]);
 
   return (
     <BridgeNetworkContext.Provider
@@ -51,6 +72,8 @@ export const BridgeNetworkProvider = ({
         setCoin,
         amount,
         setAmount,
+        toggleValue,
+        setToggleValue,
       }}
     >
       {children}

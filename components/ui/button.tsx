@@ -24,7 +24,7 @@ export interface ButtonProps {
   size?: ButtonSizeVariant;
   radius?: ButtonRadiusVariant;
   color?: ButtonColorVariant;
-  className?: string;
+  fullWidth?: boolean;
   type?: "button" | "reset" | "submit";
   disabled?: boolean;
   outline?: boolean;
@@ -56,7 +56,7 @@ const Button: React.FC<ButtonProps> = ({
   size,
   radius = "md",
   color,
-  className = "",
+  fullWidth = false,
   type = "button",
   disabled = false,
   outline = false,
@@ -70,7 +70,7 @@ const Button: React.FC<ButtonProps> = ({
         `btn rounded-${radius} font-semibold ${outline ? "btn-outline" : ""}`,
         color && `${colorClasses[color]} ${textColorClasses[color]}`,
         outline && "btn-outline",
-        className,
+        fullWidth ? "flex-1 w-full" : "",
         size && `btn-${size}`,
         disabled && "btn-disabled"
       )}

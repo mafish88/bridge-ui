@@ -25,6 +25,7 @@ const config: Config = {
           primary: "#15AC5B",
           secondary: "#FFFFFF",
           error: "#f04265",
+          info: "#2094f3",
           "base-300": "#7a8aa0",
         },
         dark: {
@@ -32,6 +33,7 @@ const config: Config = {
           primary: "#15AC5B",
           secondary: "#FFFFFF",
           error: "#f04265",
+          info: "#2094f3",
           "base-100": "#1d232a",
           "base-200": "#191e24",
           "base-300": "#15191e",

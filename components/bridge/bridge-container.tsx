@@ -1,31 +1,29 @@
 "use client";
 
-import { useState } from "react";
-
-import {
-  BridgeClaimTypeToggle,
-  BridgeClaimToggle,
-} from "../bridge-claim-toggle";
+import { BridgeToggle } from "../bridge-toggle";
 import { bridgeFaq } from "@/types/faqs";
 import { Faq } from "../faq";
 import { BridgeCard } from "./bridge-card";
 import { ClaimCard } from "./claim-card";
+import {
+  BridgeToggleType,
+  useBridgeNetwork,
+} from "../../context/bridge-network";
 
 export const BridgeContainer = () => {
-  const [toggleValue, setToggleValue] = useState(BridgeClaimTypeToggle.BRIDGE);
-
+  const { toggleValue, setToggleValue } = useBridgeNetwork();
   return (
     <div className="flex flex-col gap-10">
       <div className="w-full flex items-center justify-center">
-        <BridgeClaimToggle
+        <BridgeToggle
           defaultValue={toggleValue}
           onChange={setToggleValue}
           name="bridge-claim-toggle"
         />
       </div>
       <div className="flex flex-col gap-20 w-full lg:w-[550px]">
-        {toggleValue === BridgeClaimTypeToggle.BRIDGE && <BridgeCard />}
-        {toggleValue === BridgeClaimTypeToggle.CLAIM && <ClaimCard />}
+        {toggleValue === BridgeToggleType.BRIDGE && <BridgeCard />}
+        {toggleValue === BridgeToggleType.CLAIM && <ClaimCard />}
         <Faq items={bridgeFaq} />
       </div>
     </div>

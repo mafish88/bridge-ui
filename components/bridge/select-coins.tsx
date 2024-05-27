@@ -1,9 +1,6 @@
 "use client";
 
 import { useBridgeNetwork } from "@/context/bridge-network";
-import { Coin } from "@/types/bridge-networks";
-import { useIsMounted } from "@/hooks/useIsMounted";
-import Select from "react-select";
 import { getSingleSelectStyles } from "@/types/custom-select-styles";
 import { CustomOption, CustomSingleValue } from "../ui/custom-select";
 import { useThemeSwitch } from "@/context/theme-switch";
@@ -12,6 +9,15 @@ import { number, object, Schema } from "yup";
 import Button from "../ui/button";
 import { useConnection } from "@/hooks/useConnection";
 import { useBalance } from "@/hooks/useBalance";
+import dynamic from "next/dynamic";
+import { useCoins } from "@/hooks/useCoins";
+import { Coin } from "@/config/coinConfigs";
+import { useEffect } from "react";
+
+const Select = dynamic(() => import("react-select"), {
+  ssr: false,
+  loading: () => <div className="skeleton h-[40px] w-full"></div>,
+});
 
 export type SelectCoinsProps = {
   onBack: () => void;
@@ -31,9 +37,9 @@ const validationSchema: Schema<StakeForm> = object()
   .defined();
 
 export const SelectCoins = ({ onContinue, onBack }: SelectCoinsProps) => {
-  const { fromNetwork, coin, setCoin, amount, setAmount } = useBridgeNetwork();
+  const { coin, setCoin, amount, setAmount } = useBridgeNetwork();
+  const coins = useCoins();
   const { theme } = useThemeSwitch();
-  const isMounted = useIsMounted();
   const customSelectStyles = getSingleSelectStyles(theme);
   const { account } = useConnection();
   const { balance: taraBalance } = useBalance();
@@ -59,81 +65,77 @@ export const SelectCoins = ({ onContinue, onBack }: SelectCoinsProps) => {
   const initialValues: StakeForm = { value: amount || null };
 
   return (
-    isMounted && (
-      <div className="flex flex-col gap-3">
-        <h2 className="text-lg">Select coin</h2>
-        <Select
-          id="select-coin"
-          styles={customSelectStyles}
-          value={coin}
-          onChange={handleCoinChange}
-          options={fromNetwork.coins}
-          getOptionLabel={(option) => option.chainName}
-          getOptionValue={(option) => option.symbol.toString()}
-          components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
-        />
-        <div className="flex flex-col gap-5">
-          <Formik
-            validationSchema={validationSchema}
-            initialValues={initialValues}
-            onSubmit={(values, formikHelpers) => submit(values, formikHelpers)}
-          >
-            {({ values, errors, handleChange, setFieldValue, resetForm }) => (
-              <Form noValidate={true}>
-                <div className="flex gap-4 flex-col">
-                  <div className="flex flex-col gap-4 items-start w-full">
-                    <div className="flex sm:flex-row flex-col gap-4 items-center w-full">
-                      <input
-                        type="number"
-                        name="value"
-                        placeholder="Amount"
-                        className="input input-bordered w-full"
-                        value={values.value || ""}
-                        disabled={!account}
-                        onChange={(e) => {
-                          resetForm();
-                          handleChange(e);
-                          setAmount(Number(e.target.value));
-                        }}
-                      />
-                      <Button
-                        type="button"
-                        color="primary"
-                        size="xs"
-                        disabled={!account}
-                        onClick={() => {
-                          setFieldValue("value", taraBalance?.toFixed());
-                          setAmount(Number(taraBalance?.toFixed()));
-                        }}
-                      >
-                        Max
-                      </Button>
-                    </div>
-                    {errors.value && (
-                      <p className="text-xs text-error uppercase">
-                        {errors.value?.toString()}
-                      </p>
-                    )}
-                  </div>
-                  <div className="w-full flex flex-col sm:flex-row justify-between gap-4">
-                    <Button className="flex-1" onClick={onBack}>
-                      Back
-                    </Button>
+    <div className="flex flex-col gap-3">
+      <h2 className="text-lg">Select coin</h2>
+      <Select
+        id="select-coin"
+        styles={customSelectStyles}
+        value={coin}
+        onChange={handleCoinChange}
+        options={coins}
+        components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
+      />
+      <div className="flex flex-col gap-5">
+        <Formik
+          validationSchema={validationSchema}
+          initialValues={initialValues}
+          onSubmit={(values, formikHelpers) => submit(values, formikHelpers)}
+        >
+          {({ values, errors, handleChange, setFieldValue, resetForm }) => (
+            <Form noValidate={true}>
+              <div className="flex gap-4 flex-col">
+                <div className="flex flex-col gap-4 items-start w-full">
+                  <div className="flex sm:flex-row flex-col gap-4 items-center w-full">
+                    <input
+                      type="number"
+                      name="value"
+                      placeholder="Amount"
+                      className="input input-bordered w-full"
+                      value={values.value || ""}
+                      disabled={!account}
+                      onChange={(e) => {
+                        resetForm();
+                        handleChange(e);
+                        setAmount(Number(e.target.value));
+                      }}
+                    />
                     <Button
-                      className="flex-1"
-                      type="submit"
+                      type="button"
                       color="primary"
-                      disabled={!coin || !amount}
+                      size="xs"
+                      disabled={!account}
+                      onClick={() => {
+                        setFieldValue("value", taraBalance?.toFixed());
+                        setAmount(Number(taraBalance?.toFixed()));
+                      }}
                     >
-                      Continue
+                      Max
                     </Button>
                   </div>
+                  {errors.value && (
+                    <p className="text-xs text-error uppercase">
+                      {errors.value?.toString()}
+                    </p>
+                  )}
                 </div>
-              </Form>
-            )}
-          </Formik>
-        </div>
+                <div className="w-full flex flex-col sm:flex-row justify-between gap-4">
+                  <Button fullWidth onClick={onBack}>
+                    Back
+                  </Button>
+                  <Button
+                    fullWidth
+                    type="submit"
+                    color="primary"
+                    disabled={!coin || !amount}
+                  >
+                    Continue
+                  </Button>
+                </div>
+              </div>
+            </Form>
+          )}
+        </Formik>
       </div>
-    )
+    </div>
   );
 };

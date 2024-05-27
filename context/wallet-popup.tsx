@@ -1,11 +1,9 @@
 import { ethers } from "ethers";
-import React, { useState, useContext, createContext } from "react";
+import React, { useContext, createContext } from "react";
 import { useConnection } from "../hooks/useConnection";
-import { MetamaskInfo } from "../components/modals";
 import { networks } from "../types/networks";
 import { ModalsActionsEnum, useModalsDispatch } from "./modal";
-import { TMetamaskInfo } from "./modal/types";
-import Button from "../components/ui/button";
+import { ButtonColorVariant } from "../components/ui/button";
 import { CheckIcon, CloseIcon } from "../components/ui/icons";
 
 export enum WalletPopupState {
@@ -21,23 +19,14 @@ type AsyncCallbackType = (
 ) => Promise<ethers.providers.TransactionResponse>;
 
 type Context = {
-  state: WalletPopupState;
-  modal: TMetamaskInfo;
   asyncCallback: (
     callback: AsyncCallbackType,
-    onSuccess?: () => void
+    onSuccess?: () => void,
+    onError?: () => void
   ) => Promise<void>;
 };
 
 const initialState: Context = {
-  state: WalletPopupState.DEFAULT,
-  modal: {
-    open: false,
-    title: "",
-    text: "",
-    message: "",
-    content: null,
-  },
   asyncCallback: async (callback) => {
     try {
       await callback();
@@ -51,17 +40,7 @@ const initialState: Context = {
 const WalletPopupContext = createContext<Context>(initialState);
 
 const useProvideWalletPopup = () => {
-  const [state, setState] = useState<WalletPopupState>(
-    WalletPopupState.DEFAULT
-  );
   const dispatchModals = useModalsDispatch();
-  const [modal, setModal] = useState<TMetamaskInfo>({
-    open: false,
-    title: "",
-    text: "",
-    message: "",
-    content: null,
-  });
   const { chainId } = useConnection();
 
   const handleClose = () => {
@@ -77,134 +56,155 @@ const useProvideWalletPopup = () => {
     });
   };
 
+  const dispatchModal = (
+    modalTitle: string,
+    modalContent: JSX.Element | null,
+    actionButtonColor: ButtonColorVariant | undefined
+  ) => {
+    dispatchModals({
+      type: ModalsActionsEnum.SHOW_METAMASK_INFO,
+      payload: {
+        open: true,
+        title: modalTitle,
+        text: "",
+        message: "",
+        content: modalContent,
+        actionButtonColor,
+      },
+    });
+  };
+
   const changeState = (
+    newState: WalletPopupState,
+    title?: string,
+    message?: string
+  ) => {
+    console.log("new State:", newState, "title:", title, "message:", message);
+    const modalTitle = getModalTitle(newState, title);
+    const modalContent = getModalContent(newState, title, message);
+    const actionButtonColor: ButtonColorVariant | undefined =
+      newState === WalletPopupState.ERROR
+        ? "danger"
+        : newState === WalletPopupState.SUCCESS
+        ? "primary"
+        : undefined;
+    dispatchModal(modalTitle, modalContent, actionButtonColor);
+  };
+
+  const getModalTitle = (state: WalletPopupState, title?: string): string => {
+    if (title) {
+      return title;
+    }
+    switch (state) {
+      case WalletPopupState.ACTION:
+        return "Metamask action required";
+      case WalletPopupState.LOADING:
+        return "Loading";
+      case WalletPopupState.ERROR:
+        return "Error";
+      case WalletPopupState.SUCCESS:
+        return "Success";
+      default:
+        return "Info";
+    }
+  };
+
+  const getModalContent = (
     state: WalletPopupState,
     title?: string,
     message?: string
-  ): void => {
-    setState(state);
-    let modalTitle: string;
-    let modalContent: JSX.Element | null;
+  ): JSX.Element | null => {
     switch (state) {
       case WalletPopupState.ACTION:
-        modalTitle = title || "Metamask action required";
-        modalContent = (
-          <div className="delegateNodeModalSuccess">
+        return (
+          <div className="w-full flex flex-col gap-4 items-center justify-center">
             <h2 className="text-xl">{message || "Action required"}</h2>
-            <div className="walletSVG">
-              <MetamaskInfo />
-            </div>
+            <span className="loading loading-bars loading-lg"></span>
             <p className="text-success" style={{ wordBreak: "break-word" }}>
               Please check your Wallet!
             </p>
           </div>
         );
-        break;
       case WalletPopupState.LOADING:
-        modalTitle = title || "Loading";
-        modalContent = (
-          <div className="delegateNodeModalSuccess">
-            <h2 className="text-xl text-danger">
-              {message || "Waiting for confirmation"}
-            </h2>
-            <span className="loading loading-bars loading-md"></span>
+        return (
+          <div className="w-full flex flex-col gap-4 items-center justify-center">
+            <h2 className="text-xl">{message || "Waiting for confirmation"}</h2>
+            <span className="loading loading-bars loading-lg"></span>
             <p className="text-success" style={{ wordBreak: "break-word" }}>
               Please wait until the action is performed
             </p>
           </div>
         );
-        break;
       case WalletPopupState.ERROR:
-        modalTitle = title || "Error";
-        modalContent = (
-          <div className="">
-            <p className="text-danger">{title || "Error"}</p>
-            <div className="successIcon">
-              <CloseIcon />
+        return (
+          <div className="w-full flex flex-col gap-4 items-center justify-center">
+            <div className="flex gap-2">
+              <CloseIcon className="text-error" />
+              <h2 className="text-xl text-error">{title || "Error"}</h2>
             </div>
-            <p className="successText" style={{ wordBreak: "break-all" }}>
+            <p className="text-error" style={{ wordBreak: "break-all" }}>
               {message || "An error occurred"}
             </p>
-            <Button type="button" className="w-full" onClick={handleClose}>
-              Close
-            </Button>
           </div>
         );
-        break;
       case WalletPopupState.SUCCESS:
-        modalTitle = title || "Success";
-        modalContent = (
-          <div className="">
-            <p className="text-success">{title || "Success"}</p>
-            <div className="successIcon">
-              <CheckIcon />
+        return (
+          <div className="w-full flex flex-col gap-4 items-center justify-center">
+            <div className="flex gap-2">
+              <CheckIcon className="text-success" />
+              <p className="text-xl text-primary">
+                Action performed successfully
+              </p>
             </div>
-            <p className="successText">Action performed successfully</p>
             {chainId && message && (
-              <>
+              <div className="flex flex-col gap-2">
                 <p>You can view the transaction here:</p>
                 <a
-                  href={`${networks[chainId].blockExplorerUrl}/tx/${message}`}
+                  href={`${networks[chainId].blockExplorerUrl}tx/${message}`}
                   rel="noreferrer"
                   target="_blank"
-                  style={{ textDecoration: "none" }}
+                  className="text-primary hover:underline"
                 >
-                  <p style={{ wordBreak: "break-all" }}>{message}</p>
+                  <p
+                    className="text-primary"
+                    style={{ wordBreak: "break-all" }}
+                  >
+                    {`${networks[chainId].blockExplorerUrl}tx/${message}`}
+                  </p>
                 </a>
-              </>
+              </div>
             )}
-            <Button
-              type="button"
-              color="secondary"
-              className="w-full"
-              onClick={handleClose}
-            >
-              Close
-            </Button>
           </div>
         );
-        break;
       default:
-        modalTitle = "";
-        modalContent = null;
+        return null;
     }
-
-    dispatchModals({
-      type: ModalsActionsEnum.SHOW_METAMASK_INFO,
-      payload: {
-        open: state !== WalletPopupState.DEFAULT,
-        title: modalTitle,
-        text: "",
-        message: "",
-        content: modalContent,
-      },
-    });
   };
 
   const asyncCallback = async (
     callback: AsyncCallbackType,
-    onSuccess?: () => void
+    onSuccess?: () => void,
+    onError?: () => void
   ) => {
-    if (typeof callback !== "function") return;
     changeState(WalletPopupState.ACTION);
     try {
       const res = await callback();
       changeState(WalletPopupState.LOADING);
       const tx = await res.wait();
       changeState(WalletPopupState.SUCCESS, "", tx?.transactionHash);
+      if (onSuccess) onSuccess();
     } catch (error: any) {
-      // eslint-disable-next-line no-console
       console.error("Error:", error);
-      changeState(WalletPopupState.ERROR, "Error", `${error.message}`);
-    }
-    if (typeof onSuccess === "function") {
-      onSuccess();
+      const errorMessage = error.reason
+        ? error.reason.split(":").pop()?.trim()
+        : error.message;
+      console.error("Error:", errorMessage);
+      changeState(WalletPopupState.ERROR, "Error", `${errorMessage}`);
+      if (onError) onError();
     }
   };
 
   return {
-    state,
-    modal,
     handleClose,
     asyncCallback,
   };

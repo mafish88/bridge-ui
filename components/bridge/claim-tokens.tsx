@@ -1,4 +1,3 @@
-import { useIsMounted } from "@/hooks/useIsMounted";
 import { Claim, useGetClaims } from "../../hooks/useGetClaims";
 import Button from "../ui/button";
 import { useMemo, useState } from "react";
@@ -12,7 +11,6 @@ export type ClaimTokensProps = {
 };
 
 export const ClaimTokens = ({ onContinue, onBack }: ClaimTokensProps) => {
-  const isMounted = useIsMounted();
   const { isLoading, claims } = useGetClaims();
   const [sortDescriptor, setSortDescriptor] = useState<{
     column: keyof Claim;
@@ -50,28 +48,26 @@ export const ClaimTokens = ({ onContinue, onBack }: ClaimTokensProps) => {
   };
 
   return (
-    isMounted && (
-      <div className="flex flex-col gap-3">
-        <h2 className="text-lg">Available claims</h2>
-        {isLoading ? (
-          <div className="flex items-center justify-center h-64">
-            <span className="loading loading-bars loading-lg"></span>
-          </div>
-        ) : (
-          <Table
-            columns={columns}
-            data={tableData}
-            onSortChange={(key, direction) =>
-              handleSortChange(key as keyof Claim, direction)
-            }
-          />
-        )}
-        <div className="w-full flex flex-col sm:flex-row justify-between gap-4">
-          <Button className="flex-1" onClick={onBack}>
-            Back
-          </Button>
+    <div className="flex flex-col gap-3">
+      <h2 className="text-lg">Available claims</h2>
+      {isLoading ? (
+        <div className="flex items-center justify-center h-64">
+          <span className="loading loading-bars loading-lg"></span>
         </div>
+      ) : (
+        <Table
+          columns={columns}
+          data={tableData}
+          onSortChange={(key, direction) =>
+            handleSortChange(key as keyof Claim, direction)
+          }
+        />
+      )}
+      <div className="w-full flex flex-col sm:flex-row justify-between gap-4">
+        <Button fullWidth onClick={onBack}>
+          Back
+        </Button>
       </div>
-    )
+    </div>
   );
 };

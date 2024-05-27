@@ -10,15 +10,14 @@ export const DarkMode = () => {
       <input
         type="checkbox"
         checked={theme === "dark"}
-        onChange={() => {
-          const newTheme = theme === "dark" ? "light" : "dark";
-          toggleTheme(newTheme);
-        }}
+        onChange={() => toggleTheme()}
       />
 
       {/* Sun icon - shown when the checkbox is not checked (light mode) */}
       <svg
-        className="swap-off fill-current w-[24px] h-[24px] hover:text-primary"
+        className={`swap-off fill-current w-[24px] h-[24px] hover:text-primary ${
+          theme === "dark" ? "invisible" : "visible"
+        }`}
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
       >
@@ -27,7 +26,9 @@ export const DarkMode = () => {
 
       {/* Moon icon - shown when the checkbox is checked (dark mode) */}
       <svg
-        className="swap-on fill-current w-[24px] h-[24px] hover:text-primary"
+        className={`swap-on fill-current w-[24px] h-[24px] hover:text-primary ${
+          theme === "light" ? "invisible" : "visible"
+        }`}
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
       >

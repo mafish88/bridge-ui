@@ -4,8 +4,6 @@ import { MetamaskIcon } from "./ui/icons";
 import Button, { ButtonColorVariant, ButtonSizeVariant } from "./ui/button";
 import { useConnection } from "@/hooks/useConnection";
 import WrongNetwork from "./wrong-network";
-import { useBalance } from "../hooks/useBalance";
-import { useBridgeNetwork } from "../context/bridge-network";
 
 export type WalletActionBtn = {
   action: () => void;
@@ -14,7 +12,7 @@ export type WalletActionBtn = {
   btnColor?: ButtonColorVariant;
   isLoading?: boolean;
   size?: ButtonSizeVariant;
-  className?: string;
+  fullWidth?: boolean;
 };
 
 export type WalletProps = {
@@ -22,7 +20,7 @@ export type WalletProps = {
 };
 
 export const Wallet = ({ actionBtn }: WalletProps) => {
-  const { status, connect, account, isOnWrongChain } = useConnection();
+  const { status, connect, isOnWrongChain } = useConnection();
 
   if (status === "notConnected") {
     return (
@@ -55,17 +53,15 @@ export const Wallet = ({ actionBtn }: WalletProps) => {
   if (actionBtn) {
     return (
       <Button
+        fullWidth={actionBtn.fullWidth}
         onClick={actionBtn.action}
         color={actionBtn.btnColor || "secondary"}
         size={actionBtn.size}
         disabled={!!actionBtn.disabled}
-        className={actionBtn.className}
       >
         {actionBtn.btnName}
         {!!actionBtn.isLoading && (
-          <span
-            className={`loading loading-dots loading-lg ${actionBtn.className}`}
-          ></span>
+          <span className={`loading loading-dots loading-lg`}></span>
         )}
       </Button>
     );
