@@ -10,15 +10,12 @@ export const useGetFeeToClaim = (address: string) => {
 
   useEffect(() => {
     const feeToClaim = async (address: string) => {
-      try {
-        return taraConnectorContract
-          ? await taraConnectorContract.feeToClaim(address)
-          : null;
-      } catch (error: any) {
-        console.error(error);
-        throw error;
+      if (!taraConnectorContract) {
+        return;
       }
+      return await taraConnectorContract.feeToClaim(address);
     };
+
     if (taraConnectorContract && account && address && !isOnWrongChain) {
       feeToClaim(address)
         .then((response) => {
