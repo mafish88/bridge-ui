@@ -169,7 +169,7 @@ const useProvideWalletPopup = () => {
                     className="text-primary"
                     style={{ wordBreak: "break-all" }}
                   >
-                    {message}
+                    {`${networks[chainId].blockExplorerUrl}/tx/${message}`}
                   </p>
                 </a>
               </div>

@@ -74,7 +74,7 @@ export const networks: Networks = {
   200: {
     chainId: 200,
     chainName: "Taraxa PRnet",
-    rpcUrl: "https://rpc-pr-2618.prnet.taraxa.io",
+    rpcUrl: "https://rpc-pr-2756.prnet.taraxa.io",
     iconUrl: "https://community.taraxa.io/logo192.png",
     blockExplorerUrl: "https://devnet.explorer.taraxa.io/",
     nativeCurrency: {
