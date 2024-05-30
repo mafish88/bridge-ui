@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "bridge-ui.fullname" . }}
+  labels:
+    {{- include "bridge-ui.labels" . | nindent 4 }}
+data:
+  NEXT_PUBLIC_TARA_CONNECTOR_ADDRESS: {{ .Values.app.taraConnectorAddress | quote }}
+  NEXT_PUBLIC_ETH_CONNECTOR_ADDRESS: {{ .Values.app.ethConnectorAddress | quote }}
+  NEXT_PUBLIC_TARA_ERC20_LOCKING_CONNECTOR_ADDRESS: {{ .Values.app.taraErc20LockingConnectorAddress | quote }}
+  NEXT_PUBLIC_ETH_ERC20_LOCKING_CONNECTOR_ADDRESS: {{ .Values.app.ethErc20LockingConnectorAddress | quote }}
+  NEXT_PUBLIC_TARA_ERC20_MINTING_CONNECTOR_ADDRESS: {{ .Values.app.taraErc20MintingConnectorAddress | quote }}
+  NEXT_PUBLIC_ETH_ERC20_MINTING_CONNECTOR_ADDRESS: {{ .Values.app.ethErc20MintingConnectorAddress | quote }}
+  NEXT_PUBLIC_ETH_BRIDGE_ADDRESS: {{ .Values.app.ethBridgeAddress | quote }}
+  NEXT_PUBLIC_TARA_BRIDGE_ADDRESS: {{ .Values.app.taraBridgeAddress | quote }}
+  NEXT_PUBLIC_WTARA_TOKEN_ADDRESS: {{ .Values.app.wtaraTokenAddress | quote }}
+  NEXT_PUBLIC_WETH_TOKEN_ADDRESS: {{ .Values.app.wethTokenAddress | quote }}

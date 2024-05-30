@@ -16,6 +16,9 @@ export const ethConnectorAddress: string =
 export const wrappedTaraxaTokenAddress: string =
   process.env.NEXT_PUBLIC_WTARA_TOKEN_ADDRESS || "";
 
+export const wrappedEthTokenAddress: string =
+  process.env.NEXT_PUBLIC_WETH_TOKEN_ADDRESS || "";
+
 export const TARA_CHAIN_ID = 200;
 export const ETH_CHAIN_ID = 17000;
 
