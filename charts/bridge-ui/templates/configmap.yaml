@@ -5,13 +5,13 @@ metadata:
   labels:
     {{- include "bridge-ui.labels" . | nindent 4 }}
 data:
-  NEXT_PUBLIC_TARA_CONNECTOR_ADDRESS: {{ .Values.app.taraConnectorAddress | quote }}
-  NEXT_PUBLIC_ETH_CONNECTOR_ADDRESS: {{ .Values.app.ethConnectorAddress | quote }}
-  NEXT_PUBLIC_TARA_ERC20_LOCKING_CONNECTOR_ADDRESS: {{ .Values.app.taraErc20LockingConnectorAddress | quote }}
-  NEXT_PUBLIC_ETH_ERC20_LOCKING_CONNECTOR_ADDRESS: {{ .Values.app.ethErc20LockingConnectorAddress | quote }}
-  NEXT_PUBLIC_TARA_ERC20_MINTING_CONNECTOR_ADDRESS: {{ .Values.app.taraErc20MintingConnectorAddress | quote }}
-  NEXT_PUBLIC_ETH_ERC20_MINTING_CONNECTOR_ADDRESS: {{ .Values.app.ethErc20MintingConnectorAddress | quote }}
-  NEXT_PUBLIC_ETH_BRIDGE_ADDRESS: {{ .Values.app.ethBridgeAddress | quote }}
-  NEXT_PUBLIC_TARA_BRIDGE_ADDRESS: {{ .Values.app.taraBridgeAddress | quote }}
-  NEXT_PUBLIC_WTARA_TOKEN_ADDRESS: {{ .Values.app.wtaraTokenAddress | quote }}
-  NEXT_PUBLIC_WETH_TOKEN_ADDRESS: {{ .Values.app.wethTokenAddress | quote }}
+  TARA_CONNECTOR_ADDRESS: {{ .Values.app.taraConnectorAddress | quote }}
+  ETH_CONNECTOR_ADDRESS: {{ .Values.app.ethConnectorAddress | quote }}
+  TARA_ERC20_LOCKING_CONNECTOR_ADDRESS: {{ .Values.app.taraErc20LockingConnectorAddress | quote }}
+  ETH_ERC20_LOCKING_CONNECTOR_ADDRESS: {{ .Values.app.ethErc20LockingConnectorAddress | quote }}
+  TARA_ERC20_MINTING_CONNECTOR_ADDRESS: {{ .Values.app.taraErc20MintingConnectorAddress | quote }}
+  ETH_ERC20_MINTING_CONNECTOR_ADDRESS: {{ .Values.app.ethErc20MintingConnectorAddress | quote }}
+  ETH_BRIDGE_ADDRESS: {{ .Values.app.ethBridgeAddress | quote }}
+  TARA_BRIDGE_ADDRESS: {{ .Values.app.taraBridgeAddress | quote }}
+  WTARA_TOKEN_ADDRESS: {{ .Values.app.wtaraTokenAddress | quote }}
+  WETH_TOKEN_ADDRESS: {{ .Values.app.wethTokenAddress | quote }}
