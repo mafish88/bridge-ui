@@ -79,7 +79,6 @@ const useProvideWalletPopup = () => {
     title?: string,
     message?: string
   ) => {
-    console.log("new State:", newState, "title:", title, "message:", message);
     const modalTitle = getModalTitle(newState, title);
     const modalContent = getModalContent(newState, title, message);
     const actionButtonColor: ButtonColorVariant | undefined =

@@ -1,14 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
-import { useNetworkProviders } from "./useNetworkProviders";
+import { useEffect, useState } from "react";
 import { useBridgeNetwork } from "../context/bridge-network";
-import {
-  ETH_CHAIN_ID,
-  TARA_CHAIN_ID,
-  ethBridge,
-  taraBridge,
-} from "../types/addresses";
+
 import { ethers } from "ethers";
-import { ABIs } from "../types/abis";
+import { useBridgeContract } from "./useBridgeContract";
 
 export interface BlockInfo {
   currentBlockNumber: number;
@@ -18,28 +12,6 @@ export interface BlockInfo {
   status: string;
   error: string;
 }
-type AddressDetails = {
-  chainId: number;
-  contractAddress: string;
-  seconds: number;
-};
-
-type ChainAddress = {
-  [chainId: number]: AddressDetails;
-};
-
-const chainAddresses: ChainAddress = {
-  [TARA_CHAIN_ID]: {
-    chainId: TARA_CHAIN_ID,
-    contractAddress: taraBridge,
-    seconds: 10,
-  },
-  [ETH_CHAIN_ID]: {
-    chainId: ETH_CHAIN_ID,
-    contractAddress: ethBridge,
-    seconds: 4,
-  },
-};
 
 export const useLastFinalizedBlock = () => {
   const [blockInfo, setBlockInfo] = useState<BlockInfo>({
@@ -50,32 +22,9 @@ export const useLastFinalizedBlock = () => {
     status: "",
     error: "",
   });
-  const [isLoading, setIsLoading] = useState(false);
-  const { networkProviders } = useNetworkProviders();
   const { toNetwork } = useBridgeNetwork();
-
-  const provider = networkProviders[toNetwork.chainId];
-  const config = chainAddresses[toNetwork.chainId];
-
-  const getBridgeContract = useCallback(async () => {
-    if (!provider || !ethers.utils.isAddress(config.contractAddress)) {
-      console.error("Invalid provider or contract address.");
-      return;
-    }
-
-    try {
-      const abi = JSON.parse(ABIs.Bridge.abi);
-      const contract = new ethers.Contract(
-        config.contractAddress,
-        abi,
-        provider
-      );
-      console.log("Contract initialized:", contract);
-      return contract;
-    } catch (error) {
-      console.error("Error creating contract instance:", error);
-    }
-  }, [provider, config.contractAddress]);
+  const { getBridgeContract, config, provider } = useBridgeContract(toNetwork);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchLastFinalizedBlock = async () => {

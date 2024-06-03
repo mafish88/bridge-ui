@@ -1,10 +1,10 @@
-import { BridgeToggleType, useBridgeNetwork } from "../context/bridge-network";
+import { useBridgeNetwork } from "../context/bridge-network";
 import { useBurnErc20 } from "./useBurnErc20";
 import { useLockErc20 } from "./useLockErc20";
 import { useLockNative } from "./useLockNative";
 
 export const useBridge = () => {
-  const { coin, setToggleValue } = useBridgeNetwork();
+  const { coin } = useBridgeNetwork();
   const { lock: lockNative, isLoading: isLoadingNative } = useLockNative();
   const { lock: lockErc20, isLoading: isLoadingErc20 } = useLockErc20();
   const { burn, isLoading: isLoadingBurnErc20 } = useBurnErc20();
@@ -20,12 +20,8 @@ export const useBridge = () => {
     ? isLoadingBurnErc20
     : isLoadingErc20;
 
-  const onBridgeSuccess = () => {
-    setToggleValue(BridgeToggleType.CLAIM);
-  };
-
-  const onBridge = async (amount: number) => {
-    await lock(amount, onBridgeSuccess);
+  const onBridge = async (amount: number, onSuccess: () => void) => {
+    await lock(amount, onSuccess);
   };
 
   return {

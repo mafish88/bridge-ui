@@ -24,3 +24,5 @@ export const ETH_CHAIN_ID = 17000;
 
 export const ethBridge = process.env.NEXT_PUBLIC_ETH_BRIDGE_ADDRESS || "";
 export const taraBridge = process.env.NEXT_PUBLIC_TARA_BRIDGE_ADDRESS || "";
+
+export const graphqlApi = process.env.NEXT_PUBLIC_GRAPHQL_API || "";

@@ -1,4 +1,4 @@
-import { useBridgeNetwork } from "@/context/bridge-network";
+import { BridgeToggleType, useBridgeNetwork } from "@/context/bridge-network";
 import Button from "../ui/button";
 import { Wallet } from "../wallet";
 import { useBridge } from "../../hooks/useBridge";
@@ -8,11 +8,26 @@ export type SummaryProps = {
 };
 
 export const Summary = ({ onBack }: SummaryProps) => {
-  const { coin, amount } = useBridgeNetwork();
+  const {
+    coin,
+    amount,
+    setToggleValue,
+    fromNetwork,
+    toNetwork,
+    setFromNetwork,
+    setToNetwork,
+  } = useBridgeNetwork();
   const { onBridge, isLoading } = useBridge();
 
+  const onBridgeSuccess = () => {
+    setToggleValue(BridgeToggleType.CLAIM);
+    const tempNetwork = fromNetwork;
+    setFromNetwork(toNetwork);
+    setToNetwork(tempNetwork);
+  };
+
   const onConfirm = async () => {
-    await onBridge(amount);
+    await onBridge(amount, onBridgeSuccess);
   };
 
   return (

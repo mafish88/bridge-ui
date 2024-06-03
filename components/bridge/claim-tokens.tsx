@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Table, { TableColumn } from "../ui/table";
 import { sort } from "../../utils/sort";
 import { DateTime } from "luxon";
+import { useClaimEvents } from "../../hooks/useClaimAccruedEvents";
 
 export type ClaimTokensProps = {
   onBack: () => void;
@@ -12,6 +13,7 @@ export type ClaimTokensProps = {
 
 export const ClaimTokens = ({ onContinue, onBack }: ClaimTokensProps) => {
   const { isLoading, claims } = useGetClaims();
+  const { claims: claimEvents } = useClaimEvents();
   const [sortDescriptor, setSortDescriptor] = useState<{
     column: keyof Claim;
     direction: "ascending" | "descending";
