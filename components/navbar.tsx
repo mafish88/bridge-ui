@@ -6,7 +6,7 @@ import { WalletAddress } from "./wallet-address";
 export const Navbar = () => {
   return (
     <nav className="bg-transparent">
-      <div className="mx-auto container max-w-10xl px- sm:px-6 lg:px-8">
+      <div className="mx-auto container py-6 sm:px-6 lg:px-8">
         <div className="relative flex h-[60px] items-center justify-between">
           <div className="flex items-center justify-start">
             <Link
@@ -15,6 +15,7 @@ export const Navbar = () => {
             >
               <div className="flex flex-shrink-0 items-center gap-3">
                 <TaraxaIcon size={43} />
+                <h1 className="font-semibold text-2xl">Ficus Root Bridge</h1>
               </div>
             </Link>
           </div>
