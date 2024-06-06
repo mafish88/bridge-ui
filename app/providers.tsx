@@ -13,10 +13,10 @@ import {
 } from "urql";
 import { graphqlApi } from "../types/addresses";
 
-export const graphQLClient = urqlCreatClient({
-  url: graphqlApi,
-  exchanges: [],
-});
+// export const graphQLClient = urqlCreatClient({
+//   url: graphqlApi,
+//   exchanges: [],
+// });
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -27,12 +27,12 @@ export function Providers({ children }: ProvidersProps) {
     <MetaMaskProvider>
       <BridgeNetworkProvider>
         <DynamicThemeWrapper>
-          <UrqlProvider value={graphQLClient}>
-            <ModalsProvider>
-              <WalletPopupProvider>{children}</WalletPopupProvider>
-              <ModalsCenter />
-            </ModalsProvider>
-          </UrqlProvider>
+          {/* <UrqlProvider value={graphQLClient}> */}
+          <ModalsProvider>
+            <WalletPopupProvider>{children}</WalletPopupProvider>
+            <ModalsCenter />
+          </ModalsProvider>
+          {/* </UrqlProvider> */}
         </DynamicThemeWrapper>
       </BridgeNetworkProvider>
     </MetaMaskProvider>
