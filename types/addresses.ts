@@ -19,7 +19,7 @@ export const wrappedTaraxaTokenAddress: string =
 export const wrappedEthTokenAddress: string =
   process.env.NEXT_PUBLIC_WETH_TOKEN_ADDRESS || "";
 
-export const TARA_CHAIN_ID = 200;
+export const TARA_CHAIN_ID = 843;
 export const ETH_CHAIN_ID = 17000;
 
 export const ethBridge = process.env.NEXT_PUBLIC_ETH_BRIDGE_ADDRESS || "";
