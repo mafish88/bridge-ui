@@ -3,6 +3,8 @@ import {
   ETH_CHAIN_ID,
   TARA_CHAIN_ID,
   erc20EthMintingConnectorAddress,
+  erc20TaraMintingConnectorAddress,
+  ethConnectorAddress,
   taraConnectorAddress,
 } from "@/types/addresses";
 
@@ -58,6 +60,7 @@ export const coinConfigs: CoinConfig = {
       isNative: true,
       baseNetwork: ETH_CHAIN_ID,
       isImageTall: true,
+      connectorAddress: ethConnectorAddress,
       connectorType: "Native",
     },
     {
@@ -69,7 +72,7 @@ export const coinConfigs: CoinConfig = {
       baseNetwork: ETH_CHAIN_ID,
       isImageTall: false,
       deployAddress: "0x3E02bDF20b8aFb2fF8EA73ef5419679722955074",
-      connectorAddress: "0x", // This should be updated if there's a specific connector for minting
+      connectorAddress: erc20TaraMintingConnectorAddress,
       connectorType: "Minting",
     },
   ],

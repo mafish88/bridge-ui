@@ -46,7 +46,7 @@ export const ClaimTokens = ({ onContinue, onBack }: ClaimTokensProps) => {
   const [sortDescriptor, setSortDescriptor] = useState<{
     column: keyof Claim;
     direction: "ascending" | "descending";
-  }>({ column: "timestamp", direction: "descending" });
+  }>({ column: "timestamp", direction: "ascending" });
 
   const columns: TableColumn[] = [
     { key: "token", title: "Token", allowsSorting: true },
@@ -84,10 +84,15 @@ export const ClaimTokens = ({ onContinue, onBack }: ClaimTokensProps) => {
       DateTime.DATE_MED
     ),
     amount: item.amount
-      ? utils.formatUnits(item.amount, item.coin.decimals || 18).slice(0, 8)
+      ? utils.formatUnits(item.amount, item.coin?.decimals || 18).slice(0, 8)
       : "0",
     claim: item.timestamp ? (
-      <span className="text-green-500">Claimed</span>
+      <span className="text-primary">
+        Claimed at{" "}
+        {DateTime.fromSeconds(item.timestamp).toLocaleString(
+          DateTime.DATETIME_MED
+        )}
+      </span>
     ) : (
       <Button color="primary" size="sm" onClick={() => onContinue(item)}>
         Claim
