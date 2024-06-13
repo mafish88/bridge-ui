@@ -3,11 +3,6 @@ export const erc20TaraMintingConnectorAddress: string =
 export const erc20EthMintingConnectorAddress: string =
   process.env.NEXT_PUBLIC_ETH_ERC20_MINTING_CONNECTOR_ADDRESS || "";
 
-export const erc20TaraLockingConnectorAddress: string =
-  process.env.NEXT_PUBLIC_TARA_ERC20_LOCKING_CONNECTOR_ADDRESS || "";
-export const erc20EthLockingConnectorAddress: string =
-  process.env.NEXT_PUBLIC_ETH_ERC20_LOCKING_CONNECTOR_ADDRESS || "";
-
 export const taraConnectorAddress: string =
   process.env.NEXT_PUBLIC_TARA_CONNECTOR_ADDRESS || "";
 export const ethConnectorAddress: string =

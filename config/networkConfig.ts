@@ -5,14 +5,11 @@ import {
   ethConnectorAddress,
   erc20TaraMintingConnectorAddress,
   erc20EthMintingConnectorAddress,
-  erc20TaraLockingConnectorAddress,
-  erc20EthLockingConnectorAddress,
 } from "@/types/addresses";
 
 type ConnectorAddresses = {
   native: string;
   erc20Minting: string;
-  erc20Locking: string;
 };
 
 type NetworkConfig = {
@@ -30,7 +27,6 @@ export const networkConfigs: NetworkConfigs = {
     connectorAddresses: {
       native: taraConnectorAddress,
       erc20Minting: erc20TaraMintingConnectorAddress,
-      erc20Locking: erc20TaraLockingConnectorAddress,
     },
   },
   [ETH_CHAIN_ID]: {
@@ -38,7 +34,6 @@ export const networkConfigs: NetworkConfigs = {
     connectorAddresses: {
       native: ethConnectorAddress,
       erc20Minting: erc20EthMintingConnectorAddress,
-      erc20Locking: erc20EthLockingConnectorAddress,
     },
   },
 };

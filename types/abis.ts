@@ -22,6 +22,13 @@ export const ABIs: { [key: string]: contractABI } = {
         stateMutability: "payable",
       },
       {
+        type: "function",
+        name: "lock",
+        inputs: [],
+        outputs: [],
+        stateMutability: "payable",
+      },
+      {
         type: "event",
         name: "Burned",
         inputs: [
@@ -39,88 +46,6 @@ export const ABIs: { [key: string]: contractABI } = {
           },
         ],
         anonymous: false,
-      },
-      {
-        type: "event",
-        name: "ClaimAccrued",
-        inputs: [
-          {
-            name: "account",
-            type: "address",
-            indexed: true,
-            internalType: "address",
-          },
-          {
-            name: "value",
-            type: "uint256",
-            indexed: false,
-            internalType: "uint256",
-          },
-        ],
-        anonymous: false,
-      },
-      {
-        type: "event",
-        name: "Claimed",
-        inputs: [
-          {
-            name: "account",
-            type: "address",
-            indexed: true,
-            internalType: "address",
-          },
-          {
-            name: "value",
-            type: "uint256",
-            indexed: false,
-            internalType: "uint256",
-          },
-        ],
-        anonymous: false,
-      },
-      {
-        type: "event",
-        name: "Funded",
-        inputs: [
-          {
-            name: "sender",
-            type: "address",
-            indexed: true,
-            internalType: "address",
-          },
-          {
-            name: "connectorBase",
-            type: "address",
-            indexed: true,
-            internalType: "address",
-          },
-          {
-            name: "amount",
-            type: "uint256",
-            indexed: false,
-            internalType: "uint256",
-          },
-        ],
-        anonymous: false,
-      },
-    ]),
-  },
-  ERC20LockingConnector: {
-    name: "ERC20LockingConnector",
-    abi: JSON.stringify([
-      {
-        type: "function",
-        name: "lock",
-        inputs: [],
-        outputs: [],
-        stateMutability: "payable",
-      },
-      {
-        type: "function",
-        name: "claim",
-        inputs: [],
-        outputs: [],
-        stateMutability: "payable",
       },
       {
         type: "event",

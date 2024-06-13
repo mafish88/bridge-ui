@@ -11,7 +11,7 @@ export interface Coin {
   deployAddress?: string;
   connectorAddress?: string;
   isImageTall?: boolean;
-  connectorType: "Minting" | "Locking" | "Native";
+  connectorType: "Minting" | "Native";
 }
 
 export interface CoinConfig {

@@ -7,8 +7,6 @@ metadata:
 data:
   TARA_CONNECTOR_ADDRESS: {{ .Values.app.taraConnectorAddress | quote }}
   ETH_CONNECTOR_ADDRESS: {{ .Values.app.ethConnectorAddress | quote }}
-  TARA_ERC20_LOCKING_CONNECTOR_ADDRESS: {{ .Values.app.taraErc20LockingConnectorAddress | quote }}
-  ETH_ERC20_LOCKING_CONNECTOR_ADDRESS: {{ .Values.app.ethErc20LockingConnectorAddress | quote }}
   TARA_ERC20_MINTING_CONNECTOR_ADDRESS: {{ .Values.app.taraErc20MintingConnectorAddress | quote }}
   ETH_ERC20_MINTING_CONNECTOR_ADDRESS: {{ .Values.app.ethErc20MintingConnectorAddress | quote }}
   ETH_BRIDGE_ADDRESS: {{ .Values.app.ethBridgeAddress | quote }}
