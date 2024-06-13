@@ -1,11 +1,11 @@
 import Button from "../ui/button";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Table, { TableColumn } from "../ui/table";
 import { sort } from "../../utils/sort";
 import { DateTime } from "luxon";
 import { useConnection } from "@/hooks/useConnection";
 import { useQuery } from "urql";
-import { Claim } from "@/types/claim";
+import { ApiBalance, ApiClaim, Claim, toClaim } from "@/types/claim";
 
 export type ClaimTokensProps = {
   onBack: () => void;
@@ -34,9 +34,8 @@ const CLAIMS_AND_BALANCES_QUERY = `
 
 export const ClaimTokens = ({ onContinue, onBack }: ClaimTokensProps) => {
   const { account } = useConnection();
-  const claims: Claim[] = [];
 
-  const [result] = useQuery({
+  const [{ data, fetching }] = useQuery({
     query: CLAIMS_AND_BALANCES_QUERY,
     variables: { account },
     pause: !account,
@@ -53,9 +52,19 @@ export const ClaimTokens = ({ onContinue, onBack }: ClaimTokensProps) => {
     { key: "claim", title: "Claim" },
   ];
 
-  const sortedData = useMemo(() => {
-    return sort([], sortDescriptor);
-  }, [sortDescriptor]);
+  if (fetching) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <span className="loading loading-bars loading-lg"></span>
+      </div>
+    );
+  }
+  let claims = [
+    ...data?.claims.map((claim: ApiClaim) => toClaim(claim)),
+    ...data?.balances.map((balance: ApiBalance) => toClaim(balance)),
+  ];
+
+  const sortedData = sort(claims, sortDescriptor);
 
   const tableData = sortedData.map((item) => ({
     ...item,
@@ -80,7 +89,7 @@ export const ClaimTokens = ({ onContinue, onBack }: ClaimTokensProps) => {
   return (
     <div className="flex flex-col gap-3">
       <h2 className="text-lg">Available claims</h2>
-      {result.fetching ? (
+      {fetching ? (
         <div className="flex items-center justify-center h-64">
           <span className="loading loading-bars loading-lg"></span>
         </div>
