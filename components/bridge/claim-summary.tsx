@@ -1,7 +1,7 @@
 import { Claim } from "@/types/claim";
 import Button from "../ui/button";
 import { Wallet } from "../wallet";
-import { ModalsActionsEnum, useModalsDispatch } from "@/context/modal";
+import { useClaim } from "@/hooks/useClaim";
 
 export type ClaimSummaryProps = {
   claim: Claim;
@@ -9,26 +9,7 @@ export type ClaimSummaryProps = {
 };
 
 export const ClaimSummary = ({ claim, onBack }: ClaimSummaryProps) => {
-  const dispatchModals = useModalsDispatch();
-
-  const onConfirm = () => {
-    // dispatchModals({
-    //   type: ModalsActionsEnum.SHOW_METAMASK_INFO,
-    //   payload: {
-    //     open: true,
-    //     title: "Subscribed successfully",
-    //     text: "Thank you for subscribing",
-    //   },
-    // });
-    // dispatchModals({
-    //   type: ModalsActionsEnum.SHOW_LOADING,
-    //   payload: {
-    //     open: true,
-    //     title: "Claiming",
-    //     text: ["Claiming your rewards..."],
-    //   },
-    // });
-  };
+  const { onClaim } = useClaim();
 
   return (
     <div className="flex flex-col gap-6">
@@ -46,7 +27,7 @@ export const ClaimSummary = ({ claim, onBack }: ClaimSummaryProps) => {
         <Wallet
           actionBtn={{
             disabled: !claim,
-            action: onConfirm,
+            action: onClaim,
             btnColor: "primary",
             btnName: "Confirm",
             fullWidth: true,

@@ -1,6 +1,5 @@
 import { ethers } from "ethers";
 import { useCallback, useEffect, useState } from "react";
-import { useContract } from "./useContract";
 import { useConnection } from "./useConnection";
 import { useWalletPopup } from "../context/wallet-popup";
 import { useBridgeNetwork } from "../context/bridge-network";
@@ -11,8 +10,6 @@ export const useClaimErc20 = () => {
   const { coin } = useBridgeNetwork();
   const { provider, signer } = useChain();
   const { account } = useConnection();
-  const { erc20MintingConnectorContract, taraConnectorContract } =
-    useContract();
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState<string>("");
   const [error, setError] = useState<string>("");
@@ -20,17 +17,17 @@ export const useClaimErc20 = () => {
 
   const onClaim = useCallback(
     async (account: string, contract: ethers.Contract) => {
-      const feeToClain = await taraConnectorContract!.feeToClaim(account);
+      const feeToClain = await contract!.feeToClaim(account);
       const valueInEther = ethers.utils.formatEther(feeToClain.toString());
       return await contract!.claim({
         value: ethers.utils.parseEther(valueInEther),
       });
     },
-    [taraConnectorContract]
+    []
   );
 
   const claim = async (onSuccess: () => void) => {
-    if (!taraConnectorContract || !erc20MintingConnectorContract || !account) {
+    if (!account) {
       setStatus("Fail");
       setError("Contract not available");
       return;

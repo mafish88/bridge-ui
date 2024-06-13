@@ -9,6 +9,13 @@ export const ABIs: { [key: string]: contractABI } = {
     abi: JSON.stringify([
       {
         type: "function",
+        name: "feeToClaim",
+        inputs: [{ name: "", type: "address", internalType: "address" }],
+        outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+        stateMutability: "view",
+      },
+      {
+        type: "function",
         name: "burn",
         inputs: [{ name: "amount", type: "uint256", internalType: "uint256" }],
         outputs: [],
@@ -334,6 +341,13 @@ export const ABIs: { [key: string]: contractABI } = {
   ClaimingConnector: {
     name: "ClaimingConnector",
     abi: JSON.stringify([
+      {
+        type: "function",
+        name: "feeToClaim",
+        inputs: [{ name: "", type: "address", internalType: "address" }],
+        outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+        stateMutability: "view",
+      },
       {
         type: "function",
         name: "claim",

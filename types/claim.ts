@@ -9,7 +9,7 @@ export type Claim = {
   txHash: string;
   status: "pending" | "completed" | "failed";
   timestamp: number | null;
-  coin: Coin | null;
+  coin: Coin;
 };
 
 export interface ApiBalance {

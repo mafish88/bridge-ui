@@ -20,7 +20,7 @@ import { Claim } from "@/types/claim";
 
 export const ClaimCard = () => {
   const [step, setStep] = useState<1 | 2 | 3>(1);
-  const { fromNetwork } = useBridgeNetwork();
+  const { fromNetwork, setCoin } = useBridgeNetwork();
   const [claim, setClaim] = useState<Claim | null>(null);
   const { blockInfo, isLoading } = useLastFinalizedBlock();
 
@@ -67,6 +67,7 @@ export const ClaimCard = () => {
 
   const onClaim = (claim: Claim) => {
     setClaim(claim);
+    setCoin(claim.coin);
     setStep(3);
   };
 
