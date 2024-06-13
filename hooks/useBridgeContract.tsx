@@ -1,6 +1,5 @@
 import { useCallback } from "react";
 import { useNetworkProviders } from "./useNetworkProviders";
-import { useBridgeNetwork } from "../context/bridge-network";
 import {
   ETH_CHAIN_ID,
   TARA_CHAIN_ID,

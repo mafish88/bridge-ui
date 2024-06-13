@@ -78,9 +78,7 @@ export const coinConfigs: CoinConfig = {
   ],
 };
 
-export const getTokenByConnectorAddress = (
-  connectorAddress: string
-): Coin | null => {
+export const getTokenByConnectorAddress = (connectorAddress: string): Coin => {
   for (const chainId in coinConfigs) {
     for (const coin of coinConfigs[chainId]) {
       if (
@@ -90,5 +88,5 @@ export const getTokenByConnectorAddress = (
       }
     }
   }
-  return null;
+  throw new Error(`No coin found with connector address: ${connectorAddress}`);
 };

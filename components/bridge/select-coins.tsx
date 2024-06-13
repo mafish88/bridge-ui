@@ -12,7 +12,6 @@ import { useBalance } from "@/hooks/useBalance";
 import dynamic from "next/dynamic";
 import { useCoins } from "@/hooks/useCoins";
 import { Coin } from "@/config/coinConfigs";
-import { useEffect } from "react";
 
 const Select = dynamic(() => import("react-select"), {
   ssr: false,
@@ -31,7 +30,6 @@ const validationSchema: Schema<StakeForm> = object()
     value: number()
       .required("Amount is required")
       .positive("Amount must be positive")
-      .integer("Amount must be an integer")
       .typeError("Amount must be a number"),
   })
   .defined();
@@ -95,8 +93,11 @@ export const SelectCoins = ({ onContinue, onBack }: SelectCoinsProps) => {
                       disabled={!account}
                       onChange={(e) => {
                         resetForm();
-                        handleChange(e);
-                        setAmount(Number(e.target.value));
+                        const value = e.target.value.replace(",", ".");
+                        handleChange({
+                          target: { name: e.target.name, value },
+                        });
+                        setAmount(Number(value));
                       }}
                     />
                     <Button

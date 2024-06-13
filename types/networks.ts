@@ -33,7 +33,7 @@ export const networks: Networks = {
       name: "TARA",
       symbol: "TARA",
       decimals: 18,
-    }
+    },
   },
   842: {
     chainId: 842,
@@ -45,7 +45,7 @@ export const networks: Networks = {
       name: "TARA",
       symbol: "TARA",
       decimals: 18,
-    }
+    },
   },
   843: {
     chainId: 843,
@@ -57,7 +57,7 @@ export const networks: Networks = {
       name: "TARA",
       symbol: "TARA",
       decimals: 18,
-    }
+    },
   },
   200: {
     chainId: 200,
@@ -69,7 +69,7 @@ export const networks: Networks = {
       name: "TARA",
       symbol: "TARA",
       decimals: 18,
-    }
+    },
   },
   1: {
     chainId: 1,
@@ -81,18 +81,18 @@ export const networks: Networks = {
       name: "Ether",
       symbol: "ETH",
       decimals: 18,
-    }
+    },
   },
   17000: {
     chainId: 17000,
     chainName: "Ethereum Holesky",
     rpcUrl: "https://ethereum-holesky-rpc.publicnode.com",
     iconUrl: "/ethereum-eth-logo-diamond-purple.svg",
-    blockExplorerUrl: "https://holesky.etherscan.io",
+    blockExplorerUrl: "https://holesky.etherscan.io/",
     nativeCurrency: {
       name: "Ether",
       symbol: "ETH",
       decimals: 18,
-    }
+    },
   },
 };

@@ -37,6 +37,6 @@ export const toClaim = (data: ApiClaim | ApiBalance): Claim => {
     status: "timestamp" in data && data.timestamp ? "completed" : "pending",
     timestamp:
       "timestamp" in data && data.timestamp ? Number(data.timestamp) : null,
-    coin: data.connector ? getTokenByConnectorAddress(data.connector) : null,
+    coin: getTokenByConnectorAddress(data.connector),
   };
 };

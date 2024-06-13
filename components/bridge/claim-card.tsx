@@ -1,7 +1,8 @@
 "use client";
 
-import { Card } from "../card";
+import { utils } from "ethers";
 import { useState } from "react";
+import { Card } from "../card";
 import { ClaimNetwork } from "./claim-network";
 import { SelectedNetwork } from "../selected-network";
 import { useBridgeNetwork } from "@/context/bridge-network";
@@ -57,6 +58,11 @@ export const ClaimCard = () => {
               <p>Claim Amount:</p>
               <div className="flex gap-2">
                 <p>{claim.amount}</p>
+                <p>
+                  {utils
+                    .formatUnits(claim.amount, claim.coin?.decimals || 18)
+                    .slice(0, 8)}
+                </p>
               </div>
             </div>
           )}
