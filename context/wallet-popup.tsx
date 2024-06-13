@@ -156,20 +156,15 @@ const useProvideWalletPopup = () => {
               </p>
             </div>
             {chainId && message && (
-              <div className="flex flex-col gap-2">
-                <p>You can view the transaction here:</p>
+              <div className="flex flex-row gap-2">
+                <p>You can view the transaction </p>
                 <a
                   href={`${networks[chainId].blockExplorerUrl}tx/${message}`}
                   rel="noreferrer"
                   target="_blank"
                   className="text-primary hover:underline"
                 >
-                  <p
-                    className="text-primary"
-                    style={{ wordBreak: "break-all" }}
-                  >
-                    {`${networks[chainId].blockExplorerUrl}tx/${message}`}
-                  </p>
+                  <span className="text-primary">here</span>
                 </a>
               </div>
             )}

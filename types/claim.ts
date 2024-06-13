@@ -1,12 +1,15 @@
+import { Coin, getTokenByConnectorAddress } from "../config/coinConfigs";
+
 export type Claim = {
   token: string;
-  amount: number;
+  amount: string;
   network: string;
   chainId: number;
   recipient: string;
   txHash: string;
   status: "pending" | "completed" | "failed";
-  timestamp: number;
+  timestamp: number | null;
+  coin: Coin | null;
 };
 
 export interface ApiBalance {
@@ -26,14 +29,14 @@ export const toClaim = (data: ApiClaim | ApiBalance): Claim => {
   const type = "tokenSource" in data ? "tokenSource" : "connector";
   return {
     token: data.connector,
-    amount: Number(data.amount),
+    amount: data.amount,
     network: "Ethereum",
     chainId: 1,
     recipient: data.address,
     txHash: "",
     status: "timestamp" in data && data.timestamp ? "completed" : "pending",
-    timestamp: Number(
-      "timestamp" in data && data.timestamp ? data.timestamp : Date.now()
-    ),
+    timestamp:
+      "timestamp" in data && data.timestamp ? Number(data.timestamp) : null,
+    coin: data.connector ? getTokenByConnectorAddress(data.connector) : null,
   };
 };

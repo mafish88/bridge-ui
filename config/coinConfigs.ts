@@ -1,5 +1,10 @@
 // Importing constants and types
-import { ETH_CHAIN_ID, TARA_CHAIN_ID } from "@/types/addresses";
+import {
+  ETH_CHAIN_ID,
+  TARA_CHAIN_ID,
+  erc20EthMintingConnectorAddress,
+  taraConnectorAddress,
+} from "@/types/addresses";
 
 export interface Coin {
   name: string;
@@ -28,6 +33,7 @@ export const coinConfigs: CoinConfig = {
       isNative: true,
       baseNetwork: TARA_CHAIN_ID,
       isImageTall: false,
+      connectorAddress: taraConnectorAddress,
       connectorType: "Native",
     },
     {
@@ -39,7 +45,7 @@ export const coinConfigs: CoinConfig = {
       baseNetwork: TARA_CHAIN_ID,
       isImageTall: true,
       deployAddress: "0x", // This should be updated with actual deploy address if available
-      connectorAddress: "0x", // This should be updated with actual connector address if available
+      connectorAddress: erc20EthMintingConnectorAddress,
       connectorType: "Minting",
     },
   ],
@@ -67,4 +73,19 @@ export const coinConfigs: CoinConfig = {
       connectorType: "Minting",
     },
   ],
+};
+
+export const getTokenByConnectorAddress = (
+  connectorAddress: string
+): Coin | null => {
+  for (const chainId in coinConfigs) {
+    for (const coin of coinConfigs[chainId]) {
+      if (
+        coin.connectorAddress?.toLowerCase() === connectorAddress.toLowerCase()
+      ) {
+        return coin;
+      }
+    }
+  }
+  return null;
 };

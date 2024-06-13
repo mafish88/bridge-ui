@@ -1,11 +1,13 @@
 import Button from "../ui/button";
 import { useState } from "react";
+import Image from "next/image";
 import Table, { TableColumn } from "../ui/table";
 import { sort } from "../../utils/sort";
 import { DateTime } from "luxon";
 import { useConnection } from "@/hooks/useConnection";
 import { useQuery } from "urql";
 import { ApiBalance, ApiClaim, Claim, toClaim } from "@/types/claim";
+import { utils } from "ethers";
 
 export type ClaimTokensProps = {
   onBack: () => void;
@@ -63,16 +65,30 @@ export const ClaimTokens = ({ onContinue, onBack }: ClaimTokensProps) => {
     ...data?.claims.map((claim: ApiClaim) => toClaim(claim)),
     ...data?.balances.map((balance: ApiBalance) => toClaim(balance)),
   ];
-
   const sortedData = sort(claims, sortDescriptor);
 
   const tableData = sortedData.map((item) => ({
     ...item,
+    token: item.coin ? (
+      <div className="flex items-center gap-4 h-[30px]">
+        <Image
+          src={item.coin.iconUrl || ""}
+          alt={item.coin.name || ""}
+          width={item.coin.isImageTall ? 20 : 30}
+          height={30}
+        />
+        {item.coin.symbol || item.coin.name}
+      </div>
+    ) : null,
     timestamp: DateTime.fromISO(item.timestamp).toLocaleString(
       DateTime.DATE_MED
     ),
-    amount: item.amount.toFixed(4),
-    claim: (
+    amount: item.amount
+      ? utils.formatUnits(item.amount, item.coin.decimals || 18).slice(0, 8)
+      : "0",
+    claim: item.timestamp ? (
+      <span className="text-green-500">Claimed</span>
+    ) : (
       <Button color="primary" size="sm" onClick={() => onContinue(item)}>
         Claim
       </Button>
