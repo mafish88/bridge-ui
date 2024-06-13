@@ -1,6 +1,6 @@
+import { Claim } from "@/types/claim";
 import Button from "../ui/button";
 import { Wallet } from "../wallet";
-import { Claim } from "@/hooks/useGetClaims";
 import { ModalsActionsEnum, useModalsDispatch } from "@/context/modal";
 
 export type ClaimSummaryProps = {

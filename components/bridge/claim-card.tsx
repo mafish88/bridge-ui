@@ -6,11 +6,17 @@ import { ClaimNetwork } from "./claim-network";
 import { SelectedNetwork } from "../selected-network";
 import { useBridgeNetwork } from "@/context/bridge-network";
 import { ClaimTokens } from "./claim-tokens";
-import { Claim } from "@/hooks/useGetClaims";
 import { ClaimSummary } from "./claim-summary";
 import { Countdown } from "./countdown-epoch";
 import { useLastFinalizedBlock } from "../../hooks/useLastFinalizedBlock";
-import { useNetworkProviders } from "../../hooks/useNetworkProviders";
+import {
+  ETH_CHAIN_ID,
+  TARA_CHAIN_ID,
+  graphqlApiEthereum,
+  graphqlApiTaraxa,
+} from "@/types/addresses";
+import { cacheExchange, createClient, fetchExchange, Provider } from "urql";
+import { Claim } from "@/types/claim";
 
 export const ClaimCard = () => {
   const [step, setStep] = useState<1 | 2 | 3>(1);
@@ -64,11 +70,32 @@ export const ClaimCard = () => {
     setStep(3);
   };
 
+  const ethereumClient = createClient({
+    url: graphqlApiEthereum,
+    exchanges: [cacheExchange, fetchExchange],
+  });
+
+  const taraxaClient = createClient({
+    url: graphqlApiTaraxa,
+    exchanges: [cacheExchange, fetchExchange],
+  });
+
   return (
     <Card className="p-10" showTopCard={showTopCard} topCardContent={topCard}>
       {step == 1 && <ClaimNetwork onContinue={() => setStep(2)} />}
       {step == 2 && (
-        <ClaimTokens onBack={() => setStep(1)} onContinue={onClaim} />
+        <>
+          {fromNetwork.chainId === ETH_CHAIN_ID && (
+            <Provider value={ethereumClient}>
+              <ClaimTokens onBack={() => setStep(1)} onContinue={onClaim} />
+            </Provider>
+          )}
+          {fromNetwork.chainId === TARA_CHAIN_ID && (
+            <Provider value={taraxaClient}>
+              <ClaimTokens onBack={() => setStep(1)} onContinue={onClaim} />
+            </Provider>
+          )}
+        </>
       )}
       {step == 3 && claim && (
         <div className="flex flex-col gap-5">

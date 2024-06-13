@@ -1,19 +1,47 @@
-import { Claim, useGetClaims } from "../../hooks/useGetClaims";
 import Button from "../ui/button";
 import { useMemo, useState } from "react";
 import Table, { TableColumn } from "../ui/table";
 import { sort } from "../../utils/sort";
 import { DateTime } from "luxon";
-import { useClaimEvents } from "../../hooks/useClaimAccruedEvents";
+import { useConnection } from "@/hooks/useConnection";
+import { useQuery } from "urql";
+import { Claim } from "@/types/claim";
 
 export type ClaimTokensProps = {
   onBack: () => void;
   onContinue: (claim: Claim) => void;
 };
 
+const CLAIMS_AND_BALANCES_QUERY = `
+  query($account: Bytes!) {
+    balances(where: { address: $account }) {
+      id
+      connector
+      address
+      amount
+    }
+    claims(where: { address: $account } orderBy: timestamp orderDirection: desc) {
+      id
+      connector
+      tokenSource
+      tokenDestination
+      address
+      amount
+      timestamp
+    }
+  }
+`;
+
 export const ClaimTokens = ({ onContinue, onBack }: ClaimTokensProps) => {
-  const { isLoading, claims } = useGetClaims();
-  const { claims: claimEvents } = useClaimEvents();
+  const { account } = useConnection();
+  const claims: Claim[] = [];
+
+  const [result] = useQuery({
+    query: CLAIMS_AND_BALANCES_QUERY,
+    variables: { account },
+    pause: !account,
+  });
+
   const [sortDescriptor, setSortDescriptor] = useState<{
     column: keyof Claim;
     direction: "ascending" | "descending";
@@ -26,8 +54,8 @@ export const ClaimTokens = ({ onContinue, onBack }: ClaimTokensProps) => {
   ];
 
   const sortedData = useMemo(() => {
-    return sort(claims, sortDescriptor);
-  }, [claims, sortDescriptor]);
+    return sort([], sortDescriptor);
+  }, [sortDescriptor]);
 
   const tableData = sortedData.map((item) => ({
     ...item,
@@ -52,7 +80,7 @@ export const ClaimTokens = ({ onContinue, onBack }: ClaimTokensProps) => {
   return (
     <div className="flex flex-col gap-3">
       <h2 className="text-lg">Available claims</h2>
-      {isLoading ? (
+      {result.fetching ? (
         <div className="flex items-center justify-center h-64">
           <span className="loading loading-bars loading-lg"></span>
         </div>
