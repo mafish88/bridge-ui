@@ -1,6 +1,5 @@
 import { useConnection } from "@/hooks/useConnection";
 import React from "react";
-import Button from "./ui/button";
 import { useBridgeNetwork } from "@/context/bridge-network";
 
 const WrongNetwork = () => {
@@ -8,9 +7,12 @@ const WrongNetwork = () => {
   const { switchNetwork } = useConnection();
 
   return (
-    <Button color="warning" onClick={() => switchNetwork(fromNetwork.chainId)}>
+    <button
+      className="btn btn-warning"
+      onClick={() => switchNetwork(fromNetwork.chainId)}
+    >
       Switch to {fromNetwork.chainName}
-    </Button>
+    </button>
   );
 };
 

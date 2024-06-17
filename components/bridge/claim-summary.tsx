@@ -26,9 +26,9 @@ export const ClaimSummary = ({
         </p>
       </div>
       <div className="w-full flex flex-col sm:flex-row justify-between gap-4">
-        <Button fullWidth onClick={onBack}>
+        <button className="btn w-full" onClick={onBack}>
           Back
-        </Button>
+        </button>
         <Wallet
           actionBtn={{
             disabled: !claim,

@@ -23,8 +23,8 @@ export const WalletAddress = ({}) => {
             </span>
           </div>
         )}
-        <Button
-          radius="xl"
+        <button
+          className="btn rounded-xl"
           onClick={() => {
             refetchBalance();
           }}
@@ -33,7 +33,7 @@ export const WalletAddress = ({}) => {
             <Identicon address={account} diameter={32} />
             <p className="mb-1">{shortenAddress(account)}</p>
           </div>
-        </Button>
+        </button>
       </div>
     );
   }

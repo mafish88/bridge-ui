@@ -10,7 +10,8 @@ export const formatNumberWithAbbreviation = (number: number) => {
   } else if (absNumber >= 1e3) {
     return formatWithPrecision(number, 1e3, "K");
   } else {
-    return (Math.floor(number * 1e6) / 1e6).toFixed(5);
+    let roundedNumber = (Math.floor(number * 1e6) / 1e6).toFixed(6);
+    return parseFloat(roundedNumber).toString();
   }
 };
 

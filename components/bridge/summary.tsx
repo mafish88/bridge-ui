@@ -27,6 +27,7 @@ export const Summary = ({ onBack }: SummaryProps) => {
   };
 
   const onConfirm = async () => {
+    if (!amount) return;
     await onBridge(amount, onBridgeSuccess);
   };
 
