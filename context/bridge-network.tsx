@@ -20,11 +20,11 @@ type BridgeNetworkContextType = {
   fromNetwork: BridgeNetwork;
   toNetwork: BridgeNetwork;
   coin: Coin | null;
-  amount: number;
+  amount: number | null;
   setFromNetwork: (network: BridgeNetwork) => void;
   setToNetwork: (network: BridgeNetwork) => void;
   setCoin: (coin: Coin) => void;
-  setAmount: (amount: number) => void;
+  setAmount: (amount: number | null) => void;
   toggleValue: BridgeToggleType;
   setToggleValue: (value: BridgeToggleType) => void;
 };
@@ -38,7 +38,7 @@ const BridgeNetworkContext = createContext<BridgeNetworkContextType>({
   setFromNetwork: (network: BridgeNetwork) => {},
   setToNetwork: (network: BridgeNetwork) => {},
   setCoin: (coin: Coin) => {},
-  setAmount: (amount: number) => {},
+  setAmount: () => {},
   toggleValue: BridgeToggleType.BRIDGE,
   setToggleValue: (value: BridgeToggleType) => {},
 });
@@ -54,7 +54,7 @@ export const BridgeNetworkProvider = ({
   const [toNetwork, setToNetwork] = useState<BridgeNetwork>(bridgeNetworks[1]);
   const [toggleValue, setToggleValue] = useState(BridgeToggleType.BRIDGE);
   const [coin, setCoin] = useState<Coin | null>(null);
-  const [amount, setAmount] = useState<number>(0);
+  const [amount, setAmount] = useState<number | null>(0);
 
   useEffect(() => {
     setCoin(null);

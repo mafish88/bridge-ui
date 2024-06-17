@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "../card";
 import { SelectNetworks } from "./select-networks";
 import { SelectCoins } from "./select-coins";
@@ -13,7 +13,14 @@ import Image from "next/image";
 export const BridgeCard = () => {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const showTopCard = step > 1;
-  const { fromNetwork, toNetwork, coin, amount } = useBridgeNetwork();
+  const { fromNetwork, toNetwork, coin, amount, setAmount } =
+    useBridgeNetwork();
+
+  useEffect(() => {
+    if (step == 1) {
+      setAmount(null);
+    }
+  }, [setAmount, step]);
 
   const topCard: JSX.Element = (
     <div className="flex flex-col gap-10">

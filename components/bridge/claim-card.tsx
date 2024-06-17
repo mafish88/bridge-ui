@@ -25,6 +25,10 @@ export const ClaimCard = () => {
   const [claim, setClaim] = useState<Claim | null>(null);
   const { blockInfo, isLoading } = useLastFinalizedBlock();
 
+  const onClaimSuccess = () => {
+    setStep(1);
+  };
+
   const showTopCard = true;
 
   const topCard: JSX.Element = (
@@ -106,7 +110,11 @@ export const ClaimCard = () => {
       )}
       {step == 3 && claim && (
         <div className="flex flex-col gap-5">
-          <ClaimSummary claim={claim} onBack={() => setStep(2)} />
+          <ClaimSummary
+            claim={claim}
+            onBack={() => setStep(2)}
+            onClaimSuccess={onClaimSuccess}
+          />
         </div>
       )}
     </Card>

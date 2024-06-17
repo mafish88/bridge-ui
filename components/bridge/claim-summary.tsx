@@ -6,10 +6,15 @@ import { useClaim } from "@/hooks/useClaim";
 export type ClaimSummaryProps = {
   claim: Claim;
   onBack: () => void;
+  onClaimSuccess: () => void;
 };
 
-export const ClaimSummary = ({ claim, onBack }: ClaimSummaryProps) => {
-  const { onClaim } = useClaim();
+export const ClaimSummary = ({
+  claim,
+  onBack,
+  onClaimSuccess,
+}: ClaimSummaryProps) => {
+  const { onClaim } = useClaim(onClaimSuccess);
 
   return (
     <div className="flex flex-col gap-6">

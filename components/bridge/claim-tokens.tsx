@@ -8,6 +8,7 @@ import { useConnection } from "@/hooks/useConnection";
 import { useQuery } from "urql";
 import { ApiBalance, ApiClaim, Claim, toClaim } from "@/types/claim";
 import { utils } from "ethers";
+import { RefreshIcon } from "../ui/icons";
 
 export type ClaimTokensProps = {
   onBack: () => void;
@@ -37,7 +38,7 @@ const CLAIMS_AND_BALANCES_QUERY = `
 export const ClaimTokens = ({ onContinue, onBack }: ClaimTokensProps) => {
   const { account } = useConnection();
 
-  const [{ data, fetching }] = useQuery({
+  const [{ data, fetching }, reexecuteQuery] = useQuery({
     query: CLAIMS_AND_BALANCES_QUERY,
     variables: { account },
     pause: !account,
@@ -107,9 +108,18 @@ export const ClaimTokens = ({ onContinue, onBack }: ClaimTokensProps) => {
     setSortDescriptor({ column, direction });
   };
 
+  const onReexecuteQuery = () => {
+    reexecuteQuery({ requestPolicy: "network-only" });
+  };
+
   return (
     <div className="flex flex-col gap-3">
-      <h2 className="text-lg">Available claims</h2>
+      <div className="flex flex-row gap-4 items-center justify-start">
+        <h2 className="text-lg">Available claims</h2>
+        <button className="btn btn-circle btn-xs" onClick={onReexecuteQuery}>
+          <RefreshIcon size={12} />
+        </button>
+      </div>
       {fetching ? (
         <div className="flex items-center justify-center h-64">
           <span className="loading loading-bars loading-lg"></span>
