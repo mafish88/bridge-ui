@@ -40,9 +40,9 @@ export const useLockNative = () => {
         onSuccess();
       },
       () => {
-        setIsLoading(false);
         setStatus("Fail");
         setError("Transaction failed");
+        setIsLoading(false);
       }
     );
   };

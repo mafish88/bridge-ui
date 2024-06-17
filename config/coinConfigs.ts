@@ -46,7 +46,7 @@ export const coinConfigs: CoinConfig = {
       isNative: false,
       baseNetwork: TARA_CHAIN_ID,
       isImageTall: true,
-      deployAddress: "0x", // This should be updated with actual deploy address if available
+      deployAddress: "0xdB0698D2c8FbE2C3c36941ccEC488834BbcAf151", // This should be updated with actual deploy address if available
       connectorAddress: erc20EthMintingConnectorAddress,
       connectorType: "Minting",
     },
@@ -71,7 +71,7 @@ export const coinConfigs: CoinConfig = {
       isNative: false,
       baseNetwork: ETH_CHAIN_ID,
       isImageTall: false,
-      deployAddress: "0x3E02bDF20b8aFb2fF8EA73ef5419679722955074",
+      deployAddress: "0x24d8a7D969c1b4A3A5a784b127A893Ecfa84263C",
       connectorAddress: erc20TaraMintingConnectorAddress,
       connectorType: "Minting",
     },

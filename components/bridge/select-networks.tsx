@@ -69,10 +69,10 @@ export const SelectNetworks = ({ onContinue }: SelectNetworksProps) => {
         getOptionValue={(option: any) => option.chainId.toString()}
         components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
       />
-      <div className="flex justify-start">
-        <Button onClick={swapFromAndTo} size="xs">
+      <div className="flex justify-center">
+        <button className="btn" onClick={swapFromAndTo}>
           <SwapVerticalIcon />
-        </Button>
+        </button>
       </div>
       <h2 className="text-lg">Transfer To</h2>
       <Select

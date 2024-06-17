@@ -193,8 +193,8 @@ const useProvideWalletPopup = () => {
         ? error.reason.split(":").pop()?.trim()
         : error.message;
       console.error("Error:", errorMessage);
+      onError?.();
       changeState(WalletPopupState.ERROR, "Error", `${errorMessage}`);
-      if (onError) onError();
     }
   };
 

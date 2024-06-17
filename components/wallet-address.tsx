@@ -5,23 +5,24 @@ import { useConnection } from "@/hooks/useConnection";
 import { shortenAddress } from "@/utils/shorten-address";
 import { Identicon } from "./ui/metamask-identicon";
 import { formatNumberWithAbbreviation } from "@/utils/format-number-abbreviation";
-import { useBalance } from "../hooks/useBalance";
+import { useTokenBalance } from "../hooks/useTokenBalance";
 import { useBridgeNetwork } from "../context/bridge-network";
 
 export const WalletAddress = ({}) => {
-  const { status, account, isOnWrongChain } = useConnection();
-  const { balance, refetch: refetchBalance } = useBalance();
-  const { fromNetwork } = useBridgeNetwork();
+  const { status, account } = useConnection();
+  const { balance, refetch: refetchBalance } = useTokenBalance();
+  const { coin } = useBridgeNetwork();
 
-  if (status === "connected" && account && !isOnWrongChain) {
+  if (status === "connected" && account) {
     return (
       <div className="hidden lg:flex items-center gap-3 bg-primary rounded-xl px-0.5 py-0.5">
-        <div className="flex items-center ml-2 text-white">
-          <span>
-            {formatNumberWithAbbreviation(balance)}{" "}
-            {fromNetwork.nativeCurrency.symbol}
-          </span>
-        </div>
+        {coin && (
+          <div className="flex items-center ml-2 text-white">
+            <span>
+              {formatNumberWithAbbreviation(balance)} {coin.symbol}
+            </span>
+          </div>
+        )}
         <Button
           radius="xl"
           onClick={() => {
@@ -33,11 +34,6 @@ export const WalletAddress = ({}) => {
             <p className="mb-1">{shortenAddress(account)}</p>
           </div>
         </Button>
-        {/* <div className="flex items-center mr-2 text-white">
-            <span>
-              {fromNetwork.chainName}
-            </span>
-          </div> */}
       </div>
     );
   }

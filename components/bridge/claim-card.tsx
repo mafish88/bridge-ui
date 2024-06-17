@@ -61,7 +61,6 @@ export const ClaimCard = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <p>Claim Amount:</p>
               <div className="flex gap-2">
-                <p>{claim.amount}</p>
                 <p>
                   {utils
                     .formatUnits(claim.amount, claim.coin?.decimals || 18)

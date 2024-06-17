@@ -1,9 +1,10 @@
-import { ethers, utils } from "ethers";
+import { ethers } from "ethers";
 import { useCallback, useEffect, useState } from "react";
 import { useContract } from "./useContract";
 import { useConnection } from "./useConnection";
 import { useWalletPopup } from "../context/wallet-popup";
 import { useTokenApprove } from "./useTokenApprove";
+import { useBridgeNetwork } from "../context/bridge-network";
 
 export const useBurnErc20 = () => {
   const { account } = useConnection();
@@ -11,18 +12,23 @@ export const useBurnErc20 = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const { coin } = useBridgeNetwork();
+  const decimals = coin?.decimals || 18;
 
   const { approve } = useTokenApprove();
   const { asyncCallback } = useWalletPopup();
 
   const onBurn = useCallback(
     async (amount: number): Promise<ethers.providers.TransactionResponse> => {
-      // const valueInEther = ethers.utils.formatEther(amount.toString());
+      const valueInSmallestUnit = ethers.utils.parseUnits(
+        amount.toString(),
+        decimals
+      );
       return await erc20MintingConnectorContract!.burn({
-        value: utils.parseEther(`${amount}`),
+        value: valueInSmallestUnit,
       });
     },
-    [erc20MintingConnectorContract]
+    [erc20MintingConnectorContract, decimals]
   );
 
   const burn = async (amount: number, onSuccess: () => void) => {
@@ -32,29 +38,37 @@ export const useBurnErc20 = () => {
       return;
     }
     setIsLoading(true);
-    approve(account, amount, async () => {
-      asyncCallback(
-        async () => {
-          return await onBurn(amount);
-        },
-        () => {
-          setIsLoading(false);
-          setStatus("Success");
-          setError("");
-          onSuccess();
-        },
-        () => {
-          setIsLoading(false);
-          setStatus("Fail");
-          setError("Transaction failed");
-        }
-      );
-    });
+    approve(
+      account,
+      amount,
+      async () => {
+        asyncCallback(
+          async () => {
+            return await onBurn(amount);
+          },
+          () => {
+            setIsLoading(false);
+            setStatus("Success");
+            setError("");
+            onSuccess();
+          },
+          onError
+        );
+      },
+      onError
+    );
+  };
+
+  const onError = () => {
+    setStatus("Fail");
+    setError("Transaction failed");
+    setIsLoading(false);
   };
 
   const resetState = () => {
     setStatus("");
     setError("");
+    setIsLoading(false);
   };
 
   useEffect(() => {

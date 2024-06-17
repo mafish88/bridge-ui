@@ -50,17 +50,19 @@ export const BridgeCard = () => {
       {step > 2 && (
         <div className="flex flex-col gap-4 justify-center items-center">
           {amount && coin && (
-            <div className="flex flex-col sm:flex-row gap-4">
-              <p>Amount:</p>
-              <div className="flex gap-2">
-                <p>{amount}</p>
-                <p>{coin.symbol}</p>
+            <div className="flex flex-col sm:flex-row gap-4 items-center">
+              <div className="flex flex-row gap-4 items-center">
                 <Image
                   src={coin.iconUrl}
                   alt={coin.name}
                   height={30}
                   width={coin.isImageTall ? 20 : 30}
                 />
+                <p>Amount:</p>
+              </div>
+              <div className="flex gap-2">
+                <p>{amount}</p>
+                <p>{coin.symbol}</p>
               </div>
             </div>
           )}

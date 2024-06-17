@@ -12,14 +12,16 @@ export const useTokenApprove = () => {
   const [status, setStatus] = useState<string>("");
   const [error, setError] = useState<string>("");
   const { provider, signer } = useChain();
+  const decimals = coin?.decimals || 18;
 
   const onApprove = useCallback(
     async (
       spender: string,
       amount: ethers.BigNumberish,
-      contract: ethers.Contract
+      contract: ethers.Contract,
+      gasLimit: ethers.BigNumber
     ): Promise<ethers.providers.TransactionResponse> => {
-      return await contract!.approve(spender, amount);
+      return await contract!.approve(spender, amount, { gasLimit });
     },
     []
   );
@@ -27,7 +29,8 @@ export const useTokenApprove = () => {
   const approve = async (
     spender: string,
     amount: ethers.BigNumberish,
-    onSuccess: () => void
+    onSuccess: () => void,
+    onFail: () => void
   ) => {
     const claimContract = await getClaimContract();
     if (!claimContract) {
@@ -37,7 +40,17 @@ export const useTokenApprove = () => {
     }
     asyncCallback(
       async () => {
-        return await onApprove(spender, amount, claimContract);
+        const valueInSmallestUnit = ethers.utils.parseUnits(
+          amount.toString(),
+          decimals
+        );
+        const gasLimit = ethers.BigNumber.from("1000000"); // Set a higher gas limit
+        return await onApprove(
+          spender,
+          valueInSmallestUnit,
+          claimContract,
+          gasLimit
+        );
       },
       () => {
         setStatus("Approve successful");
@@ -47,11 +60,11 @@ export const useTokenApprove = () => {
       () => {
         setStatus("Fail");
         setError("Transaction failed");
+        onFail();
       }
     );
   };
 
-  // This should be extracted to a separate hook
   const getClaimContract = async () => {
     let instance: ethers.Contract | undefined;
 

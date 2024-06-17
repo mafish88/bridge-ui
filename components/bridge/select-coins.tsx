@@ -8,7 +8,7 @@ import { Form, Formik, FormikHelpers } from "formik";
 import { number, object, Schema } from "yup";
 import Button from "../ui/button";
 import { useConnection } from "@/hooks/useConnection";
-import { useBalance } from "@/hooks/useBalance";
+import { useTokenBalance } from "@/hooks/useTokenBalance";
 import dynamic from "next/dynamic";
 import { useCoins } from "@/hooks/useCoins";
 import { Coin } from "@/config/coinConfigs";
@@ -40,7 +40,7 @@ export const SelectCoins = ({ onContinue, onBack }: SelectCoinsProps) => {
   const { theme } = useThemeSwitch();
   const customSelectStyles = getSingleSelectStyles(theme);
   const { account } = useConnection();
-  const { balance: taraBalance } = useBalance();
+  const { balance: tokenBalance } = useTokenBalance();
 
   const handleCoinChange = (selectedOption: any) => {
     const selectedCoin = selectedOption as Coin;
@@ -103,11 +103,10 @@ export const SelectCoins = ({ onContinue, onBack }: SelectCoinsProps) => {
                     <Button
                       type="button"
                       color="primary"
-                      size="xs"
                       disabled={!account}
                       onClick={() => {
-                        setFieldValue("value", taraBalance?.toFixed());
-                        setAmount(Number(taraBalance?.toFixed()));
+                        setFieldValue("value", tokenBalance);
+                        setAmount(Number(tokenBalance));
                       }}
                     >
                       Max
