@@ -32,7 +32,7 @@ export const ClaimCard = () => {
   const showTopCard = true;
 
   const topCard: JSX.Element = (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-4">
       {blockInfo.timeLeft && (
         <div>
           <Countdown

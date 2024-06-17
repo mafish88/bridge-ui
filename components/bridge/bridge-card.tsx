@@ -23,7 +23,7 @@ export const BridgeCard = () => {
   }, [setAmount, step]);
 
   const topCard: JSX.Element = (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-4">
       <div className="flex flex-col sm:flex-row justify-between items-center">
         <SelectedNetwork
           title="Transfer From"
