@@ -119,7 +119,7 @@ export const ABIs: { [key: string]: contractABI } = {
       },
     ]),
   },
-  TaraConnector: {
+  NativeConnector: {
     name: "TaraConnector",
     abi: JSON.stringify([
       {
@@ -358,3 +358,5 @@ export const ABIs: { [key: string]: contractABI } = {
     ]),
   },
 };
+
+// 1 abi for claim, one for lock, one for burn, one for burn erc20

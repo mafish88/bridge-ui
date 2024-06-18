@@ -6,6 +6,8 @@ import {
   erc20TaraMintingConnectorAddress,
   ethConnectorAddress,
   taraConnectorAddress,
+  wrappedEthTokenAddress,
+  wrappedTaraxaTokenAddress,
 } from "@/types/addresses";
 
 export interface Coin {
@@ -46,7 +48,7 @@ export const coinConfigs: CoinConfig = {
       isNative: false,
       baseNetwork: TARA_CHAIN_ID,
       isImageTall: true,
-      deployAddress: "0xdB0698D2c8FbE2C3c36941ccEC488834BbcAf151", // This should be updated with actual deploy address if available
+      deployAddress: wrappedEthTokenAddress,
       connectorAddress: erc20EthMintingConnectorAddress,
       connectorType: "Minting",
     },
@@ -71,7 +73,7 @@ export const coinConfigs: CoinConfig = {
       isNative: false,
       baseNetwork: ETH_CHAIN_ID,
       isImageTall: false,
-      deployAddress: "0x24d8a7D969c1b4A3A5a784b127A893Ecfa84263C",
+      deployAddress: wrappedTaraxaTokenAddress,
       connectorAddress: erc20TaraMintingConnectorAddress,
       connectorType: "Minting",
     },

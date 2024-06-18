@@ -26,14 +26,14 @@ export const networkConfigs: NetworkConfigs = {
     chainId: TARA_CHAIN_ID,
     connectorAddresses: {
       native: taraConnectorAddress,
-      erc20Minting: erc20TaraMintingConnectorAddress,
+      erc20Minting: erc20EthMintingConnectorAddress,
     },
   },
   [ETH_CHAIN_ID]: {
     chainId: ETH_CHAIN_ID,
     connectorAddresses: {
       native: ethConnectorAddress,
-      erc20Minting: erc20EthMintingConnectorAddress,
+      erc20Minting: erc20TaraMintingConnectorAddress,
     },
   },
 };

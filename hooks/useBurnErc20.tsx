@@ -24,9 +24,7 @@ export const useBurnErc20 = () => {
         amount.toString(),
         decimals
       );
-      return await erc20MintingConnectorContract!.burn({
-        value: valueInSmallestUnit,
-      });
+      return await erc20MintingConnectorContract!.burn(valueInSmallestUnit);
     },
     [erc20MintingConnectorContract, decimals]
   );
@@ -39,7 +37,7 @@ export const useBurnErc20 = () => {
     }
     setIsLoading(true);
     approve(
-      account,
+      erc20MintingConnectorContract.address,
       amount,
       async () => {
         asyncCallback(

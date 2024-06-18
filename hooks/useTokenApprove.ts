@@ -1,6 +1,5 @@
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { useCallback, useState } from "react";
-import { useTokenContract } from "./useTokenContract";
 import { useWalletPopup } from "../context/wallet-popup";
 import { useBridgeNetwork } from "../context/bridge-network";
 import useChain from "./useChain";
@@ -17,11 +16,10 @@ export const useTokenApprove = () => {
   const onApprove = useCallback(
     async (
       spender: string,
-      amount: ethers.BigNumberish,
-      contract: ethers.Contract,
-      gasLimit: ethers.BigNumber
+      amount: BigNumber,
+      contract: ethers.Contract
     ): Promise<ethers.providers.TransactionResponse> => {
-      return await contract!.approve(spender, amount, { gasLimit });
+      return await contract.approve(spender, amount);
     },
     []
   );
@@ -32,8 +30,8 @@ export const useTokenApprove = () => {
     onSuccess: () => void,
     onFail: () => void
   ) => {
-    const claimContract = await getClaimContract();
-    if (!claimContract) {
+    const coinContract = await getCoinContract();
+    if (!coinContract) {
       setStatus("Fail");
       setError("Contract not available");
       return;
@@ -44,13 +42,7 @@ export const useTokenApprove = () => {
           amount.toString(),
           decimals
         );
-        const gasLimit = ethers.BigNumber.from("1000000"); // Set a higher gas limit
-        return await onApprove(
-          spender,
-          valueInSmallestUnit,
-          claimContract,
-          gasLimit
-        );
+        return await onApprove(spender, valueInSmallestUnit, coinContract);
       },
       () => {
         setStatus("Approve successful");
@@ -65,13 +57,13 @@ export const useTokenApprove = () => {
     );
   };
 
-  const getClaimContract = async () => {
+  const getCoinContract = async () => {
     let instance: ethers.Contract | undefined;
 
     if (!provider || !signer) {
       return instance;
     }
-    const contractAddress = coin?.connectorAddress;
+    const contractAddress = coin?.deployAddress;
     const abi = ABIs.ERC20.abi;
     if (!contractAddress) {
       setStatus("Fail");

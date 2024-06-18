@@ -6,7 +6,7 @@ import { useWalletPopup } from "../context/wallet-popup";
 
 export const useClaimNative = () => {
   const { account } = useConnection();
-  const { taraConnectorContract } = useContract();
+  const { nativeConnectorContract } = useContract();
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState<string>("");
   const [error, setError] = useState<string>("");
@@ -15,17 +15,17 @@ export const useClaimNative = () => {
 
   const onClaim = useCallback(
     async (account: string) => {
-      const feeToClain = await taraConnectorContract!.feeToClaim(account);
+      const feeToClain = await nativeConnectorContract!.feeToClaim(account);
       const valueInEther = ethers.utils.formatEther(feeToClain.toString());
-      return await taraConnectorContract!.claim({
+      return await nativeConnectorContract!.claim({
         value: ethers.utils.parseEther(valueInEther),
       });
     },
-    [taraConnectorContract]
+    [nativeConnectorContract]
   );
 
   const claim = async (onSuccess: () => void) => {
-    if (!taraConnectorContract || !account) {
+    if (!nativeConnectorContract || !account) {
       setStatus("Fail");
       setError("Contract not available");
       return;
