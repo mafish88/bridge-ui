@@ -57,7 +57,7 @@ export const ClaimTokens = ({ onContinue, onBack }: ClaimTokensProps) => {
 
   if (fetching) {
     return (
-      <div className="flex items-center justify-center h-64">
+      <div className="flex items-center justify-center h-40">
         <span className="loading loading-bars loading-lg"></span>
       </div>
     );
@@ -120,19 +120,13 @@ export const ClaimTokens = ({ onContinue, onBack }: ClaimTokensProps) => {
           <RefreshIcon size={12} />
         </button>
       </div>
-      {fetching ? (
-        <div className="flex items-center justify-center h-64">
-          <span className="loading loading-bars loading-lg"></span>
-        </div>
-      ) : (
-        <Table
-          columns={columns}
-          data={tableData}
-          onSortChange={(key, direction) =>
-            handleSortChange(key as keyof Claim, direction)
-          }
-        />
-      )}
+      <Table
+        columns={columns}
+        data={tableData}
+        onSortChange={(key, direction) =>
+          handleSortChange(key as keyof Claim, direction)
+        }
+      />
       <div className="w-full flex flex-col sm:flex-row justify-between gap-4">
         <Button fullWidth onClick={onBack}>
           Back
