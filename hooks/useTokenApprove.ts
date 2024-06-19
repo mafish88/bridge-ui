@@ -4,6 +4,7 @@ import { useWalletPopup } from "../context/wallet-popup";
 import { useBridgeNetwork } from "../context/bridge-network";
 import useChain from "./useChain";
 import { ABIs } from "../types/abis";
+import { useConnection } from "./useConnection";
 
 export const useTokenApprove = () => {
   const { coin } = useBridgeNetwork();
@@ -12,6 +13,11 @@ export const useTokenApprove = () => {
   const [error, setError] = useState<string>("");
   const { provider, signer } = useChain();
   const decimals = coin?.decimals || 18;
+  const { account } = useConnection();
+
+  const getAllowance = async (spender: string, contract: ethers.Contract) => {
+    return await contract.allowance(account, spender);
+  };
 
   const onApprove = useCallback(
     async (
@@ -36,12 +42,19 @@ export const useTokenApprove = () => {
       setError("Contract not available");
       return;
     }
+    const valueInSmallestUnit = ethers.utils.parseUnits(
+      amount.toString(),
+      decimals
+    );
+    const currentAllowance = await getAllowance(spender, coinContract);
+    if (currentAllowance.gte(valueInSmallestUnit)) {
+      setStatus("Approve successful");
+      setError("");
+      onSuccess();
+      return;
+    }
     asyncCallback(
       async () => {
-        const valueInSmallestUnit = ethers.utils.parseUnits(
-          amount.toString(),
-          decimals
-        );
         return await onApprove(spender, valueInSmallestUnit, coinContract);
       },
       () => {
