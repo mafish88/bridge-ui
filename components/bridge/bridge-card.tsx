@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "../card";
 import { SelectNetworks } from "./select-networks";
 import { SelectCoins } from "./select-coins";
@@ -13,10 +13,17 @@ import Image from "next/image";
 export const BridgeCard = () => {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const showTopCard = step > 1;
-  const { fromNetwork, toNetwork, coin, amount } = useBridgeNetwork();
+  const { fromNetwork, toNetwork, coin, amount, setAmount } =
+    useBridgeNetwork();
+
+  useEffect(() => {
+    if (step == 1) {
+      setAmount(null);
+    }
+  }, [setAmount, step]);
 
   const topCard: JSX.Element = (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-4">
       <div className="flex flex-col sm:flex-row justify-between items-center">
         <SelectedNetwork
           title="Transfer From"
@@ -43,17 +50,19 @@ export const BridgeCard = () => {
       {step > 2 && (
         <div className="flex flex-col gap-4 justify-center items-center">
           {amount && coin && (
-            <div className="flex flex-col sm:flex-row gap-4">
-              <p>Amount:</p>
-              <div className="flex gap-2">
-                <p>{amount}</p>
-                <p>{coin.symbol}</p>
+            <div className="flex flex-col sm:flex-row gap-4 items-center">
+              <div className="flex flex-row gap-4 items-center">
                 <Image
                   src={coin.iconUrl}
                   alt={coin.name}
                   height={30}
                   width={coin.isImageTall ? 20 : 30}
                 />
+                <p>Amount:</p>
+              </div>
+              <div className="flex gap-2">
+                <p>{amount}</p>
+                <p>{coin.symbol}</p>
               </div>
             </div>
           )}

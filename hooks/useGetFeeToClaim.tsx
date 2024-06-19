@@ -4,19 +4,19 @@ import { useContract } from "./useContract";
 import { useConnection } from "./useConnection";
 
 export const useGetFeeToClaim = (address: string) => {
-  const { taraConnectorContract } = useContract();
+  const { nativeConnectorContract } = useContract();
   const [fee, setFee] = useState<number>(0);
   const { account, isOnWrongChain } = useConnection();
 
   useEffect(() => {
     const feeToClaim = async (address: string) => {
-      if (!taraConnectorContract) {
+      if (!nativeConnectorContract) {
         return;
       }
-      return await taraConnectorContract.feeToClaim(address);
+      return await nativeConnectorContract.feeToClaim(address);
     };
 
-    if (taraConnectorContract && account && address && !isOnWrongChain) {
+    if (nativeConnectorContract && account && address && !isOnWrongChain) {
       feeToClaim(address)
         .then((response) => {
           if (response) {
@@ -30,7 +30,7 @@ export const useGetFeeToClaim = (address: string) => {
     } else {
       setFee(0);
     }
-  }, [taraConnectorContract, account, address, isOnWrongChain]);
+  }, [nativeConnectorContract, account, address, isOnWrongChain]);
 
   return {
     fee,

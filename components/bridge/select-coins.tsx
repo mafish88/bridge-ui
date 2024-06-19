@@ -8,11 +8,10 @@ import { Form, Formik, FormikHelpers } from "formik";
 import { number, object, Schema } from "yup";
 import Button from "../ui/button";
 import { useConnection } from "@/hooks/useConnection";
-import { useBalance } from "@/hooks/useBalance";
+import { useTokenBalance } from "@/hooks/useTokenBalance";
 import dynamic from "next/dynamic";
 import { useCoins } from "@/hooks/useCoins";
 import { Coin } from "@/config/coinConfigs";
-import { useEffect } from "react";
 
 const Select = dynamic(() => import("react-select"), {
   ssr: false,
@@ -31,7 +30,6 @@ const validationSchema: Schema<StakeForm> = object()
     value: number()
       .required("Amount is required")
       .positive("Amount must be positive")
-      .integer("Amount must be an integer")
       .typeError("Amount must be a number"),
   })
   .defined();
@@ -42,7 +40,7 @@ export const SelectCoins = ({ onContinue, onBack }: SelectCoinsProps) => {
   const { theme } = useThemeSwitch();
   const customSelectStyles = getSingleSelectStyles(theme);
   const { account } = useConnection();
-  const { balance: taraBalance } = useBalance();
+  const { balance: tokenBalance } = useTokenBalance();
 
   const handleCoinChange = (selectedOption: any) => {
     const selectedCoin = selectedOption as Coin;
@@ -95,18 +93,20 @@ export const SelectCoins = ({ onContinue, onBack }: SelectCoinsProps) => {
                       disabled={!account}
                       onChange={(e) => {
                         resetForm();
-                        handleChange(e);
-                        setAmount(Number(e.target.value));
+                        const value = e.target.value.replace(",", ".");
+                        handleChange({
+                          target: { name: e.target.name, value },
+                        });
+                        setAmount(Number(value));
                       }}
                     />
                     <Button
                       type="button"
                       color="primary"
-                      size="xs"
                       disabled={!account}
                       onClick={() => {
-                        setFieldValue("value", taraBalance?.toFixed());
-                        setAmount(Number(taraBalance?.toFixed()));
+                        setFieldValue("value", tokenBalance);
+                        setAmount(Number(tokenBalance));
                       }}
                     >
                       Max

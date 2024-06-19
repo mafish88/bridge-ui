@@ -6,7 +6,7 @@ import { useWalletPopup } from "../context/wallet-popup";
 
 export const useLockNative = () => {
   const { account } = useConnection();
-  const { taraConnectorContract } = useContract();
+  const { nativeConnectorContract } = useContract();
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState<string>("");
   const [error, setError] = useState<string>("");
@@ -15,15 +15,15 @@ export const useLockNative = () => {
 
   const onLock = useCallback(
     async (amount: number): Promise<ethers.providers.TransactionResponse> => {
-      return await taraConnectorContract!.lock({
+      return await nativeConnectorContract!.lock({
         value: utils.parseEther(`${amount}`),
       });
     },
-    [taraConnectorContract]
+    [nativeConnectorContract]
   );
 
   const lock = async (amount: number, onSuccess: () => void) => {
-    if (!taraConnectorContract || !account) {
+    if (!nativeConnectorContract || !account) {
       setStatus("Fail");
       setError("Contract not available");
       return;
@@ -40,9 +40,9 @@ export const useLockNative = () => {
         onSuccess();
       },
       () => {
-        setIsLoading(false);
         setStatus("Fail");
         setError("Transaction failed");
+        setIsLoading(false);
       }
     );
   };

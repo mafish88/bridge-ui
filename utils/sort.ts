@@ -1,4 +1,4 @@
-import { Claim } from "@/hooks/useGetClaims";
+import { Claim } from "@/types/claim";
 
 export type SortDescriptor = {
   column: keyof Claim;

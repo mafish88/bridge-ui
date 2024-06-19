@@ -1,5 +1,14 @@
 // Importing constants and types
-import { ETH_CHAIN_ID, TARA_CHAIN_ID } from "@/types/addresses";
+import {
+  ETH_CHAIN_ID,
+  TARA_CHAIN_ID,
+  erc20EthMintingConnectorAddress,
+  erc20TaraMintingConnectorAddress,
+  ethConnectorAddress,
+  taraConnectorAddress,
+  wrappedEthTokenAddress,
+  wrappedTaraxaTokenAddress,
+} from "@/types/addresses";
 
 export interface Coin {
   name: string;
@@ -11,7 +20,7 @@ export interface Coin {
   deployAddress?: string;
   connectorAddress?: string;
   isImageTall?: boolean;
-  connectorType: "Minting" | "Locking" | "Native";
+  connectorType: "Minting" | "Native";
 }
 
 export interface CoinConfig {
@@ -28,6 +37,7 @@ export const coinConfigs: CoinConfig = {
       isNative: true,
       baseNetwork: TARA_CHAIN_ID,
       isImageTall: false,
+      connectorAddress: taraConnectorAddress,
       connectorType: "Native",
     },
     {
@@ -38,8 +48,8 @@ export const coinConfigs: CoinConfig = {
       isNative: false,
       baseNetwork: TARA_CHAIN_ID,
       isImageTall: true,
-      deployAddress: "0x", // This should be updated with actual deploy address if available
-      connectorAddress: "0x", // This should be updated with actual connector address if available
+      deployAddress: wrappedEthTokenAddress,
+      connectorAddress: erc20EthMintingConnectorAddress,
       connectorType: "Minting",
     },
   ],
@@ -52,6 +62,7 @@ export const coinConfigs: CoinConfig = {
       isNative: true,
       baseNetwork: ETH_CHAIN_ID,
       isImageTall: true,
+      connectorAddress: ethConnectorAddress,
       connectorType: "Native",
     },
     {
@@ -62,9 +73,22 @@ export const coinConfigs: CoinConfig = {
       isNative: false,
       baseNetwork: ETH_CHAIN_ID,
       isImageTall: false,
-      deployAddress: "0x3E02bDF20b8aFb2fF8EA73ef5419679722955074",
-      connectorAddress: "0x", // This should be updated if there's a specific connector for minting
+      deployAddress: wrappedTaraxaTokenAddress,
+      connectorAddress: erc20TaraMintingConnectorAddress,
       connectorType: "Minting",
     },
   ],
+};
+
+export const getTokenByConnectorAddress = (connectorAddress: string): Coin => {
+  for (const chainId in coinConfigs) {
+    for (const coin of coinConfigs[chainId]) {
+      if (
+        coin.connectorAddress?.toLowerCase() === connectorAddress.toLowerCase()
+      ) {
+        return coin;
+      }
+    }
+  }
+  throw new Error(`No coin found with connector address: ${connectorAddress}`);
 };

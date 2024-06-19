@@ -26,7 +26,7 @@ export const Countdown = ({
   return (
     <div className="flex gap-4 justify-between text-white p-4">
       {isLoading ? (
-        <div className="flex items-center justify-center h-64">
+        <div className="flex items-center justify-center">
           <span className="loading loading-bars loading-lg"></span>
         </div>
       ) : (

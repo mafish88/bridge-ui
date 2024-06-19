@@ -13,8 +13,6 @@ image:
 app:
   taraConnectorAddress: ""
   ethConnectorAddress: ""
-  taraErc20LockingConnectorAddress: ""
-  ethErc20LockingConnectorAddress: ""
   taraErc20MintingConnectorAddress: ""
   ethErc20MintingConnectorAddress: ""
   ethBridgeAddress: ""

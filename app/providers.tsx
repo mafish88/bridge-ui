@@ -8,11 +8,7 @@ import { ModalsCenter } from "../components/modals";
 import { WalletPopupProvider } from "../context/wallet-popup";
 import { DynamicThemeWrapper } from "@/context/dynamic-theme-wrapper";
 
-export interface ProvidersProps {
-  children: React.ReactNode;
-}
-
-export function Providers({ children }: ProvidersProps) {
+export function Providers({ children }: React.PropsWithChildren) {
   return (
     <MetaMaskProvider>
       <BridgeNetworkProvider>

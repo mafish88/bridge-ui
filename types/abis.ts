@@ -9,6 +9,13 @@ export const ABIs: { [key: string]: contractABI } = {
     abi: JSON.stringify([
       {
         type: "function",
+        name: "feeToClaim",
+        inputs: [{ name: "", type: "address", internalType: "address" }],
+        outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+        stateMutability: "view",
+      },
+      {
+        type: "function",
         name: "burn",
         inputs: [{ name: "amount", type: "uint256", internalType: "uint256" }],
         outputs: [],
@@ -17,6 +24,13 @@ export const ABIs: { [key: string]: contractABI } = {
       {
         type: "function",
         name: "claim",
+        inputs: [],
+        outputs: [],
+        stateMutability: "payable",
+      },
+      {
+        type: "function",
+        name: "lock",
         inputs: [],
         outputs: [],
         stateMutability: "payable",
@@ -105,89 +119,7 @@ export const ABIs: { [key: string]: contractABI } = {
       },
     ]),
   },
-  ERC20LockingConnector: {
-    name: "ERC20LockingConnector",
-    abi: JSON.stringify([
-      {
-        type: "function",
-        name: "lock",
-        inputs: [],
-        outputs: [],
-        stateMutability: "payable",
-      },
-      {
-        type: "function",
-        name: "claim",
-        inputs: [],
-        outputs: [],
-        stateMutability: "payable",
-      },
-      {
-        type: "event",
-        name: "ClaimAccrued",
-        inputs: [
-          {
-            name: "account",
-            type: "address",
-            indexed: true,
-            internalType: "address",
-          },
-          {
-            name: "value",
-            type: "uint256",
-            indexed: false,
-            internalType: "uint256",
-          },
-        ],
-        anonymous: false,
-      },
-      {
-        type: "event",
-        name: "Claimed",
-        inputs: [
-          {
-            name: "account",
-            type: "address",
-            indexed: true,
-            internalType: "address",
-          },
-          {
-            name: "value",
-            type: "uint256",
-            indexed: false,
-            internalType: "uint256",
-          },
-        ],
-        anonymous: false,
-      },
-      {
-        type: "event",
-        name: "Funded",
-        inputs: [
-          {
-            name: "sender",
-            type: "address",
-            indexed: true,
-            internalType: "address",
-          },
-          {
-            name: "connectorBase",
-            type: "address",
-            indexed: true,
-            internalType: "address",
-          },
-          {
-            name: "amount",
-            type: "uint256",
-            indexed: false,
-            internalType: "uint256",
-          },
-        ],
-        anonymous: false,
-      },
-    ]),
-  },
-  TaraConnector: {
+  NativeConnector: {
     name: "TaraConnector",
     abi: JSON.stringify([
       {
@@ -411,6 +343,13 @@ export const ABIs: { [key: string]: contractABI } = {
     abi: JSON.stringify([
       {
         type: "function",
+        name: "feeToClaim",
+        inputs: [{ name: "", type: "address", internalType: "address" }],
+        outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+        stateMutability: "view",
+      },
+      {
+        type: "function",
         name: "claim",
         inputs: [],
         outputs: [],
@@ -419,3 +358,5 @@ export const ABIs: { [key: string]: contractABI } = {
     ]),
   },
 };
+
+// 1 abi for claim, one for lock, one for burn, one for burn erc20

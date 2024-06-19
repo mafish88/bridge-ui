@@ -79,7 +79,6 @@ const useProvideWalletPopup = () => {
     title?: string,
     message?: string
   ) => {
-    console.log("new State:", newState, "title:", title, "message:", message);
     const modalTitle = getModalTitle(newState, title);
     const modalContent = getModalContent(newState, title, message);
     const actionButtonColor: ButtonColorVariant | undefined =
@@ -157,20 +156,15 @@ const useProvideWalletPopup = () => {
               </p>
             </div>
             {chainId && message && (
-              <div className="flex flex-col gap-2">
-                <p>You can view the transaction here:</p>
+              <div className="flex flex-row gap-2">
+                <p>You can view the transaction </p>
                 <a
                   href={`${networks[chainId].blockExplorerUrl}tx/${message}`}
                   rel="noreferrer"
                   target="_blank"
                   className="text-primary hover:underline"
                 >
-                  <p
-                    className="text-primary"
-                    style={{ wordBreak: "break-all" }}
-                  >
-                    {`${networks[chainId].blockExplorerUrl}tx/${message}`}
-                  </p>
+                  <span className="text-primary">here</span>
                 </a>
               </div>
             )}
@@ -199,8 +193,8 @@ const useProvideWalletPopup = () => {
         ? error.reason.split(":").pop()?.trim()
         : error.message;
       console.error("Error:", errorMessage);
+      onError?.();
       changeState(WalletPopupState.ERROR, "Error", `${errorMessage}`);
-      if (onError) onError();
     }
   };
 
