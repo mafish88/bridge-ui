@@ -132,7 +132,9 @@ export const ABIs: { [key: string]: contractABI } = {
       {
         type: "function",
         name: "lock",
-        inputs: [],
+        inputs: [
+          { name: "amount", type: "uint256", internalType: "uint256" },
+        ],
         outputs: [],
         stateMutability: "payable",
       },
@@ -222,6 +224,13 @@ export const ABIs: { [key: string]: contractABI } = {
       {
         type: "function",
         name: "appliedEpoch",
+        inputs: [],
+        outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+        stateMutability: "view",
+      },
+      {
+        type: "function",
+        name: "settlementFee",
         inputs: [],
         outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
         stateMutability: "view",

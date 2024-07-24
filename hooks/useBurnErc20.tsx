@@ -1,10 +1,11 @@
-import { ethers } from "ethers";
+import { ethers, utils } from "ethers";
 import { useCallback, useEffect, useState } from "react";
 import { useContract } from "./useContract";
 import { useConnection } from "./useConnection";
 import { useWalletPopup } from "../context/wallet-popup";
 import { useTokenApprove } from "./useTokenApprove";
 import { useBridgeNetwork } from "../context/bridge-network";
+import { useBridgeContract } from "./useBridgeContract";
 
 export const useBurnErc20 = () => {
   const { account } = useConnection();
@@ -18,15 +19,23 @@ export const useBurnErc20 = () => {
   const { approve } = useTokenApprove();
   const { asyncCallback } = useWalletPopup();
 
+  const { fromNetwork } = useBridgeNetwork();
+  const { getBridgeContract } = useBridgeContract(fromNetwork);
+
   const onBurn = useCallback(
     async (amount: number): Promise<ethers.providers.TransactionResponse> => {
+      const bridgeContract = await getBridgeContract();
+      const settlementFee = await bridgeContract!.settlementFee();
+
       const valueInSmallestUnit = ethers.utils.parseUnits(
         amount.toString(),
         decimals
       );
-      return await erc20MintingConnectorContract!.burn(valueInSmallestUnit);
+      return await erc20MintingConnectorContract!.burn(valueInSmallestUnit, {
+        value: settlementFee,
+      });
     },
-    [erc20MintingConnectorContract, decimals]
+    [erc20MintingConnectorContract, getBridgeContract, decimals]
   );
 
   const burn = async (amount: number, onSuccess: () => void) => {
