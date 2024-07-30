@@ -1,8 +1,8 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-	name: "Taraxa Bridge",
-	description: "Taraxa Bridge",
+	name: "Ficus Root Bridge",
+	description: "Bridge between Ethereum and Taraxa!",
 	links: {
 		github: "https://github.com/nextui-org/nextui",
 		twitter: "https://twitter.com/getnextui",

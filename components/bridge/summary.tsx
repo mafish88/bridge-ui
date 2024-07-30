@@ -19,7 +19,7 @@ export const Summary = ({ onBack }: SummaryProps) => {
   const { onBridge, isLoading } = useBridge();
 
   const onBridgeSuccess = () => {
-    setToggleValue(BridgeToggleType.CLAIM);
+    setToggleValue(BridgeToggleType.HISTORY);
     const tempNetwork = fromNetwork;
     setFromNetwork(toNetwork);
     setToNetwork(tempNetwork);

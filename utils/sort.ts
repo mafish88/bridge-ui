@@ -1,7 +1,7 @@
-import { Claim } from "@/types/claim";
+import { Transfer } from "@/types/transfer";
 
 export type SortDescriptor = {
-  column: keyof Claim;
+  column: keyof Transfer;
   direction: "ascending" | "descending";
 };
 

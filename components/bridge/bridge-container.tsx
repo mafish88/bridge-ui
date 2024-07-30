@@ -4,7 +4,8 @@ import { BridgeToggle } from "../bridge-toggle";
 import { bridgeFaq } from "@/types/faqs";
 import { Faq } from "../faq";
 import { BridgeCard } from "./bridge-card";
-import { ClaimCard } from "./claim-card";
+import { HistoryCard } from "./history-card";
+
 import {
   BridgeToggleType,
   useBridgeNetwork,
@@ -18,12 +19,12 @@ export const BridgeContainer = () => {
         <BridgeToggle
           defaultValue={toggleValue}
           onChange={setToggleValue}
-          name="bridge-claim-toggle"
+          name="bridge-history-toggle"
         />
       </div>
-      <div className="flex flex-col gap-20 w-full lg:w-[550px]">
+      <div className="flex flex-col gap-20 w-full">
         {toggleValue === BridgeToggleType.BRIDGE && <BridgeCard />}
-        {toggleValue === BridgeToggleType.CLAIM && <ClaimCard />}
+        {toggleValue === BridgeToggleType.HISTORY && <HistoryCard />}
         <Faq items={bridgeFaq} />
       </div>
     </div>

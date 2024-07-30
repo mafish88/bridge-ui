@@ -7,8 +7,8 @@ import { Navbar } from "../components/navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Taraxa Bridge",
-  description: "Bridge for Taraxa",
+  title: "Ficus Root Bridge",
+  description: "Bridge between Ethereum and Taraxa!",
 };
 
 export default function RootLayout({

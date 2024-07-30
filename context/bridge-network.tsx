@@ -9,10 +9,12 @@ import React, {
 } from "react";
 import { BridgeNetwork, bridgeNetworks } from "@/types/bridge-networks";
 import { Coin } from "@/config/coinConfigs";
+import useCMetamask from "@/hooks/useCMetamask";
+import { TARA_CHAIN_ID } from "@/types/addresses";
 
 export enum BridgeToggleType {
   BRIDGE = "Bridge",
-  CLAIM = "Claim",
+  HISTORY = "History",
 }
 
 type BridgeNetworkContextType = {
@@ -48,6 +50,8 @@ export const BridgeNetworkProvider = ({
 }: {
   children: ReactNode;
 }) => {
+  const { status, chainId } = useCMetamask();
+
   const [fromNetwork, setFromNetwork] = useState<BridgeNetwork>(
     bridgeNetworks[0]
   );
@@ -55,6 +59,17 @@ export const BridgeNetworkProvider = ({
   const [toggleValue, setToggleValue] = useState(BridgeToggleType.BRIDGE);
   const [coin, setCoin] = useState<Coin | null>(null);
   const [amount, setAmount] = useState<number | null>(0);
+
+  useEffect(() => {
+    if (status === "connected") {
+      setFromNetwork(
+        chainId === TARA_CHAIN_ID ? bridgeNetworks[0] : bridgeNetworks[1]
+      );
+      setToNetwork(
+        chainId === TARA_CHAIN_ID ? bridgeNetworks[1] : bridgeNetworks[0]
+      );
+    }
+  }, [status, chainId]);
 
   useEffect(() => {
     setCoin(null);

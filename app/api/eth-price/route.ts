@@ -1,20 +1,20 @@
 import { NextResponse } from "next/server";
 
-export type TaraPriceResponse = {
-  taraxa: {
+export type EthPriceResponse = {
+  ethereum: {
     usd: number;
   };
 };
 
 export async function GET() {
   // const response = await fetch(
-  //   "https://api.coingecko.com/api/v3/simple/price?ids=taraxa&vs_currencies=usd",
+  //   "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd",
   //   {
   //     next: { revalidate: 3600 * 6 },
   //   }
   // );
 
-  // const data = (await response.json()) as TaraPriceResponse;
+  // const data = (await response.json()) as EthPriceResponse;
 
   // if (!response.ok) {
   //   return NextResponse.json(
@@ -22,5 +22,5 @@ export async function GET() {
   //     { status: 500 }
   //   );
   // }
-  return NextResponse.json({ price: 0.005 }, { status: 200 });
+  return NextResponse.json({ price: 3320.51 }, { status: 200 });
 }

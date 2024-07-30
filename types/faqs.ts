@@ -5,22 +5,12 @@ export type AccordionItem = {
 
 export const bridgeFaq: AccordionItem[] = [
   {
-    title: "What is Lara?",
-    subtitle: "ara is a staking and delegation protocol written in Solidity.",
+    title: "What is the Ficus Root Bridge?",
+    subtitle: "The Ficus Root Bridge is Taraxa's native, 100% permissionless and decentralized cross-chain bridge that connects assets and data between Ethereum and Taraxa ecosystems.",
   },
   {
-    title: "Why should you use Lara?",
+    title: "How do I use the Ficus Root Bridge?",
     subtitle:
-      "It allows users to stake tokens, delegate them to validators, and claim rewards, all automatically.",
-  },
-  {
-    title: "How Lara works",
-    subtitle:
-      "Besides making staking a one-click, KYC-less process, it helps you earn more via its auto-compounding features.",
-  },
-  {
-    title: "Why is Lara liquid?",
-    subtitle:
-      "If you stake with Lara, you receive an auto-compounding stTARA token that will automatically accrue your staking rewards.",
-  },
+      "You can use the following guide",
+  }
 ];

@@ -6,8 +6,8 @@ export default function Home() {
       <div className="container mx-auto max-w-10xl p-10 md:p-20 flex flex-col gap-y-40">
         <div className="w-full min-h-screen">
           <div className="flex flex-col w-full justify-center items-center">
-            <div className="flex flex-col gap-20 w-full lg:w-[550px]">
-              <h1 className="text-5xl font-bold">
+            <div className="flex flex-col gap-20 w-full lg:w-[650px]">
+              <h1 className="text-5xl font-bold text-center">
                 Bridge between Ethereum and Taraxa!
               </h1>
               <BridgeContainer />
