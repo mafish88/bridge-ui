@@ -52,7 +52,6 @@ export const useBridgeContract = (network: BridgeNetwork) => {
         abi,
         provider
       );
-      console.log("Contract initialized:", contract);
       return contract;
     } catch (error) {
       console.error("Error creating contract instance:", error);
