@@ -3,6 +3,7 @@ import { Coin, getTokenByConnectorAddress } from "../config/coinConfigs";
 export type Transfer = {
   token: string;
   amount: string;
+  fee: string;
   network: string;
   chainId: number;
   txHash: string;
