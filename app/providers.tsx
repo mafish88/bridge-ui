@@ -7,12 +7,12 @@ import { ModalsProvider } from "../context/modal";
 import { ModalsCenter } from "../components/modals";
 import { WalletPopupProvider } from "../context/wallet-popup";
 import { DynamicThemeWrapper } from "@/context/dynamic-theme-wrapper";
-import Warning from "@/components/bridge/testnet-warning";
+// import Warning from "@/components/bridge/testnet-warning";
 
 export function Providers({ children }: React.PropsWithChildren) {
   return (
     <>
-      <Warning />
+      {/* <Warning /> */}
       <MetaMaskProvider>
         <BridgeNetworkProvider>
           <DynamicThemeWrapper>

@@ -32,14 +32,13 @@ export const Countdown = ({
   const displaySeconds = Math.max(seconds % 60, 0);
 
   return (
-    <div className="flex gap-4 justify-between text-white p-4">
+    <div className="flex gap-4 justify-between text-white p-2 pl-0">
       {isLoading ? (
         <div className="flex items-center justify-center">
           <span className="loading loading-bars loading-lg"></span>
         </div>
       ) : (
         <div>
-          <div>Time until finalized epoch</div>
           {days > 0 && <div>{days} days</div>}
           {hours}:{minutes < 10 ? "0" + minutes : minutes}:
           {displaySeconds < 10 ? "0" + displaySeconds : displaySeconds}

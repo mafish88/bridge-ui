@@ -8,7 +8,10 @@ import { graphqlApiEthereum, graphqlApiTaraxa } from "@/types/addresses";
 import { RefreshIcon } from "../ui/icons";
 import { useConnection } from "@/hooks/useConnection";
 import { Transfer, toTransfer } from "@/types/transfer";
-import { useCallback, useEffect, useState } from "react";
+import { use, useCallback, useEffect, useState } from "react";
+import { useBridgeContract } from "@/hooks/useBridgeContract";
+import { useBridgeNetwork } from "@/context/bridge-network";
+import { BigNumber } from "ethers";
 
 const TRANSFERS_QUERY = `
   query ($account: Bytes!) {
@@ -36,6 +39,43 @@ export const HistoryCard = () => {
   const [ethereumTransfers, setEthereumTransfers] = useState<Transfer[]>([]);
   const [isFetchingTaraxa, setIsFetchingTaraxa] = useState(false);
   const [taraxaTransfers, setTaraxaTransfers] = useState<Transfer[]>([]);
+
+  const { bridgeNetworks } = useBridgeNetwork();
+
+  const { provider: taraxaProvider, config: taraxaConfig } = useBridgeContract(
+    bridgeNetworks[0]
+  );
+  const { provider: ethereumProvider, config: ethereumConfig } =
+    useBridgeContract(bridgeNetworks[1]);
+
+  useEffect(() => {
+    (async () => {
+      const taraxaCurrentBlock = await taraxaProvider!.getBlockNumber();
+      const ethereumCurrentBlock = await ethereumProvider!.getBlockNumber();
+
+      const taraxaConfigFile = await taraxaProvider!.send("taraxa_getConfig", []);
+      const pillar = taraxaConfigFile.hardforks.ficus_hf;
+      const block_num = BigNumber.from(pillar.block_num).toNumber();
+      const pillar_blocks_interval = BigNumber.from(
+        pillar.pillar_blocks_interval
+      ).toNumber();
+
+      const noOfBlocksSoFar =
+        (taraxaCurrentBlock - block_num) / pillar_blocks_interval;
+
+      const nextBlock =
+        Math.ceil(noOfBlocksSoFar) * pillar_blocks_interval + block_num;
+
+      const difference = nextBlock - taraxaCurrentBlock;
+      const time = Math.round(difference * taraxaConfig.seconds);
+
+      console.log({
+        difference,
+        nextBlock,
+        time
+      });
+    })();
+  }, [taraxaProvider, ethereumProvider, taraxaConfig, ethereumConfig]);
 
   const { blockInfo, isLoading } = useLastFinalizedBlock();
   const { account } = useConnection();
@@ -90,6 +130,17 @@ export const HistoryCard = () => {
 
   const topCard: JSX.Element = (
     <div className="flex flex-col gap-4">
+      <h2 className="text-lg">Time until finalized epoch</h2>
+      <h3 className="text-sm">Taraxa</h3>
+      {blockInfo.timeLeft && (
+        <div>
+          <Countdown
+            seconds={parseInt(blockInfo.timeLeft, 10)}
+            isLoading={isLoading}
+          />
+        </div>
+      )}
+      <h3 className="text-sm">Ethereum</h3>
       {blockInfo.timeLeft && (
         <div>
           <Countdown

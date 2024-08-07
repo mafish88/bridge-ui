@@ -62,7 +62,7 @@ export const networks: Networks = {
   200: {
     chainId: 200,
     chainName: "Taraxa PRnet",
-    rpcUrl: "https://rpc-pr-2756.prnet.taraxa.io",
+    rpcUrl: "https://rpc-pr-2815.prnet.taraxa.io",
     iconUrl: "https://community.taraxa.io/logo192.png",
     blockExplorerUrl: "https://devnet.explorer.taraxa.io/",
     nativeCurrency: {
@@ -74,7 +74,7 @@ export const networks: Networks = {
   1: {
     chainId: 1,
     chainName: "Ethereum",
-    rpcUrl: "https://mainnet.infura.io/v3/",
+    rpcUrl: "https://mainnet.infura.io/v3/f9ff70ed52a54593827ab62a291fdc01",
     iconUrl: "/ethereum-eth-logo-diamond-purple.svg",
     blockExplorerUrl: "https://etherscan.io/",
     nativeCurrency: {
