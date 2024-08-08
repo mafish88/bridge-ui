@@ -8,7 +8,7 @@ import { graphqlApiEthereum, graphqlApiTaraxa } from "@/types/addresses";
 import { RefreshIcon } from "../ui/icons";
 import { useConnection } from "@/hooks/useConnection";
 import { Transfer, toTransfer } from "@/types/transfer";
-import { use, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useBridgeContract } from "@/hooks/useBridgeContract";
 import { useBridgeNetwork } from "@/context/bridge-network";
 import { BigNumber } from "ethers";
