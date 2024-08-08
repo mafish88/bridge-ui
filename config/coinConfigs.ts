@@ -41,8 +41,8 @@ export const coinConfigs: CoinConfig = {
       connectorType: "Native",
     },
     {
-      name: "Wrapped Ether",
-      symbol: "WETH",
+      name: "Ether",
+      symbol: "ETH",
       decimals: 18,
       iconUrl: "/ethereum-eth-logo-diamond-purple.svg",
       isNative: false,
@@ -66,8 +66,8 @@ export const coinConfigs: CoinConfig = {
       connectorType: "Native",
     },
     {
-      name: "Wrapped TARA",
-      symbol: "WTARA",
+      name: "TARA",
+      symbol: "TARA",
       decimals: 18,
       iconUrl: "https://community.taraxa.io/logo192.png",
       isNative: false,

@@ -22,7 +22,8 @@ export const HistoryList = ({
   }>({ column: "timestamp", direction: "descending" });
 
   const columns: TableColumn[] = [
-    { key: "token", title: "Token", allowsSorting: true },
+    { key: "type", title: "Type", allowsSorting: false },
+    { key: "token", title: "Token", allowsSorting: false },
     { key: "amount", title: "Amount", allowsSorting: true },
     { key: "fee", title: "Fee", allowsSorting: true },
     { key: "timestamp", title: "Date", allowsSorting: true },
@@ -39,7 +40,7 @@ export const HistoryList = ({
   const sortedData = sort(transfers, sortDescriptor);
 
   const tableData = sortedData.map((item) => ({
-    ...item,
+    type: item.type,
     token: item.coin ? (
       <div className="flex items-center gap-4 h-[30px]">
         <Image

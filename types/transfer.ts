@@ -1,14 +1,11 @@
 import { Coin, getTokenByConnectorAddress } from "../config/coinConfigs";
 
 export type Transfer = {
-  token: string;
+  type: "Received" | "Sent";
+  coin: Coin;
+  network: string;
   amount: string;
   fee: string;
-  network: string;
-  chainId: number;
-  txHash: string;
-  status: "pending" | "completed";
-  coin: Coin;
   timestamp: number | null;
 };
 
@@ -22,20 +19,17 @@ export interface ApiTransfer {
   address: string;
   amount: string;
   fee: string;
+  block: string;
   timestamp: string;
 }
-
-export const toTransfer = (data: ApiTransfer): Transfer => {
+export const toTransfer = (data: ApiTransfer, network: string): Transfer => {
   return {
-    token: data.connector,
+    type: data.type === "mint" ? "Received" : "Sent",
+    coin: getTokenByConnectorAddress(data.connector),
+    network: network,
     amount: data.amount,
     fee: data.fee,
-    network: "Ethereum",
-    chainId: 1,
-    txHash: "",
-    status: "timestamp" in data && data.timestamp ? "completed" : "pending",
     timestamp:
       "timestamp" in data && data.timestamp ? Number(data.timestamp) : null,
-    coin: getTokenByConnectorAddress(data.connector),
   };
 };
