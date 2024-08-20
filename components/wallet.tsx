@@ -11,7 +11,6 @@ export type WalletActionBtn = {
   disabled?: boolean;
   btnColor?: "primary" | "secondary" | "warning" | "error" | "neutral" | "base";
   isLoading?: boolean;
-  size?: "xs" | "sm" | "lg";
   fullWidth?: boolean;
 };
 
@@ -24,7 +23,10 @@ export const Wallet = ({ actionBtn }: WalletProps) => {
 
   if (status === "notConnected") {
     return (
-      <button className="btn btn-lg btn-primary" onClick={() => connect()}>
+      <button
+        className="btn btn-sm md:btn-md lg:btn-lg btn-primary"
+        onClick={() => connect()}
+      >
         <MetamaskIcon className="text-default-500" />
         Connect Wallet
       </button>
@@ -33,14 +35,14 @@ export const Wallet = ({ actionBtn }: WalletProps) => {
 
   if (status === "unavailable") {
     return (
-      <button className="btn btn-lg" disabled>
+      <button className="btn btn-sm md:btn-md lg:btn-lg" disabled>
         Metamask not available
       </button>
     );
   }
   if (status === "connecting") {
     return (
-      <button className="btn btn-lg" disabled>
+      <button className="btn btn-sm md:btn-md lg:btn-lg" disabled>
         Connecting <span className="loading loading-dots loading-lg"></span>
       </button>
     );
@@ -56,10 +58,9 @@ export const Wallet = ({ actionBtn }: WalletProps) => {
         onClick={actionBtn.action}
         disabled={!!actionBtn.disabled}
         className={clsx(
-          "btn",
+          "btn btn-sm md:btn-md lg:btn-lg",
           actionBtn.btnColor ? `btn-${actionBtn.btnColor}` : "btn-secondary",
-          actionBtn.fullWidth && "flex-grow",
-          actionBtn.size && `btn-${actionBtn.size}`
+          actionBtn.fullWidth && "flex-grow"
         )}
       >
         {actionBtn.btnName}
