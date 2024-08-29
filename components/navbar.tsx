@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { DarkMode } from "./dark-mode";
-import { TaraxaIcon } from "./ui/icons";
 import { WalletAddress } from "./wallet-address";
+import Image from "next/image";
 
 export const Navbar = () => {
   return (
@@ -14,7 +14,7 @@ export const Navbar = () => {
               className="rounded-xl p-3 flex justify-center content-center no-underline"
             >
               <div className="flex flex-shrink-0 items-center gap-3">
-                <TaraxaIcon size={43} />
+                <Image src="/taraxa-logo.png" alt="Taraxa" width={32} height={32} />
                 <h1 className="font-semibold text-2xl">Ficus Root Bridge</h1>
               </div>
             </Link>
