@@ -1,7 +1,5 @@
 "use client";
 
-import { useThemeSwitch } from "@/context/theme-switch";
-import clsx from "clsx";
 import { useState } from "react";
 import { AccordionItem } from "../types/faqs";
 
@@ -11,7 +9,6 @@ type FaqItemProps = {
 
 export const Faq = ({ items }: FaqItemProps) => {
   const [openItem, setOpenItem] = useState<number | null>(null);
-  const { theme } = useThemeSwitch();
 
   return (
     <div className="flex flex-col w-full gap-4">
@@ -20,10 +17,7 @@ export const Faq = ({ items }: FaqItemProps) => {
         {items?.map((item, index) => (
           <div
             key={index}
-            className={clsx(
-              "collapse collapse-arrow shadow",
-              theme === "dark" && "bg-neutral text-neutral-content"
-            )}
+            className="collapse collapse-arrow shadow bg-neutral text-neutral-content"
           >
             <input
               type="radio"

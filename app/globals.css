@@ -48,10 +48,8 @@ input[type="number"] {
   color: white !important;
 }
 
-[data-theme="dark"] {
-  .btn.btn-disabled,
-  .btn[disabled],
-  .btn:disabled {
-    background-color: #3c4552;
-  }
+.btn.btn-disabled,
+.btn[disabled],
+.btn:disabled {
+  background-color: #3c4552;
 }

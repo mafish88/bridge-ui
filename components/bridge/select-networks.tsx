@@ -3,7 +3,6 @@
 import { useBridgeNetwork } from "@/context/bridge-network";
 import { SwapVerticalIcon } from "../ui/icons";
 import { getSingleSelectStyles } from "@/types/custom-select-styles";
-import { useThemeSwitch } from "@/context/theme-switch";
 import { Wallet } from "../wallet";
 import { CustomOption, CustomSingleValue } from "../ui/custom-select";
 import { BridgeNetwork } from "@/types/bridge-networks";
@@ -27,8 +26,7 @@ export const SelectNetworks = ({ onContinue }: SelectNetworksProps) => {
     bridgeNetworks,
   } = useBridgeNetwork();
 
-  const { theme } = useThemeSwitch();
-  const customSelectStyles = getSingleSelectStyles(theme);
+  const customSelectStyles = getSingleSelectStyles();
 
   const handleFromChange = (selectedOption: any) => {
     const selectedNetwork = selectedOption as BridgeNetwork;

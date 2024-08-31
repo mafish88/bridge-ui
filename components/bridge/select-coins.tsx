@@ -3,7 +3,6 @@
 import { useBridgeNetwork } from "@/context/bridge-network";
 import { getSingleSelectStyles } from "@/types/custom-select-styles";
 import { CustomOption, CustomSingleValue } from "../ui/custom-select";
-import { useThemeSwitch } from "@/context/theme-switch";
 import { Form, Formik, FormikHelpers } from "formik";
 import { number, object, Schema } from "yup";
 import { useConnection } from "@/hooks/useConnection";
@@ -36,8 +35,7 @@ const validationSchema: Schema<StakeForm> = object()
 export const SelectCoins = ({ onContinue, onBack }: SelectCoinsProps) => {
   const { coin, setCoin, amount, setAmount } = useBridgeNetwork();
   const coins = useCoins();
-  const { theme } = useThemeSwitch();
-  const customSelectStyles = getSingleSelectStyles(theme);
+  const customSelectStyles = getSingleSelectStyles();
   const { account } = useConnection();
   const { balance: tokenBalance } = useTokenBalance();
 

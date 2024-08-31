@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { DarkMode } from "./dark-mode";
 import { WalletAddress } from "./wallet-address";
 import Image from "next/image";
 
@@ -21,7 +20,6 @@ export const Navbar = () => {
           </div>
           <div className="flex gap-4">
             <WalletAddress />
-            <DarkMode />
           </div>
         </div>
       </div>
