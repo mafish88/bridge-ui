@@ -8,7 +8,7 @@ const WrongNetwork = () => {
 
   return (
     <button
-      className="btn btn-warning"
+      className="btn btn-sm md:btn-md lg:btn-lg btn-warning"
       onClick={() => switchNetwork(fromNetwork.chainId)}
     >
       Switch to {fromNetwork.chainName}

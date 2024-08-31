@@ -42,7 +42,7 @@ export const Summary = ({ onBack }: SummaryProps) => {
         </p>
       </div>
       <div className="w-full flex flex-col sm:flex-row justify-between gap-4">
-        <button className="btn flex-grow" onClick={onBack}>
+        <button className="btn btn-sm md:btn-md lg:btn-lg flex-grow" onClick={onBack}>
           Back
         </button>
         <Wallet
