@@ -1,20 +1,13 @@
 "use client";
 
 import { useBridgeNetwork } from "@/context/bridge-network";
-import { getSingleSelectStyles } from "@/types/custom-select-styles";
-import { CustomOption, CustomSingleValue } from "../ui/custom-select";
 import { Form, Formik, FormikHelpers } from "formik";
 import { number, object, Schema } from "yup";
 import { useConnection } from "@/hooks/useConnection";
 import { useTokenBalance } from "@/hooks/useTokenBalance";
-import dynamic from "next/dynamic";
 import { useCoins } from "@/hooks/useCoins";
 import { Coin } from "@/config/coinConfigs";
-
-const Select = dynamic(() => import("react-select"), {
-  ssr: false,
-  loading: () => <div className="skeleton h-[40px] w-full"></div>,
-});
+import { Select } from "../select";
 
 export type SelectCoinsProps = {
   onBack: () => void;
@@ -35,7 +28,6 @@ const validationSchema: Schema<StakeForm> = object()
 export const SelectCoins = ({ onContinue, onBack }: SelectCoinsProps) => {
   const { coin, setCoin, amount, setAmount } = useBridgeNetwork();
   const coins = useCoins();
-  const customSelectStyles = getSingleSelectStyles();
   const { account } = useConnection();
   const { balance: tokenBalance } = useTokenBalance();
 
@@ -64,11 +56,9 @@ export const SelectCoins = ({ onContinue, onBack }: SelectCoinsProps) => {
       <h2 className="text-lg">Select coin</h2>
       <Select
         id="select-coin"
-        styles={customSelectStyles}
         value={coin}
         onChange={handleCoinChange}
         options={coins}
-        components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
       />
       <div className="flex flex-col gap-5">
         <Formik

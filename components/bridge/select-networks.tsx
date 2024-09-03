@@ -2,16 +2,9 @@
 
 import { useBridgeNetwork } from "@/context/bridge-network";
 import { SwapVerticalIcon } from "../ui/icons";
-import { getSingleSelectStyles } from "@/types/custom-select-styles";
 import { Wallet } from "../wallet";
-import { CustomOption, CustomSingleValue } from "../ui/custom-select";
 import { BridgeNetwork } from "@/types/bridge-networks";
-import dynamic from "next/dynamic";
-
-const Select = dynamic(() => import("react-select"), {
-  ssr: false,
-  loading: () => <div className="skeleton h-[40px] w-full"></div>,
-});
+import { Select } from "../select";
 
 export type SelectNetworksProps = {
   onContinue: () => void;
@@ -25,8 +18,6 @@ export const SelectNetworks = ({ onContinue }: SelectNetworksProps) => {
     setToNetwork,
     bridgeNetworks,
   } = useBridgeNetwork();
-
-  const customSelectStyles = getSingleSelectStyles();
 
   const handleFromChange = (selectedOption: any) => {
     const selectedNetwork = selectedOption as BridgeNetwork;
@@ -58,13 +49,11 @@ export const SelectNetworks = ({ onContinue }: SelectNetworksProps) => {
       <h2 className="text-lg">Transfer From</h2>
       <Select
         id="select-from-network"
-        styles={customSelectStyles}
         value={fromNetwork}
         onChange={handleFromChange}
         options={bridgeNetworks}
         getOptionLabel={(option: any) => option.chainName}
         getOptionValue={(option: any) => option.chainId.toString()}
-        components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
       />
       <div className="flex justify-center">
         <button className="btn" onClick={swapFromAndTo}>
@@ -74,13 +63,11 @@ export const SelectNetworks = ({ onContinue }: SelectNetworksProps) => {
       <h2 className="text-lg">Transfer To</h2>
       <Select
         id="select-to-network"
-        styles={customSelectStyles}
         value={toNetwork}
         onChange={handleToChange}
         options={bridgeNetworks}
         getOptionLabel={(option: any) => option.chainName}
         getOptionValue={(option: any) => option.chainId.toString()}
-        components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
       />
       <div className="flex justify-end mt-4">
         <Wallet
