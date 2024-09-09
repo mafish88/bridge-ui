@@ -22,11 +22,11 @@ export const useLock = () => {
   const { getSettlementFee } = useBridgeContract(fromNetwork);
 
   const onLock = useCallback(
-    async (amount: number): Promise<ethers.providers.TransactionResponse> => {
+    async (amount: string): Promise<ethers.providers.TransactionResponse> => {
       const settlementFee = await getSettlementFee();
 
       return await erc20LockingConnectorContract!.lock(
-        utils.parseUnits(`${amount}`, coin?.decimals),
+        utils.parseUnits(amount, coin?.decimals),
         {
           value: settlementFee,
         }
@@ -35,7 +35,7 @@ export const useLock = () => {
     [erc20LockingConnectorContract, getSettlementFee, coin]
   );
 
-  const lock = async (amount: number, onSuccess: () => void) => {
+  const lock = async (amount: string, onSuccess: () => void) => {
     if (!account) {
       setStatus("Fail");
       setError("Contract not available");

@@ -49,7 +49,7 @@ export const SelectCoins = ({ onContinue, onBack }: SelectCoinsProps) => {
     }
   };
 
-  const initialValues: StakeForm = { value: amount || null };
+  const initialValues: StakeForm = { value: Number(amount) || null };
 
   return (
     <div className="flex flex-col gap-3">

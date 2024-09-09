@@ -19,20 +19,20 @@ export const useLockNative = () => {
   const { getSettlementFee } = useBridgeContract(fromNetwork);
 
   const onLock = useCallback(
-    async (amount: number): Promise<ethers.providers.TransactionResponse> => {
+    async (amount: string): Promise<ethers.providers.TransactionResponse> => {
       const settlementFee = await getSettlementFee();
 
       return await nativeConnectorContract!.lock(
-        utils.parseEther(`${amount}`),
+        utils.parseEther(amount),
         {
-          value: utils.parseEther(`${amount}`).add(settlementFee),
+          value: utils.parseEther(amount).add(settlementFee),
         }
       );
     },
     [nativeConnectorContract, getSettlementFee]
   );
 
-  const lock = async (amount: number, onSuccess: () => void) => {
+  const lock = async (amount: string, onSuccess: () => void) => {
     if (!nativeConnectorContract || !account) {
       setStatus("Fail");
       setError("Contract not available");

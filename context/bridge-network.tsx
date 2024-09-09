@@ -58,7 +58,7 @@ export const BridgeNetworkProvider = ({
   const [toNetwork, setToNetwork] = useState<BridgeNetwork>(bridgeNetworks[1]);
   const [toggleValue, setToggleValue] = useState(BridgeToggleType.BRIDGE);
   const [coin, setCoin] = useState<Coin | null>(null);
-  const [amount, setAmount] = useState<string | null>(0);
+  const [amount, setAmount] = useState<string | null>("0");
 
   useEffect(() => {
     if (status === "connected") {

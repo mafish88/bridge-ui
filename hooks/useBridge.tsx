@@ -21,7 +21,7 @@ export const useBridge = () => {
     ? isLoadingERC20
     : isLoadingBurnErc20;
 
-  const onBridge = async (amount: number, onSuccess: () => void) => {
+  const onBridge = async (amount: string, onSuccess: () => void) => {
     await lock(amount, onSuccess);
   };
 

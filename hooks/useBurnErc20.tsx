@@ -23,13 +23,10 @@ export const useBurnErc20 = () => {
   const { getSettlementFee } = useBridgeContract(fromNetwork);
 
   const onBurn = useCallback(
-    async (amount: number): Promise<ethers.providers.TransactionResponse> => {
+    async (amount: string): Promise<ethers.providers.TransactionResponse> => {
       const settlementFee = await getSettlementFee();
 
-      const valueInSmallestUnit = ethers.utils.parseUnits(
-        amount.toString(),
-        decimals
-      );
+      const valueInSmallestUnit = ethers.utils.parseUnits(amount, decimals);
       return await erc20MintingConnectorContract!.burn(valueInSmallestUnit, {
         value: settlementFee,
       });
@@ -37,7 +34,7 @@ export const useBurnErc20 = () => {
     [erc20MintingConnectorContract, getSettlementFee, decimals]
   );
 
-  const burn = async (amount: number, onSuccess: () => void) => {
+  const burn = async (amount: string, onSuccess: () => void) => {
     if (!erc20MintingConnectorContract || !account || !amount) {
       setStatus("Fail");
       setError("Contract not available");
