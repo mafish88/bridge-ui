@@ -4,10 +4,13 @@ import {
   TARA_CHAIN_ID,
   erc20EthMintingConnectorAddress,
   erc20TaraMintingConnectorAddress,
+  erc20UsdtMintingConnectorAddress,
+  erc20UsdtLockingConnectorAddress,
   ethConnectorAddress,
   taraConnectorAddress,
   wrappedEthTokenAddress,
   wrappedTaraxaTokenAddress,
+  wrappedUsdtTokenAddress,
 } from "@/types/addresses";
 
 export interface Coin {
@@ -20,7 +23,7 @@ export interface Coin {
   deployAddress?: string;
   connectorAddress?: string;
   isImageTall?: boolean;
-  connectorType: "Minting" | "Native";
+  connectorType: "Minting" | "Native" | "Locking";
 }
 
 export interface CoinConfig {
@@ -52,6 +55,18 @@ export const coinConfigs: CoinConfig = {
       connectorAddress: erc20EthMintingConnectorAddress,
       connectorType: "Minting",
     },
+    {
+      name: "Tether USD",
+      symbol: "USDT",
+      decimals: 6,
+      iconUrl: "/tether-usdt-logo.svg",
+      isNative: false,
+      baseNetwork: ETH_CHAIN_ID,
+      isImageTall: false,
+      deployAddress: wrappedUsdtTokenAddress,
+      connectorAddress: erc20UsdtMintingConnectorAddress,
+      connectorType: "Minting",
+    },
   ],
   [ETH_CHAIN_ID]: [
     {
@@ -77,10 +92,22 @@ export const coinConfigs: CoinConfig = {
       connectorAddress: erc20TaraMintingConnectorAddress,
       connectorType: "Minting",
     },
+    {
+      name: "Tether USD",
+      symbol: "USDT",
+      decimals: 6,
+      iconUrl: "/tether-usdt-logo.svg",
+      isNative: false,
+      baseNetwork: ETH_CHAIN_ID,
+      isImageTall: false,
+      deployAddress: "0xdac17f958d2ee523a2206206994597c13d831ec7",
+      connectorAddress: erc20UsdtLockingConnectorAddress,
+      connectorType: "Locking",
+    },
   ],
 };
 
-export const getTokenByConnectorAddress = (connectorAddress: string): Coin => {
+export const getTokenByConnectorAddress = (connectorAddress: string): Coin | boolean => {
   for (const chainId in coinConfigs) {
     for (const coin of coinConfigs[chainId]) {
       if (
@@ -90,5 +117,5 @@ export const getTokenByConnectorAddress = (connectorAddress: string): Coin => {
       }
     }
   }
-  throw new Error(`No coin found with connector address: ${connectorAddress}`);
+  return false;
 };
