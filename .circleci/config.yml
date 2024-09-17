@@ -8,7 +8,7 @@ jobs:
     # https://circleci.com/docs/env-vars/#alpine-linux
     shell: /bin/sh -leo pipefail
     docker:
-      - image: docker:20-git
+      - image: default
     environment:
       - IMAGE: bridge-ui
       - GOOGLE_PROJECT_ID: jovial-meridian-249123
