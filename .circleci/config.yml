@@ -5,8 +5,7 @@ orbs:
 
 jobs:
   build_and_push_docker_image:
-    # https://circleci.com/docs/env-vars/#alpine-linux
-    shell: /bin/sh -leo pipefail
+    shell: /usr/bin/bash -leo pipefail
     docker:
       - image: cimg/base:2024.09
     environment:
