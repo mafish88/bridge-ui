@@ -28,10 +28,6 @@ jobs:
          command: |
             echo ${GCLOUD_SERVICE_KEY} | docker login -u _json_key --password-stdin https://gcr.io
 
-      - setup_remote_docker:
-          version: docker23
-          docker_layer_caching: true
-
       - run:
           name: Build docker image
           command: | 
