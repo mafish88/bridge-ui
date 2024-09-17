@@ -36,11 +36,14 @@ export const BridgeCard = () => {
   }
 
   useEffect(() => {
+    if (step !== 2) {
+      return;
+    }
     (async () => {
       const settlementFee = await getSettlementFee();
       setSettlementFee(settlementFee);
     })();
-  }, [getSettlementFee]);
+  }, [getSettlementFee, step]);
 
   useEffect(() => {
     if (step == 1) {

@@ -1,3 +1,5 @@
+"use client";
+
 import { ethers } from "ethers";
 import { useMemo } from "react";
 import { TARA_CHAIN_ID, ETH_CHAIN_ID } from "@/types/addresses";

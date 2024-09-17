@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback } from "react";
 import { useNetworkProviders } from "./useNetworkProviders";
 import {
@@ -63,7 +65,7 @@ export const useBridgeContract = (network: BridgeNetwork) => {
 
   const getSettlementFee = useCallback(async () => {
     const bridgeContract = await getBridgeContract();
-    return bridgeContract?.settlementFee();
+    return await bridgeContract?.settlementFee();
   }, [getBridgeContract]);
 
   return { provider, config, getBridgeContract, getSettlementFee };
