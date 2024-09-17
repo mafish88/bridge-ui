@@ -11,7 +11,6 @@ jobs:
     environment:
       - IMAGE: bridge-ui
       - GOOGLE_PROJECT_ID: jovial-meridian-249123
-      - BASH_ENV: ~/.bash_profile
     steps:
       - checkout
 
